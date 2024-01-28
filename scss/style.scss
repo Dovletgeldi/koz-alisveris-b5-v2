@@ -1,1 +1,9 @@
 @use "custom" as *;
+
+// IMPORT THE COMPONENTS
+
+@use "components/buttons";
+@use "components/mixins";
+@use "components/typography";
+
+// IMPORT THE SECTIONS
