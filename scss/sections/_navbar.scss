@@ -1,0 +1,18 @@
+@use "../custom" as *;
+
+.menu {
+  li {
+    padding: 0 0.7rem;
+
+    a {
+      color: $white !important;
+      text-transform: capitalize;
+      font-weight: 600;
+    }
+  }
+
+  img {
+    width: 9rem;
+    height: auto;
+  }
+}
