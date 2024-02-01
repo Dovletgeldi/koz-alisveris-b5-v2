@@ -11894,10 +11894,37 @@ textarea.form-control-lg {
 .display-2 {
   margin-bottom: 1rem;
   text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-size: 4.5rem;
+}
+.display-2--intro {
+  display: inline-block;
+  font-weight: 700;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
 }
 .display-2--description {
-  display: inline-block;
-  text-transform: capitalize;
+  display: block;
+  text-transform: lowercase;
+  font-size: 1rem;
+  color: #fff;
+  margin-top: 1.2rem;
+  font-size: 0.79rem;
+}
+.display-2--description--uppercase {
+  color: #f27a1a;
+}
+@media (min-width: 992px) {
+  .display-2--description {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    display: inline-block;
+  }
+}
+@media (max-width: 1199.98px) {
+  .display-2 {
+    font-size: 2.5rem;
+  }
 }
 
 .menu li {
@@ -11916,6 +11943,18 @@ textarea.form-control-lg {
   .menu img {
     width: 7rem;
     height: auto;
+  }
+}
+
+.intro-section {
+  background-color: #19283b;
+  padding: 10rem 0 0 0;
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 575.98px) {
+  .intro-section {
+    padding: 8rem 0 0 0;
   }
 }
 

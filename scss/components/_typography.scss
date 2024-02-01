@@ -3,9 +3,39 @@
 .display-2 {
   margin-bottom: 1rem;
   text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-size: 4.5rem;
+
+  &--intro {
+    display: inline-block;
+    font-weight: 700;
+    color: $white;
+    font-family: "Poppins", sans-serif;
+  }
 
   &--description {
-    display: inline-block;
-    text-transform: capitalize;
+    display: block;
+    text-transform: lowercase;
+    font-size: 1rem;
+    color: $white;
+    margin-top: 1.2rem;
+
+    &--uppercase {
+      color: $secondary;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1.5rem;
+      line-height: 2rem;
+      display: inline-block;
+    }
+
+    @include media-breakpoint-down(xs) {
+      font-size: 0.79rem;
+    }
+  }
+
+  @include media-breakpoint-down(xl) {
+    font-size: 2.5rem;
   }
 }
