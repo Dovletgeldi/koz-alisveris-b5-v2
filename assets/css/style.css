@@ -11895,35 +11895,45 @@ textarea.form-control-lg {
   margin-bottom: 1rem;
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
-  font-size: 4.5rem;
+  font-size: 2.5rem;
 }
 .display-2--intro {
   display: inline-block;
   font-weight: 700;
   color: #fff;
-  font-family: "Poppins", sans-serif;
 }
 .display-2--description {
   display: block;
   text-transform: lowercase;
-  font-size: 1rem;
+  font-size: 0.79rem;
   color: #fff;
   margin-top: 1.2rem;
-  font-size: 0.79rem;
 }
-.display-2--description--uppercase {
-  color: #f27a1a;
+@media (min-width: 576px) {
+  .display-2--description {
+    font-size: 1rem;
+  }
 }
 @media (min-width: 992px) {
   .display-2--description {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     line-height: 2rem;
     display: inline-block;
   }
 }
-@media (max-width: 1199.98px) {
+@media (min-width: 576px) {
   .display-2 {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
+  }
+}
+@media (min-width: 992px) {
+  .display-2 {
+    font-size: 3.75rem;
+  }
+}
+@media (min-width: 1200px) {
+  .display-2 {
+    font-size: 4.5rem;
   }
 }
 
@@ -11945,6 +11955,19 @@ textarea.form-control-lg {
   margin: 0 auto;
   margin-bottom: 1rem;
   background-color: #f27a1a;
+}
+
+.highlight {
+  color: #f27a1a;
+}
+
+.display-3 {
+  font-family: "Poppins", sans-serif;
+}
+
+.border-right {
+  border-right: 0.1rem solid #dee2e6;
+  height: 100%;
 }
 
 .menu li {
@@ -11983,7 +12006,7 @@ textarea.form-control-lg {
 }
 .businesses__logo-box {
   max-width: 100%;
-  height: 7rem;
+  height: 6rem;
   margin-bottom: 2rem;
   padding: 0.5rem;
   text-align: center;
