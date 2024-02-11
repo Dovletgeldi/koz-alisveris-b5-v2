@@ -11964,6 +11964,13 @@ textarea.form-control-lg {
 .display-3 {
   font-family: "Poppins", sans-serif;
 }
+.display-3--title {
+  font-size: 1.8rem;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  color: #f27a1a;
+}
 
 .border-right {
   border-right: 0.1rem solid #dee2e6;
@@ -12015,8 +12022,24 @@ textarea.form-control-lg {
 .businesses__logo-box img {
   height: 100%;
 }
-.businesses__logo-box .edited {
-  mix-blend-mode: difference;
+.businesses__logo-box img:hover {
+  filter: grayscale(120);
+}
+
+.services {
+  position: relative;
+  padding: 1rem 0;
+}
+.services__content {
+  padding: 1rem;
+  margin-top: 1.5rem;
+}
+.services__content .icon {
+  font-size: 2.5rem;
+  color: #f27a1a;
+}
+.services__pic {
+  max-width: 85%;
 }
 
 /*# sourceMappingURL=style.css.map */

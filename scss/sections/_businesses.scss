@@ -13,9 +13,10 @@
 
     img {
       height: 100%;
-    }
-    .edited {
-      mix-blend-mode: difference;
+
+      &:hover {
+        filter: grayscale(120);
+      }
     }
   }
 }
