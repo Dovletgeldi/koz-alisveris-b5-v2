@@ -3,10 +3,12 @@
 .services {
   position: relative;
   padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   &__content {
     padding: 1rem;
-    margin-top: 1.5rem;
 
     .icon {
       font-size: 2.5rem;
@@ -14,7 +16,31 @@
     }
   }
 
+  .s-pics {
+    display: flex;
+    justify-content: center;
+
+    @include media-breakpoint-up(lg) {
+      justify-content: end;
+    }
+  }
+
+  .s-pics-truck {
+    display: flex;
+    justify-content: start;
+
+    @include media-breakpoint-down(lg) {
+      justify-content: center;
+      padding-top: 3rem;
+    }
+  }
+
   &__pic {
-    max-width: 85%;
+    max-width: 75%;
+
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      justify-content: center;
+    }
   }
 }

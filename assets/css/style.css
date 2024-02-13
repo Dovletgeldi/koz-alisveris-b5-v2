@@ -12029,17 +12029,44 @@ textarea.form-control-lg {
 .services {
   position: relative;
   padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .services__content {
   padding: 1rem;
-  margin-top: 1.5rem;
 }
 .services__content .icon {
   font-size: 2.5rem;
   color: #f27a1a;
 }
+.services .s-pics {
+  display: flex;
+  justify-content: center;
+}
+@media (min-width: 992px) {
+  .services .s-pics {
+    justify-content: end;
+  }
+}
+.services .s-pics-truck {
+  display: flex;
+  justify-content: start;
+}
+@media (max-width: 991.98px) {
+  .services .s-pics-truck {
+    justify-content: center;
+    padding-top: 3rem;
+  }
+}
 .services__pic {
-  max-width: 85%;
+  max-width: 75%;
+}
+@media (min-width: 992px) {
+  .services__pic {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
