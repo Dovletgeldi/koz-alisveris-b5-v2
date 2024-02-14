@@ -11965,11 +11965,16 @@ textarea.form-control-lg {
   font-family: "Poppins", sans-serif;
 }
 .display-3--title {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   text-transform: capitalize;
   font-weight: 600;
   display: inline-block;
   color: #f27a1a;
+}
+@media (min-width: 992px) {
+  .display-3--title {
+    font-size: 1.8rem;
+  }
 }
 
 .border-right {
@@ -12036,9 +12041,22 @@ textarea.form-control-lg {
 .services__content {
   padding: 1rem;
 }
+.services__content p {
+  font-size: 0.8rem;
+}
+@media (min-width: 992px) {
+  .services__content p {
+    font-size: 1rem;
+  }
+}
 .services__content .icon {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: #f27a1a;
+}
+@media (min-width: 992px) {
+  .services__content .icon {
+    font-size: 2.5rem;
+  }
 }
 .services .s-pics {
   display: flex;
@@ -12067,6 +12085,32 @@ textarea.form-control-lg {
     display: flex;
     justify-content: center;
   }
+}
+
+.testimonials {
+  position: relative;
+  padding: 0;
+  background-color: #19283b;
+}
+.testimonials__card {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 2rem 1.25rem;
+  border-radius: 0.625rem;
+  height: auto;
+  text-align: center;
+}
+.testimonials__card i {
+  font-size: 1.5rem;
+  color: rgba(242, 122, 26, 0.7);
+}
+.testimonials__card .ratings i {
+  color: rgba(242, 122, 26, 0.7);
+  font-size: 1rem;
+}
+.testimonials__picture {
+  width: 6rem;
+  height: 6rem;
+  position: absolute;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,0 +1,36 @@
+@use "../custom" as *;
+
+.testimonials {
+  position: relative;
+  padding: 0;
+  background-color: $primary;
+
+  &__card {
+    background-color: rgba($white, 0.8);
+    padding: 2rem 1.25rem;
+    border-radius: 0.625rem;
+    height: auto;
+    text-align: center;
+
+    i {
+      font-size: 1.5rem;
+      color: rgba($secondary, 0.7);
+    }
+
+    .ratings {
+      i {
+        color: rgba($secondary, 0.7);
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__picture {
+    width: 6rem;
+    height: 6rem;
+    position: absolute;
+  }
+
+  &__name {
+  }
+}

@@ -10,9 +10,21 @@
   &__content {
     padding: 1rem;
 
+    p {
+      font-size: 0.8rem;
+
+      @include media-breakpoint-up(lg) {
+        font-size: 1rem;
+      }
+    }
+
     .icon {
-      font-size: 2.5rem;
+      font-size: 1.5rem;
       color: $secondary;
+
+      @include media-breakpoint-up(lg) {
+        font-size: 2.5rem;
+      }
     }
   }
 
