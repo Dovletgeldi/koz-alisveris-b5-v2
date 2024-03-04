@@ -18,6 +18,7 @@
     font-size: 0.79rem;
     color: $white;
     margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
 
     @include media-breakpoint-up(sm) {
       font-size: 1rem;
