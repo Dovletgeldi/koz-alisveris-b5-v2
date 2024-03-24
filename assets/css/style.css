@@ -11877,6 +11877,7 @@ textarea.form-control-lg {
   right: 5px;
   transform: translateY(-50%);
   border-radius: 50%;
+  color: #fff;
 }
 .btn-rounded span img {
   position: absolute;
@@ -11885,6 +11886,9 @@ textarea.form-control-lg {
   top: 50%;
   right: 5px;
   transform: translateY(-50%);
+}
+.btn-rounded span i {
+  transform: translateY(50%);
 }
 .btn-rounded:hover {
   background-color: #19283b;
@@ -11981,6 +11985,10 @@ textarea.form-control-lg {
 .border-right {
   border-right: 0.1rem solid #dee2e6;
   height: 100%;
+}
+
+.anchor {
+  scroll-margin-top: 5rem;
 }
 
 .menu li {

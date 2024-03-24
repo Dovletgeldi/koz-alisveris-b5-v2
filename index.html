@@ -37,21 +37,19 @@
         >
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
-                >Baş Sahypa</a
-              >
+              <a class="nav-link" href="#price">Bahalarymyz</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Bahalarymyz</a>
+              <a class="nav-link" href="#tracking">Sargytlarym</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">KSS</a>
+              <a class="nav-link" href="#services">Kargo</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Hyzmatlarymyz</a>
+              <a class="nav-link" href="#testimonials">Görüşler</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Habarlaşmak Üçin</a>
+              <a class="nav-link" href="#faq">KSS</a>
             </li>
           </ul>
           <button type="button" class="rounded-pill btn-rounded">
@@ -90,7 +88,7 @@
             </div>
           </div>
         </div>
-        <div class="row align-items-center text-white">
+        <div id="price" class="row align-items-center text-white anchor">
           <div class="col-md-6 intros">
             <div class="video-box">
               <img
@@ -103,7 +101,7 @@
           <div class="col-md-6 intros">
             <h1 class="display-2 ms-5">
               <span class="display-2--intro"
-                >1 tl = 0.80 tmt <br />
+                >1 tl = 0.76 tmt <br />
                 1 kg = 25 tmt</span
               >
               <span class="display-2--description">
@@ -202,11 +200,50 @@
       </div>
     </section>
 
+    <section class="tracking">
+      <div class="container">
+        <div class="row text-center">
+          <h1 id="tracking" class="display-3 fw-bold anchor">Sargydyňy Yzarla</h1>
+          <div class="heading-line mb-1"></div>
+          <p class="lead">
+            Sargytlaryňyzy 7/24 giňişleýin yzarlaň, haçan geljekdigini görüň
+          </p>
+        </div>
+
+        <div class="row mb-5">
+          <div
+            class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-4 mb-4 s-pics s-pics-truck"
+          >
+            <div class="services__pic">
+              <img
+                src="images/arts/track.png"
+                alt="track-illustration"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 services mt-4">
+            <div class="services__content">
+              <div class="icon d-block fas fa-solid fa-map-location"></div>
+              <h3 class="display-3--title mt-1">Sargydyňy yzarla</h3>
+              <p class="lh-lg">
+                Islendik wagt KöZ alışveriş'den beren sargytlaryňyzy giňişleýin yzarlaň. Nämäni, näçeden, näçe sany sargyt edipsiňiz? Haçan gelýär, agramy näçe bolupdyr? Sargydyňyza degişli ähli maglumatlary giňişleýin, hiç kime hayyş etmän görüň.
+              </p>
+              <button onclick="location.href='order-track.html'" type="button" class="rounded-pill btn-rounded border-primary" >
+                Sargydyňy Yzarla
+                <span><i class="fas fa-arrow-right"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- START SECTION 4 - SERVICES -->
-    <section id="services" class="services">
+    <section id="services" class="services anchor">
       <div class="container">
         <div class="row">
-          <h1 class="display-3 fw-bold text-center">Hyzmatlarymyz</h1>
+          <h1 class="display-3 fw-bold text-center">Kargo</h1>
           <div class="heading-line mb-1"></div>
         </div>
 
@@ -216,7 +253,7 @@
           <div class="col-md-6 border-right">
             <div class="bg-white p-3">
               <h2 class="fw-bold text-capitalize text-center">
-                müşderilerimiz üçin ýeke däl, eýsem iki görnüşde hyzmat berýäris:
+                müşderilerimiz üçin ýeke däl, eýsem iki görnüşde kargo hyzmaty berýäris:
                 <br />
                 <span class="highlight">tizlendirilen</span> we
                 <span class="highlight">adaty</span>
@@ -601,7 +638,7 @@
     </section>
 
     <!-- SECTION 6 - FAQ  -->
-    <div class="section faq" id="faq">
+    <div class="section faq anchor" id="faq">
       <div class="container">
         <div class="row text-center">
           <h1 class="display-3 fw-bold text-uppercase">KSS</h1>

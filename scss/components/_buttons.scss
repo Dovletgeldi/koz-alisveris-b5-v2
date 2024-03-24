@@ -21,6 +21,7 @@
     right: 5px;
     transform: translateY(-50%);
     border-radius: 50%;
+    color: $white;
 
     img {
       position: absolute;
@@ -29,6 +30,10 @@
       top: 50%;
       right: 5px;
       transform: translateY(-50%);
+    }
+
+    i {
+      transform: translateY(50%);
     }
   }
 
