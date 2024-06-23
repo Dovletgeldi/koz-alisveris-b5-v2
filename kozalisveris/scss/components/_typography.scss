@@ -1,0 +1,98 @@
+@use "../custom" as *;
+
+.display-2 {
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+
+  &--intro {
+    display: inline-block;
+    font-weight: 700;
+    color: $white;
+  }
+
+  &--description {
+    display: block;
+    text-transform: lowercase;
+    font-size: 0.79rem;
+    color: $white;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 1rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1.4rem;
+      line-height: 2rem;
+      display: inline-block;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    font-size: 2.75rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 3.75rem;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: 4.5rem;
+  }
+}
+
+// HEADING LINE
+
+.heading-line::before {
+  content: "";
+  width: 10rem;
+  height: 0.1rem;
+  display: block;
+  margin: 0 auto;
+  background-color: $secondary;
+}
+.heading-line::after {
+  content: "";
+  width: 2rem;
+  padding-top: 0.5rem;
+  height: 0.1rem;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  background-color: $secondary;
+}
+
+// HIGHLIGHT
+.highlight {
+  color: $secondary;
+}
+
+// DISPLAY 3
+.display-3 {
+  font-family: "Poppins", sans-serif;
+
+  &--title {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    font-weight: 600;
+    display: inline-block;
+    color: $secondary;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+// BORDER-RIGHT
+.border-right {
+  border-right: 0.1rem solid $gray-300;
+  height: 100%;
+}
+
+.anchor {
+  scroll-margin-top: 5rem;
+}

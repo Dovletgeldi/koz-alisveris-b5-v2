@@ -1,0 +1,32 @@
+@use "../custom" as *;
+
+.intro-section-order-page {
+  background-color: $primary;
+  padding: 2rem 0 0 0;
+  width: 100%;
+  height: 100%;
+
+  .submit-area {
+    display: block;
+
+    #tel-submit {
+      width: 100px;
+      padding: 0.9375rem 6rem 0.9375rem 1.25rem;
+
+      span {
+        i {
+          font-size: 1.3rem;
+          height: 1.2rem;
+        }
+      }
+    }
+
+    #tel-input {
+      padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
+
+      &:hover {
+        background-color: $white;
+      }
+    }
+  }
+}
