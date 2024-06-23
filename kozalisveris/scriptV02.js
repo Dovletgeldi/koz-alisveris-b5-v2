@@ -38,7 +38,7 @@ async function getDataFromSheet(phoneNumber) {
     };
 
     const values = combinedData.values;
-    const phoneNumberColumnIndex = 16;
+    const phoneNumberColumnIndex = 15;
 
     // Find data for the entered phone number
     const foundData = values.filter(
@@ -46,18 +46,18 @@ async function getDataFromSheet(phoneNumber) {
     );
 
     if (foundData.length > 0) {
-      telMessage.innerHTML = `Değerli müşterimiz ${foundData[0][15]}, siparişleriniz şu şekildedir:`;
+      telMessage.innerHTML = `Değerli müşterimiz ${foundData[0][14]}, siparişleriniz şu şekildedir:`;
 
       foundData.forEach((row) => {
         let status;
         const productDate = row[3];
         const productName = row[7];
         const productNumber = row[5];
-        const productPrice = Math.ceil(row[11]);
-        const productWeight = Math.ceil(row[12]);
-        const totalProductPrice = Math.ceil(row[14]);
-        const productLink = row[8];
-        const productPriceTMT = Math.ceil(row[13]);
+        const productPrice = row[6];
+        const productWeight = row[11];
+        const totalProductPrice = row[13];
+        const productLink = row[17];
+        const productPriceTMT = row[12];
 
         if (row[16] == "habar edildi") {
           status = `Siparişiniz geldi, "${row[14]}" kişisine haber verildi.`;
@@ -99,34 +99,26 @@ async function getDataFromSheet(phoneNumber) {
         }
 
         telMessage.innerHTML += `
-          <div class="product-container">
-            <a href="${productLink}" target="_blank">
-              <img src="${productLink}" alt="photo" class="product-image" />
-            </a>
-            <div class="product-details">
-              <div class="product-name">${productName}</div>
-              <div class="product-prices">
-                <div>
-                  <h4>TL bahasy:</h4>
-                  <span>${productPrice} TL</span>
-                </div>
-                <span id="sign">=></span>
-                <div>
-                  <h4>TMT bahasy:</h4>
-                  <span>${productPriceTMT}  TMT</span>
-                </div>
-                <span id="sign">+</span>
-                <div>
-                  <h4>KG bahasy:</h4>
-                  <span>${productWeight} TMT</span>
-                </div>
-                <span id="sign">=</span>
-                <div>
-                  <h4>Jemi bahasy:</h4>
-                  <span>${totalProductPrice} TMT</span>
+          <div class="container">
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <div class="product-container">
+                  <a href="${productLink}" target="_blank">
+                    <img src="${productLink}" alt="photo" class="product-image"  />
+                  </a>
+                  <div class="product-details">
+                    <div class="product-name">${productName}</div>
+                    <div class="product-prices">
+                      <span class="price-tl">${productPrice} TL</span>
+                      <span class="arrow"> → </span>
+                      <span class="price-tmt">${productPriceTMT} TMT</span>
+                      <span class="price-cargo">${productWeight} TMT</span>
+                      <span class="price-cargo">${totalProductPrice} TMT</span>
+                    </div>
+                    <div class="product-status">${status}</div>
+                  </div>
                 </div>
               </div>
-              <div class="product-status">Siparişiniz alındı. Kontrol için gelmesini bekliyoruz.</div>
             </div>
           </div>
         `;

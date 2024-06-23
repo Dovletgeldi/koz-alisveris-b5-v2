@@ -12283,97 +12283,45 @@ textarea.form-control-lg {
   transform: translate(-50%, -50%);
 }
 
-#tel-message {
-  text-align: center;
-  font-weight: bold;
-  font-family: "Poppins", sans-serif;
-  margin: 8px 0px 100px 0px;
-}
-@media (max-width: 575.98px) {
-  #tel-message {
-    font-size: 1rem;
-  }
-}
-
 .product-container {
-  padding: 10px 0;
-  margin: 20px 8px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  font-weight: normal;
-  box-shadow: 0px -1px 1px #f27a1a;
-  border-radius: 10px;
-}
-@media (max-width: 575.98px) {
-  .product-container {
-    margin: 20px 2px;
-  }
+  margin-bottom: 20px;
+  background-color: yellow;
 }
 .product-container .product-image {
-  width: 100px;
-}
-@media (max-width: 575.98px) {
-  .product-container .product-image {
-    margin-left: 5px;
-    width: 79px;
-  }
+  max-width: 100px;
+  margin-right: 20px;
 }
 .product-container .product-details {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   text-align: start;
 }
-@media (max-width: 575.98px) {
-  .product-container .product-details {
-    margin: 0 10px;
-  }
-}
 .product-container .product-details .product-name {
-  font-weight: 600;
-}
-@media (max-width: 575.98px) {
-  .product-container .product-details .product-name {
-    font-size: 1rem;
-  }
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 .product-container .product-details .product-prices {
+  display: block;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.product-container .product-details .product-prices .price-manat-cargo {
   display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  font-weight: 600;
+  align-items: center;
 }
-.product-container .product-details .product-prices span {
-  color: #f27a1a;
+.product-container .product-details .product-prices .price-manat-cargo .price-manat,
+.product-container .product-details .product-prices .price-manat-cargo .price-cargo {
+  margin: 0 5px;
 }
-@media (max-width: 575.98px) {
-  .product-container .product-details .product-prices span {
-    font-size: 1rem;
-  }
+.product-container .product-details .product-prices .price-manat-cargo .arrow {
+  margin: 0 5px;
 }
-.product-container .product-details .product-prices h4 {
-  font-size: 12px;
-  margin: 0;
-}
-@media (max-width: 575.98px) {
-  .product-container .product-details .product-prices h4 {
-    font-size: 0.5rem;
-  }
-}
-.product-container .product-details .product-prices #sign {
-  margin-top: 15px;
-}
-@media (max-width: 575.98px) {
-  .product-container .product-details .product-prices #sign {
-    font-size: 0.7rem;
-    margin-top: 13px;
-  }
-}
-@media (max-width: 575.98px) {
-  .product-container .product-details .product-status {
-    font-size: 1rem;
-  }
+.product-container .product-details .product-status {
+  font-size: 16px;
+  color: #555;
 }
 
 .intro-section-order-page {
