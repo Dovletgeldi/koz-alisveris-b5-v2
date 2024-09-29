@@ -56,7 +56,14 @@ async function getDataFromSheet(phoneNumber) {
         const productPrice = Math.ceil(row[11]);
         const productWeight = Math.ceil(row[12]);
         const totalProductPrice = Math.ceil(row[14]);
-        const productLink = row[8];
+        let productLink;
+
+        if (!row[8] || row[8] === "") {
+          productLink = "images/hazirki wagtda surat mumkin dal.png";
+        } else {
+          productLink = row[8];
+        }
+
         const productPriceTMT = Math.ceil(row[13]);
 
         if (row[17] == "habar edildi") {
