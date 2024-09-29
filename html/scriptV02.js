@@ -38,7 +38,7 @@ async function getDataFromSheet(phoneNumber) {
     };
 
     const values = combinedData.values;
-    const phoneNumberColumnIndex = 15;
+    const phoneNumberColumnIndex = 16;
 
     // Find data for the entered phone number
     const foundData = values.filter(
@@ -46,27 +46,28 @@ async function getDataFromSheet(phoneNumber) {
     );
 
     if (foundData.length > 0) {
-      telMessage.innerHTML = `Değerli müşterimiz ${foundData[0][14]}, siparişleriniz şu şekildedir:`;
+      telMessage.innerHTML = `Hormatly müşderimiz ${foundData[0][15]}, sargytlaryňyz şu şekildedir:`;
 
       foundData.forEach((row) => {
         let status;
         const productDate = row[3];
         const productName = row[7];
         const productNumber = row[5];
-        const productPrice = row[6];
-        const productWeight = row[11];
-        const totalProductPrice = row[13];
-        const productLink = row[17];
-        const productPriceTMT = row[12];
+        const productPrice = Math.ceil(row[11]);
+        const productWeight = Math.ceil(row[12]);
+        const totalProductPrice = Math.ceil(row[14]);
+        const productLink = row[8];
+        const productPriceTMT = Math.ceil(row[13]);
 
-        if (row[16] == "habar edildi") {
-          status = `Siparişiniz geldi, "${row[14]}" kişisine haber verildi.`;
-        } else if (row[16] == "gowşuryldy" || row[16] == "gowushdy") {
-          status = `Siparişiniz geldi, "${row[14]}" kişisine teslim edildi.`;
+        if (row[17] == "habar edildi") {
+          status = `Sargydyňyz geldi, "${row[15]}" atly kişä habar berildi.`;
+        } else if (row[17] == "gowşuryldy" || row[17] == "gowushdy") {
+          status = `Sargydyňyz geldi, "${row[15]}" atly kişä gowşuryldy.`;
         } else if (row[1] == "iade") {
-          status = "Maalesef siparişiniz kusurlu geldiği için iade edildi.";
+          status =
+            "Gynansakda sargydyňyz gowy ýagdaýda gelmedigi üçin yzyna tabşyryldy.";
         } else if (row[1] == "iptal") {
-          status = "Siparişiniz iptal edilmiştir.";
+          status = "Sargydyňyz goý bolsun edildi.";
         } else if (
           row[1] === "ucak1" ||
           row[1] === "ucak2" ||
@@ -74,17 +75,18 @@ async function getDataFromSheet(phoneNumber) {
           row[1] === "ucak4"
         ) {
           status =
-            "Siparişiniz İstanbul'dan Aşkabata doğru yola çıktı. Tahmini gelme süresi en kısa zamanda burada gözükecektir.";
+            "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
         } else if (row[1] == 1 || row[1] == 2 || row[1] == 3 || row[1] == 4) {
           status =
-            "Siparişiniz İstanbul'dan Aşkabata doğru yola çıktı. Tahmini gelme süresi en kısa zamanda burada gözükecektir.";
+            "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
         } else if (
           row[1] === "" ||
-          (row[1] === "ucak" && typeof row[16] === "undefined")
+          (row[1] === "ucak" && typeof row[17] === "undefined")
         ) {
-          status = "Siparişiniz alındı. Kontrol için gelmesini bekliyoruz.";
-        } else if (row[11] != 0) {
-          status = "Siparişiniz geldi, hemen arayıp alabilirsiniz.";
+          status =
+            "Sargydyňyz kabul edildi. Barlamak üçin gelmegine garaşylýar.";
+        } else if (row[12] != 0) {
+          status = "Sargydyňyz geldi, habarlaşyp alyp bilersiňiz.";
         } else {
           function checker() {
             var pattern = /^[0-9\-.]{8}$/;
@@ -92,33 +94,41 @@ async function getDataFromSheet(phoneNumber) {
             return pattern.test(a);
           }
           if (checker() === true) {
-            status = `Siparişiniz İstanbul'dan Aşkabata doğru yola çıktı. Tahmini olarak ${row[1]} tarihleri arasında gelecektir.`;
+            status = `Sargydyňyz ýolda. Takmynan ${row[1]} aralygynda geler.`;
           } else {
-            status = "Ürün durumunda sıkıntı var, lütfen bize haber verin.";
+            status = "Haryt barada biz bilen habarlaşmagyňyzy soraýarys.";
           }
         }
 
         telMessage.innerHTML += `
-          <div class="container">
-            <div class="row mt-4">
-              <div class="col-md-12">
-                <div class="product-container">
-                  <a href="${productLink}" target="_blank">
-                    <img src="${productLink}" alt="photo" class="product-image"  />
-                  </a>
-                  <div class="product-details">
-                    <div class="product-name">${productName}</div>
-                    <div class="product-prices">
-                      <span class="price-tl">${productPrice} TL</span>
-                      <span class="arrow"> → </span>
-                      <span class="price-tmt">${productPriceTMT} TMT</span>
-                      <span class="price-cargo">${productWeight} TMT</span>
-                      <span class="price-cargo">${totalProductPrice} TMT</span>
-                    </div>
-                    <div class="product-status">${status}</div>
-                  </div>
+          <div class="product-container">
+            <a href="${productLink}" target="_blank">
+              <img src="${productLink}" alt="Häzirki wagtda surat mümkin däl." class="product-image" />
+            </a>
+            <div class="product-details">
+              <div class="product-name">${productName}</div>
+              <div class="product-prices">
+                <div>
+                  <h4>TL bahasy:</h4>
+                  <span>${productPrice} TL</span>
+                </div>
+                <span id="sign">=></span>
+                <div>
+                  <h4>TMT bahasy:</h4>
+                  <span>${productPriceTMT}  TMT</span>
+                </div>
+                <span id="sign">+</span>
+                <div>
+                  <h4>KG bahasy:</h4>
+                  <span>${productWeight} TMT</span>
+                </div>
+                <span id="sign">=</span>
+                <div>
+                  <h4>Jemi bahasy:</h4>
+                  <span>${totalProductPrice} TMT</span>
                 </div>
               </div>
+              <div class="product-status">${status}</div>
             </div>
           </div>
         `;

@@ -9,9 +9,9 @@
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
-  --bs-pink: #d122e3;
+  --bs-pink: #d63384;
   --bs-red: #dc3545;
-  --bs-orange: #19283b;
+  --bs-orange: #f27a1a;
   --bs-yellow: #ffc107;
   --bs-green: #198754;
   --bs-teal: #20c997;
@@ -98,7 +98,7 @@
   --bs-link-decoration: underline;
   --bs-link-hover-color: #14202f;
   --bs-link-hover-color-rgb: 20, 32, 47;
-  --bs-code-color: #d122e3;
+  --bs-code-color: #d63384;
   --bs-highlight-color: #212529;
   --bs-highlight-bg: #fff3cd;
   --bs-border-width: 1px;
@@ -170,7 +170,7 @@
   --bs-link-hover-color: #9198a1;
   --bs-link-color-rgb: 117, 126, 137;
   --bs-link-hover-color-rgb: 145, 152, 161;
-  --bs-code-color: #e37aee;
+  --bs-code-color: #e685b5;
   --bs-highlight-color: #dee2e6;
   --bs-highlight-bg: #664d03;
   --bs-border-color: #495057;
@@ -11855,6 +11855,16 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+@keyframes pulse-border {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
 .btn-rounded {
   position: relative;
   padding: 0.9375rem 3.375rem 0.9375rem 1.25rem;
@@ -12089,6 +12099,28 @@ textarea.form-control-lg {
     display: flex;
     justify-content: center;
   }
+}
+
+.btn-animation-wrapper {
+  position: relative;
+  display: inline-block; /* To wrap tightly around the button */
+}
+
+.border-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0.2rem solid #19283b;
+  border-radius: 50px; /* Adjust to match the button's shape */
+  animation: pulse-border 1.5s linear infinite;
+}
+.border-animation--border-1 {
+  animation-delay: 1s;
+}
+.border-animation--border-2 {
+  animation-delay: 1.5s;
 }
 
 .testimonials {

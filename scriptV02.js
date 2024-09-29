@@ -46,7 +46,7 @@ async function getDataFromSheet(phoneNumber) {
     );
 
     if (foundData.length > 0) {
-      telMessage.innerHTML = `Değerli müşterimiz ${foundData[0][15]}, siparişleriniz şu şekildedir:`;
+      telMessage.innerHTML = `Hormatly müşderimiz ${foundData[0][15]}, sargytlaryňyz şu şekildedir:`;
 
       foundData.forEach((row) => {
         let status;
@@ -59,14 +59,15 @@ async function getDataFromSheet(phoneNumber) {
         const productLink = row[8];
         const productPriceTMT = Math.ceil(row[13]);
 
-        if (row[16] == "habar edildi") {
-          status = `Siparişiniz geldi, "${row[14]}" kişisine haber verildi.`;
-        } else if (row[16] == "gowşuryldy" || row[16] == "gowushdy") {
-          status = `Siparişiniz geldi, "${row[14]}" kişisine teslim edildi.`;
+        if (row[17] == "habar edildi") {
+          status = `Sargydyňyz geldi, "${row[15]}" atly kişä habar berildi.`;
+        } else if (row[17] == "gowşuryldy" || row[17] == "gowushdy") {
+          status = `Sargydyňyz geldi, "${row[15]}" atly kişä gowşuryldy.`;
         } else if (row[1] == "iade") {
-          status = "Maalesef siparişiniz kusurlu geldiği için iade edildi.";
+          status =
+            "Gynansakda sargydyňyz gowy ýagdaýda gelmedigi üçin yzyna tabşyryldy.";
         } else if (row[1] == "iptal") {
-          status = "Siparişiniz iptal edilmiştir.";
+          status = "Sargydyňyz goý bolsun edildi.";
         } else if (
           row[1] === "ucak1" ||
           row[1] === "ucak2" ||
@@ -74,17 +75,18 @@ async function getDataFromSheet(phoneNumber) {
           row[1] === "ucak4"
         ) {
           status =
-            "Siparişiniz İstanbul'dan Aşkabata doğru yola çıktı. Tahmini gelme süresi en kısa zamanda burada gözükecektir.";
+            "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
         } else if (row[1] == 1 || row[1] == 2 || row[1] == 3 || row[1] == 4) {
           status =
-            "Siparişiniz İstanbul'dan Aşkabata doğru yola çıktı. Tahmini gelme süresi en kısa zamanda burada gözükecektir.";
+            "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
         } else if (
           row[1] === "" ||
-          (row[1] === "ucak" && typeof row[16] === "undefined")
+          (row[1] === "ucak" && typeof row[17] === "undefined")
         ) {
-          status = "Siparişiniz alındı. Kontrol için gelmesini bekliyoruz.";
-        } else if (row[11] != 0) {
-          status = "Siparişiniz geldi, hemen arayıp alabilirsiniz.";
+          status =
+            "Sargydyňyz kabul edildi. Barlamak üçin gelmegine garaşylýar.";
+        } else if (row[12] != 0) {
+          status = "Sargydyňyz geldi, habarlaşyp alyp bilersiňiz.";
         } else {
           function checker() {
             var pattern = /^[0-9\-.]{8}$/;
@@ -92,16 +94,16 @@ async function getDataFromSheet(phoneNumber) {
             return pattern.test(a);
           }
           if (checker() === true) {
-            status = `Siparişiniz İstanbul'dan Aşkabata doğru yola çıktı. Tahmini olarak ${row[1]} tarihleri arasında gelecektir.`;
+            status = `Sargydyňyz ýolda. Takmynan ${row[1]} aralygynda geler.`;
           } else {
-            status = "Ürün durumunda sıkıntı var, lütfen bize haber verin.";
+            status = "Haryt barada biz bilen habarlaşmagyňyzy soraýarys.";
           }
         }
 
         telMessage.innerHTML += `
           <div class="product-container">
             <a href="${productLink}" target="_blank">
-              <img src="${productLink}" alt="photo" class="product-image" />
+              <img src="${productLink}" alt="Häzirki wagtda surat mümkin däl." class="product-image" />
             </a>
             <div class="product-details">
               <div class="product-name">${productName}</div>
@@ -126,7 +128,7 @@ async function getDataFromSheet(phoneNumber) {
                   <span>${totalProductPrice} TMT</span>
                 </div>
               </div>
-              <div class="product-status">Siparişiniz alındı. Kontrol için gelmesini bekliyoruz.</div>
+              <div class="product-status">${status}</div>
             </div>
           </div>
         `;
