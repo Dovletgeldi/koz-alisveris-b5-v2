@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>KöZ alışveriş</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/style.css?v=1.1" />
     <link rel="stylesheet" href="assets/css/fontawesome.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
@@ -79,17 +79,18 @@
             </p>
           </h1>
           <div class="submit-area">
-            <button id="tel-submit" class="rounded-pill btn-rounded">
-              Gözle
-              <span><i class="fa-solid fa-paper-plane"></i></span>
-            </button>
-            <input
-              type="number"
-              id="tel-input"
-              class="rounded-pill"
-              inputmode="numeric"
-              placeholder="Mysal üçin: 63684707"
-            />
+            <div class="hey">
+              <input
+                type="number"
+                id="tel-input"
+                class="rounded-pill"
+                inputmode="numeric"
+                placeholder="Mysal üçin: 63684707"
+              />
+              <button id="tel-submit" class="btn-rounded-input">
+                <span><i class="fa-solid fa-paper-plane"></i></span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -104,6 +105,6 @@
     <h4 id="tel-message"></h4>
     <h4 id="information"></h4>
 
-    <script src="scriptV02.js"></script>
+    <script src="scriptV02.js?v=1.1"></script>
   </body>
 </html>

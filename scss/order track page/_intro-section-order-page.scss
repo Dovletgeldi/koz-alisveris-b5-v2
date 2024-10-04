@@ -8,24 +8,26 @@
 
   .submit-area {
     display: block;
+    margin: 0 auto;
+    width: 400px;
 
-    #tel-submit {
-      width: 100px;
-      padding: 0.9375rem 6rem 0.9375rem 1.25rem;
-
-      span {
-        i {
-          font-size: 1.3rem;
-          height: 1.2rem;
+    .hey {
+      #tel-submit {
+        span {
+          i {
+            font-size: 1.3rem;
+            height: 1.2rem;
+          }
         }
       }
-    }
 
-    #tel-input {
-      padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
+      #tel-input {
+        padding: 0.9375rem 1.75rem 0.9375rem 1.25rem;
+        margin-left: 2.7rem;
 
-      &:hover {
-        background-color: $white;
+        &:hover {
+          background-color: $white;
+        }
       }
     }
   }

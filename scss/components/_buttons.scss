@@ -38,3 +38,19 @@
     color: $white;
   }
 }
+
+.btn-rounded-input {
+  position: relative;
+  background-color: $white;
+  width: 2.5rem;
+  height: 2.5rem;
+  right: 55px;
+  border: none;
+  border-radius: 50%;
+  color: $primary;
+
+  &:hover {
+    background-color: $primary;
+    color: $white;
+  }
+}
