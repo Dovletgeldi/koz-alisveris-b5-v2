@@ -12357,11 +12357,38 @@ textarea.form-control-lg {
     margin: 20px 2px;
   }
 }
-.product-container .product-image {
+.product-container .product {
+  position: relative;
+  width: 100px;
+}
+.product-container .product .product-quantity {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1rem;
+  width: 2rem;
+  height: 2rem;
+  color: #fff;
+  background-color: #f27a1a;
+  border-radius: 50%;
+  bottom: 0;
+  right: 0;
+}
+@media (max-width: 575.98px) {
+  .product-container .product .product-quantity {
+    font-weight: 600;
+    font-size: 0.7rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+.product-container .product .product-image {
   width: 100px;
 }
 @media (max-width: 575.98px) {
-  .product-container .product-image {
+  .product-container .product .product-image {
     margin-left: 5px;
     width: 79px;
   }

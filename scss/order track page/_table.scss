@@ -25,12 +25,39 @@
     margin: 20px 2px;
   }
 
-  .product-image {
+  .product {
+    position: relative;
     width: 100px;
 
-    @include media-breakpoint-down(sm) {
-      margin-left: 5px;
-      width: 79px;
+    .product-quantity {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 2rem;
+      height: 2rem;
+      color: $white;
+      background-color: $secondary;
+      border-radius: 50%;
+      bottom: 0;
+      right: 0;
+
+      @include media-breakpoint-down(sm) {
+        font-weight: 600;
+        font-size: 0.7rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .product-image {
+      width: 100px;
+      @include media-breakpoint-down(sm) {
+        margin-left: 5px;
+        width: 79px;
+      }
     }
   }
 

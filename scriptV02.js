@@ -109,9 +109,12 @@ async function getDataFromSheet(phoneNumber) {
 
         telMessage.innerHTML += `
           <div class="product-container">
-            <a href="${productLink}" target="_blank">
-              <img src="${productLink}" alt="Häzirki wagtda surat mümkin däl." class="product-image" />
-            </a>
+            <div class="product">
+              <span class="product-quantity">X${productNumber}</span>
+              <a href="${productLink}" target="_blank">
+                <img src="${productLink}" alt="Häzirki wagtda surat mümkin däl." class="product-image" />
+              </a>
+            </div>
             <div class="product-details">
               <div class="product-name">${productName}</div>
               <div class="product-prices">
