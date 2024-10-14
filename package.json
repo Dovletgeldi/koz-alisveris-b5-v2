@@ -9,6 +9,7 @@
   "author": "Dovletgeldi Myradov",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^9.12.0",
     "sass": "^1.70.0"
   },
   "dependencies": {
