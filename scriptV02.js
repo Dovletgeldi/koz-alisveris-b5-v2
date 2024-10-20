@@ -68,7 +68,7 @@ async function getDataFromSheet(phoneNumber) {
 
         if (row[17] == "habar edildi") {
           status = `Sargydyňyz geldi, "${row[15]}" atly kişä habar berildi.`;
-        } else if (row[17] == "gowşuryldy" || row[17] == "gowushdy") {
+        } else if (row[17] == "G  owşuryldy" || row[17] == "gowushdy") {
           status = `Sargydyňyz geldi, "${row[15]}" atly kişä gowşuryldy.`;
         } else if (row[1] == "iade") {
           status =
