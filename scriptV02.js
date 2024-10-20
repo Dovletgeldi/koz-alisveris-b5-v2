@@ -144,6 +144,8 @@ async function getDataFromSheet(phoneNumber) {
         `;
       });
 
+      const informationContent =
+        "Bilidriş: Sargytlaryňyz sistemamyza sargyt edilen wagtyndan 24 sagat soň geçer.";
       telMessage.innerHTML += informationContent;
     } else {
       telMessage.innerHTML =
