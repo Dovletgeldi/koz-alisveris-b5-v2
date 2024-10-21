@@ -159,3 +159,73 @@
     @include absoluteCenter;
   }
 }
+
+/*
+.footer {
+  .container {
+    .row {
+      color: $white;
+      font-family: "Poppins";
+
+      .dcr {
+        display: block;
+        width: 1135px;
+        height: 4px;
+        background-color: $secondary;
+        margin: 97px auto 0 auto;
+      }
+
+      .box {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+
+        h5 {
+          font-size: 36px;
+          font-weight: 700;
+          margin-bottom: 22px;
+        }
+
+        address {
+          font-size: 24px;
+          font-weight: 400;
+
+          span {
+            display: block;
+            font-size: 12px;
+            color: #6c757d;
+          }
+        }
+
+        .links {
+          font-size: 24px;
+          font-weight: 400;
+
+          ul {
+            display: block;
+            list-style-type: none;
+            position: relative;
+            list-style-position: inside;
+
+            li {
+              margin-bottom: 0.5rem;
+              text-decoration: none;
+              margin-left: -32px;
+
+              a {
+                color: $white;
+                text-decoration: none;
+
+                &:hover {
+                  color: $secondary;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+*/
