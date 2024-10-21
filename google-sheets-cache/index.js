@@ -1,19 +1,17 @@
 import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
-// Recreate __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Define the cache file path
+const cacheFilePath = path.join(process.cwd(), "cached_data.json");
 
-const cacheFilePath = path.join(__dirname, "cached_data.json");
-
+// URLs for Google Sheets API
 const sheetUrl1 =
   "https://sheets.googleapis.com/v4/spreadsheets/1oj6CSda05eOaSpYyOGl2WrwH-1-3TGQoQJwTO5FLmzU/values/Genel!A:R?key=AIzaSyCVdAOP5Sq6_2TsvgViEvHLC_hrrQJYCTo";
 const sheetUrl2 =
   "https://sheets.googleapis.com/v4/spreadsheets/1c0pAa8lyQWlLwIRcWwxxxcHMjnLJrn_MRcYEhV5U2U8/values/Genel!A:R?key=AIzaSyCVdAOP5Sq6_2TsvgViEvHLC_hrrQJYCTo";
 
+// Fetch data from the Google Sheets API and update cache
 async function fetchData() {
   try {
     const response1 = await fetch(sheetUrl1);
@@ -28,6 +26,7 @@ async function fetchData() {
         timestamp: Date.now(),
       };
 
+      // Write the combined data to the cache file
       fs.writeFileSync(cacheFilePath, JSON.stringify(combinedData), "utf8");
       console.log("Data cached successfully");
     } else {
@@ -38,30 +37,7 @@ async function fetchData() {
   }
 }
 
-function isCacheValid() {
-  if (fs.existsSync(cacheFilePath)) {
-    const cachedData = JSON.parse(fs.readFileSync(cacheFilePath, "utf8"));
-    const now = Date.now();
-    const twentyFourHours = 24 * 60 * 60 * 1000;
-    return now - cachedData.timestamp < twentyFourHours;
-  }
-  return false;
-}
-
-async function getData() {
-  if (isCacheValid()) {
-    console.log("Using cached data");
-    const cachedData = JSON.parse(fs.readFileSync(cacheFilePath, "utf8"));
-    return cachedData.values;
-  } else {
-    console.log("Fetching new data from Google Sheets");
-    await fetchData();
-    return JSON.parse(fs.readFileSync(cacheFilePath, "utf8")).values;
-  }
-}
-
-// Example usage
+// Run the script to fetch new data and update cache
 (async () => {
-  const data = await getData();
-  console.log("Fetched Data:", data);
+  await fetchData();
 })();
