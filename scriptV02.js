@@ -167,6 +167,7 @@ function shuffleArray(array) {
   return array;
 }
 
+
 // (async () => {
 //   const adsSheet = await fetch(
 //     "https://sheets.googleapis.com/v4/spreadsheets/1oj6CSda05eOaSpYyOGl2WrwH-1-3TGQoQJwTO5FLmzU/values/ads!B:S?key=AIzaSyCVdAOP5Sq6_2TsvgViEvHLC_hrrQJYCTo"

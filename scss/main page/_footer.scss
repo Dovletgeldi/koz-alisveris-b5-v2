@@ -160,7 +160,6 @@
   }
 }
 
-/*
 .footer {
   .container {
     .row {
@@ -179,6 +178,7 @@
         display: flex;
         justify-content: space-between;
         align-items: start;
+        font-size: 24px;
 
         h5 {
           font-size: 36px;
@@ -187,7 +187,6 @@
         }
 
         address {
-          font-size: 24px;
           font-weight: 400;
 
           span {
@@ -198,7 +197,6 @@
         }
 
         .links {
-          font-size: 24px;
           font-weight: 400;
 
           ul {
@@ -223,9 +221,46 @@
             }
           }
         }
+
+        .contact-us {
+          ul {
+            display: block;
+            list-style-type: none;
+            position: relative;
+            list-style-position: inside;
+
+            li {
+              margin-bottom: 0.5rem;
+              text-decoration: none;
+              margin-left: -32px;
+              color: $white;
+              text-decoration: none;
+              font-weight: 400;
+
+              span {
+                font-weight: 600;
+              }
+            }
+          }
+          .social-media {
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+
+            img {
+              width: 30px;
+              height: auto;
+              vertical-align: baseline;
+            }
+
+            i {
+              color: $white;
+              font-size: 30px;
+              line-height: 0;
+            }
+          }
+        }
       }
     }
   }
 }
-
-*/
