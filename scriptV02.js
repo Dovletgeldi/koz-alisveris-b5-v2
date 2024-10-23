@@ -156,16 +156,16 @@ async function getDataFromSheet(phoneNumber) {
   }
 }
 
-function shuffleArray(array) {
-  const startIndex = 3; // Start shuffling from the fourth element (index 3)
-  for (let i = array.length - 1; i > startIndex; i--) {
-    // Generate a random index from startIndex to i
-    const j = Math.floor(Math.random() * (i - startIndex + 1)) + startIndex;
-    // Swap elements at indices i and j
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+// function shuffleArray(array) {
+//   const startIndex = 3; // Start shuffling from the fourth element (index 3)
+//   for (let i = array.length - 1; i > startIndex; i--) {
+//     // Generate a random index from startIndex to i
+//     const j = Math.floor(Math.random() * (i - startIndex + 1)) + startIndex;
+//     // Swap elements at indices i and j
+//     [array[i], array[j]] = [array[j], array[i]];
+//   }
+//   return array;
+// }
 
 
 // (async () => {
