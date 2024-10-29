@@ -1,9 +1,15 @@
+// Import necessary modules
 import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-// Define the cache file path
-const cacheFilePath = path.join(process.cwd(), "cached_data.json");
+// Simulate __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Define the cache file path using __dirname
+const cacheFilePath = path.join(__dirname, "cached_data.json");
 
 // URLs for Google Sheets API
 const sheetUrl1 =
@@ -21,6 +27,7 @@ async function fetchData() {
       const data1 = await response1.json();
       const data2 = await response2.json();
 
+      // Combine the data from both Google Sheets
       const combinedData = {
         values: [...data1.values, ...data2.values],
         timestamp: Date.now(),
