@@ -30,7 +30,6 @@ async function fetchData() {
       // Combine the data from both Google Sheets
       const combinedData = {
         values: [...data1.values, ...data2.values],
-        timestamp: Date.now(),
       };
 
       // Write the combined data to the cache file
