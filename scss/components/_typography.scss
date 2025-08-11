@@ -1,4 +1,8 @@
 @use "../custom" as *;
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 
 .display-2 {
   margin-bottom: 1rem;
@@ -95,4 +99,8 @@
 
 .anchor {
   scroll-margin-top: 5rem;
+}
+
+select:invalid {
+  color: rgba(0, 0, 0, 0.4);
 }

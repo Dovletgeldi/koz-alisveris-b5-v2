@@ -1,0 +1,53 @@
+@use "../custom" as *;
+
+form {
+    position: relative;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+
+    #tl-price {
+        margin-bottom: 2rem;
+    }
+
+    div {
+        display: inline-block;
+    }
+
+    input, select {
+        padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
+        width: 12rem;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border: 1px solid transparent; // full border shorthand
+        border-color: $secondary;
+        box-shadow: none;
+
+        &:hover, &:focus, &:active {
+            border-width: 2px;
+            border-color: $secondary;
+        }
+    }
+
+    input:active,
+    select:active,
+    input:focus,
+    select:focus{
+        border-width: 2px;
+        border-color: $secondary;
+    }
+
+
+    input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
+    button {
+        padding: 0.9375rem 1.25rem 0.9375rem 1.25rem !important;
+    }
+
+    
+}

@@ -9,10 +9,23 @@
   .submit-area {
     display: block;
     margin: 0 auto;
-    width: 400px;
+    width: 250px;
+    max-width: 400px; // Changed from fixed width to max-width
+    padding: 0 1rem; // Add padding for mobile
 
     .hey {
+      position: relative;
+      display: flex; // Add flexbox
+      align-items: center; // Center vertically
+      justify-content: center; // Center horizontally
+      
       #tel-submit {
+        display: inline-block;
+        position: absolute;
+        right: 1rem; // Reduced from 4.5rem
+        top: 50%;
+        transform: translateY(-50%); // Center vertically
+        
         span {
           i {
             font-size: 1.3rem;
@@ -22,11 +35,48 @@
       }
 
       #tel-input {
-        padding: 0.9375rem 1.75rem 0.9375rem 1.25rem;
-        margin-left: 2.7rem;
+        padding: 0.9375rem 4rem 0.9375rem 1.25rem; // Increased right padding
+        width: 100%; // Make input responsive
+        box-sizing: border-box; // Include padding in width calculation
 
         &:hover {
           background-color: $white;
+        }
+      }
+    }
+  }
+
+  // Media queries for better mobile experience
+  @media (max-width: 768px) {
+    .submit-area {
+      max-width: 100%;
+      padding: 0 1.5rem;
+      
+      .hey {
+        #tel-submit {
+          right: 0.5rem;
+        }
+        
+        #tel-input {
+          padding: 0.9375rem 3.5rem 0.9375rem 1rem;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .submit-area {
+      padding: 0 1rem;
+      
+      .hey {
+        #tel-submit {
+          right: 0.3rem;
+        }
+        
+        #tel-input {
+          padding: 0.9375rem 3rem 0.9375rem 0.8rem;
+          font-size: 0.85rem;
         }
       }
     }

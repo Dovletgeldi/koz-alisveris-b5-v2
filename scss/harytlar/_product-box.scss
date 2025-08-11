@@ -1,0 +1,106 @@
+@use "../custom" as *;
+
+.products-area {
+
+.product-box {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  .product-photo {
+    flex: 0 0 40%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      display: block;
+      max-height: 180px;
+      max-width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+  }
+
+  .product-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+
+    .product-name {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .product-alt-name {
+      font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+      color: #565959;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-meta {
+      font-size: 0.8rem;
+      color: #6b7280;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .product-price {
+      font-size: clamp(1.5rem, 3vw, 1.75rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .available-quantity {
+      font-size: 0.85rem;
+      color: #16a34a;
+      margin-bottom: 0.75rem;
+
+      &.low-stock { color: #ea580c; }
+      &.out-stock { color: #dc2626; }
+    }
+
+    .add-cart-btn {
+      margin-top: auto;
+      width: 100%;
+      background-color: $secondary;
+      border: none;
+      border-radius: 8px;
+      color: $white;
+      padding: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background-color: darken($secondary, 8%);
+      }
+    }
+  }
+}
+
+}
+
+.footer {
+    margin-top: 1rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}

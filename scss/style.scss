@@ -10,9 +10,15 @@
 // IMPORT THE SECTIONS
 @use "main page/navbar";
 @use "main page/intro-section";
-@use "main page/businesses";
+@use "main page/converter";
 @use "main page/services";
 @use "main page/testimonials";
 @use "main page/footer";
+
+// ORDER TRACK PAGE
 @use "order track page/table";
 @use "order track page/intro-section-order-page";
+
+// HARYTLAR PAGE
+@use "./harytlar/top-bar";
+@use "./harytlar/product-box";

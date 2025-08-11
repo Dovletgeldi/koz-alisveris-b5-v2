@@ -1,0 +1,75 @@
+@use "../custom" as *;
+
+
+
+.top-bar-section {
+    background-color: $primary;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+    form {
+        margin: 0;
+        padding: 1em 0 0 0;
+        border: none;
+        position: relative;
+
+        .search-bar {
+            width: 100%;
+            border-radius: 10px;
+            border-width: 2px;
+            outline: none;
+            border-style: none;
+        }
+
+        .search-btn {
+            background-color: $secondary;
+            position: absolute;
+            right: 0;
+            border-radius: 10px;
+            border-style: none;
+            color: $white;
+            overflow: hidden;
+        }
+    }
+
+    .filter {
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        ul {
+            display: flex;
+            padding: 1em 0;
+            gap: 10px;
+            margin: 0;
+            align-items: center;
+
+            li {
+                color: $white;
+                list-style: none;
+
+                .filter-btn {
+                    border-style: none;
+                    background-color: transparent;
+                    color: $white;
+                }
+
+                .active {
+                        background-color: $white;
+                        color: $primary;
+                        border-radius: 10px;
+                        padding: 5px 15px;
+                    }
+            };
+    }
+    }
+
+
+
+}
