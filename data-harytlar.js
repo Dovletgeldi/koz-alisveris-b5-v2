@@ -4,8 +4,8 @@ export const products = [
         altName: 'Sabahattin Ali',
         photo: './images/harytlar/kurk-mantolu-madonna.jpg',
         seller: 'KöZ',
-        city: 'Aşgabat',
-        price: '20 TMT',
+        city: 'Mary',
+        price: '20',
         quantity: '3',
         id: '1'
     },
@@ -15,7 +15,7 @@ export const products = [
         photo: './images/harytlar/beyaz-zambaklar-ulkesinde.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '25 TMT',
+        price: '25',
         quantity: '3',
         id: '2'
     },
@@ -25,7 +25,7 @@ export const products = [
         photo: './images/harytlar/bilinmeyen-bir-kadinin-mektubu.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '18 TMT',
+        price: '18',
         quantity: '3',
         id: '3'
     },
@@ -35,7 +35,7 @@ export const products = [
         photo: './images/harytlar/bir-idam-mahkumunun-son-gunu.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '22 TMT',
+        price: '22',
         quantity: '3',
         id: '4'
     },
@@ -45,7 +45,7 @@ export const products = [
         photo: './images/harytlar/hayvan-ciftligi.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '30 TMT',
+        price: '30',
         quantity: '3',
         id: '5'
     },
@@ -55,7 +55,7 @@ export const products = [
         photo: './images/harytlar/insan-neyle-yasar.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '21 TMT',
+        price: '21',
         quantity: '3',
         id: '6'
     },
@@ -65,7 +65,7 @@ export const products = [
         photo: './images/harytlar/kendime-dusunceler.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '28 TMT',
+        price: '28',
         quantity: '3',
         id: '7'
     },
@@ -75,7 +75,7 @@ export const products = [
         photo: './images/harytlar/kucuk-prens.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '15 TMT',
+        price: '15',
         quantity: '3',
         id: '8'
     },
@@ -85,7 +85,7 @@ export const products = [
         photo: './images/harytlar/satranc.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '17 TMT',
+        price: '17',
         quantity: '3',
         id: '9'
     },
@@ -95,7 +95,7 @@ export const products = [
         photo: './images/harytlar/seker-portakali.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '19 TMT',
+        price: '19',
         quantity: '3',
         id: '10'
     }

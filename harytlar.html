@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>KöZ alışveriş</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=1.3" />
+    <link rel="stylesheet" href="assets/css/style.css?v=1.4" />
     <link rel="stylesheet" href="assets/css/fontawesome.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
@@ -77,19 +77,19 @@
         <div class="container">
             <div class="search-bar-area">
                 <form role="search">
-                    <input type="search" placeholder="Harytlaryň içinden gözle..." class="search-bar" aria-label="Search Bar" >
+                    <input type="search" placeholder="Harytlaryň içinden gözle..." class="search-bar" id="search-bar" aria-label="Search Bar" >
                     <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
             <div class="filter">
                 <ul>
-                    <li><button class="filter-btn active">Hemmesi</button></li>
-                    <li><button class="filter-btn">Aşgabat</button></li>
-                    <li><button class="filter-btn">Mary</button></li>
-                    <li><button class="filter-btn">Daşoguz</button></li>
-                    <li><button class="filter-btn">Balkan</button></li>
-                    <li><button class="filter-btn">Lebap</button></li>
-                    <li><button class="filter-btn">Ahal</button></li>
+                    <li><button id="hemmesi" class="filter-btn active" data-city="hemmesi">Hemmesi</button></li>
+                    <li><button id="filter-btn" class="filter-btn" data-city="asgabat">Aşgabat</button></li>
+                    <li><button id="filter-btn" class="filter-btn" data-city="mary">Mary</button></li>
+                    <li><button id="filter-btn" class="filter-btn" data-city="dasoguz">Daşoguz</button></li>
+                    <li><button id="filter-btn" class="filter-btn" data-city="balkan">Balkan</button></li>
+                    <li><button id="filter-btn" class="filter-btn" data-city="lebap">Lebap</button></li>
+                    <li><button id="filter-btn" class="filter-btn" data-city="ahal">Ahal</button></li>
                 </ul>
             </div>
         </div>
@@ -98,32 +98,6 @@
     <main>
       <div class="container">
         <div class="products-area" id="products-area">
-          
-
-
-          <div class="product-box">
-            <!-- Product Image -->
-            <div class="product-photo">
-              <img src="https://m.media-amazon.com/images/I/61Sa5w9LDKL._SY522_.jpg" 
-                  alt="Kürk Mantolu Madonna kitabynyň örtügi">
-            </div>
-
-            <!-- Product Info -->
-            <div class="product-details">
-              <h2 class="product-name">Kurk Mantolu Madonna</h2>
-              <p class="product-alt-name">Sabahattin Ali</p>
-
-              <div class="product-meta">
-                <span class="product-seller">Satyjy: KöZ</span>
-                <span class="product-city">Saheri: Aşgabat</span>
-              </div>
-
-              <p class="product-price"><strong>20 TMT</strong></p>
-              <p class="available-quantity">Mukdary: 3 sany galdy</p>
-
-              <button class="add-cart-btn">Sebede Goş</button>
-            </div>
-          </div>
         </div>
       </div>
     </main>
