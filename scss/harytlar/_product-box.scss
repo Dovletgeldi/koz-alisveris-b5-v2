@@ -1,6 +1,9 @@
 @use "../custom" as *;
 
-.products-area {
+main .container {
+  position: relative;
+}
+
 
 .product-box {
   display: flex;
@@ -64,7 +67,7 @@
 
     .product-price {
       font-size: clamp(1.5rem, 3vw, 1.75rem);
-      font-weight: 700;
+      font-weight: 500;
       margin-bottom: 0.5rem;
     }
 
@@ -97,7 +100,49 @@
   }
 }
 
+
+
+.empty-filter-text {
+  text-align: center;
+  margin: 0 2rem;
 }
+
+
+.display {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -15%);
+  
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-between;
+
+
+  button {
+    border-style: none;
+    color: white;
+    font-size: 1.3rem;
+    padding: 15px 30px;
+    background-color: $primary;
+
+    &:active {
+      color: $secondary;
+
+    }
+  }
+
+  .store-btn {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+
+    .cart-btn {
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+}
+
 
 .footer {
     margin-top: 1rem;

@@ -4,9 +4,9 @@ export const products = [
         altName: 'Sabahattin Ali',
         photo: './images/harytlar/kurk-mantolu-madonna.jpg',
         seller: 'KöZ',
-        city: 'Mary',
-        price: '20',
-        quantity: '3',
+        city: 'Aşgabat',
+        price: '19',
+        quantity: '0',
         id: '1'
     },
     {
@@ -15,7 +15,7 @@ export const products = [
         photo: './images/harytlar/beyaz-zambaklar-ulkesinde.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '25',
+        price: '23',
         quantity: '3',
         id: '2'
     },
@@ -25,8 +25,8 @@ export const products = [
         photo: './images/harytlar/bilinmeyen-bir-kadinin-mektubu.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '18',
-        quantity: '3',
+        price: '19',
+        quantity: '2',
         id: '3'
     },
     {
@@ -35,8 +35,8 @@ export const products = [
         photo: './images/harytlar/bir-idam-mahkumunun-son-gunu.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '22',
-        quantity: '3',
+        price: '24',
+        quantity: '2',
         id: '4'
     },
     {
@@ -45,8 +45,8 @@ export const products = [
         photo: './images/harytlar/hayvan-ciftligi.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '30',
-        quantity: '3',
+        price: '20',
+        quantity: '0',
         id: '5'
     },
     {
@@ -55,8 +55,8 @@ export const products = [
         photo: './images/harytlar/insan-neyle-yasar.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '21',
-        quantity: '3',
+        price: '23',
+        quantity: '0',
         id: '6'
     },
     {
@@ -75,7 +75,7 @@ export const products = [
         photo: './images/harytlar/kucuk-prens.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '15',
+        price: '25',
         quantity: '3',
         id: '8'
     },
@@ -85,8 +85,8 @@ export const products = [
         photo: './images/harytlar/satranc.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '17',
-        quantity: '3',
+        price: '16',
+        quantity: '2',
         id: '9'
     },
     {
@@ -95,8 +95,18 @@ export const products = [
         photo: './images/harytlar/seker-portakali.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '19',
+        price: '83',
         quantity: '3',
         id: '10'
+    },
+    {
+        name: "Beyaz Leke",
+        altName: 'Aslı Arslan',
+        photo: './images/harytlar/beyaz-leke.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '185',
+        quantity: '1',
+        id: '11'
     }
 ];
