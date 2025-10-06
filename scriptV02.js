@@ -3,6 +3,9 @@ const telInput = document.getElementById("tel-input");
 const telMessage = document.getElementById("tel-message");
 const telSubmit = document.getElementById("tel-submit");
 
+// IMPORTANT: Replace this URL with your actual Apps Script Web App URL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-cCVG7e35vb3vHPVr1EpnmFxnH4drixzBu5D9LwVquqJH9AXIdjOzZFOw4AU7JP-kfA/exec';
+
 // Reset the form
 function resetForm() {
   telMessage.innerHTML = "";
@@ -21,32 +24,22 @@ telSubmit.addEventListener("click", function () {
   getDataFromSheet(phoneNumber);
 });
 
-// Fetch data from Google Sheets
+// Fetch data from Google Sheets via Apps Script
 async function getDataFromSheet(phoneNumber) {
-  const sheetUrl1 =
-    "https://sheets.googleapis.com/v4/spreadsheets/1oj6CSda05eOaSpYyOGl2WrwH-1-3TGQoQJwTO5FLmzU/values/Genel!A:R?key=AIzaSyCVdAOP5Sq6_2TsvgViEvHLC_hrrQJYCTo";
-  const sheetUrl2 =
-    "https://sheets.googleapis.com/v4/spreadsheets/1c0pAa8lyQWlLwIRcWwxxxcHMjnLJrn_MRcYEhV5U2U8/values/Genel!A:R?key=AIzaSyCVdAOP5Sq6_2TsvgViEvHLC_hrrQJYCTo";
   try {
-    const response1 = await fetch(sheetUrl1);
-    const response2 = await fetch(sheetUrl2);
+    // Make request to Apps Script with phone number as parameter
+    const response = await fetch(`${APPS_SCRIPT_URL}?phone=${encodeURIComponent(phoneNumber)}`);
 
-    if (response1.ok && response2.ok) {
-      const data1 = await response1.json();
-      const data2 = await response2.json();
-
-      // Combine the data from both Google Sheets
-      const combinedData = {
-        values: [...data1.values, ...data2.values],
-      };
-
-      const values = combinedData.values;
-      const phoneNumberColumnIndex = 16;
-
-      // Find data for the entered phone number
-      const foundData = values.filter(
-        (row) => row[phoneNumberColumnIndex] === phoneNumber
-      );
+    if (response.ok) {
+      const result = await response.json();
+      
+      // Check if there was an error from Apps Script
+      if (result.error) {
+        telMessage.innerHTML = `Ýalňyşlyk ýüze çykdy: ${result.message}`;
+        return;
+      }
+      
+      const foundData = result.data;
 
       if (foundData.length > 0) {
         telMessage.innerHTML = `Hormatly müşderimiz ${foundData[0][15]}, sargytlaryňyz şu şekildedir:`;
@@ -107,7 +100,7 @@ async function getDataFromSheet(phoneNumber) {
             }
           }
 
-          // Corrected the use of backticks here
+          // Add product to display
           telMessage.innerHTML += `
             <div class="product-container">
               <div class="product">
@@ -152,8 +145,11 @@ async function getDataFromSheet(phoneNumber) {
         telMessage.innerHTML =
           'Gynansakda giren belgiňiz üçin sargyt tapylmady. Giren belgiňiziň başynda "8" ýa-da "+993" bolmaly däldir.<br><br>*Bildiriş: Sargytlaryňyz sistemamyza sargyt edilen wagtyndan 24 sagat soň geçer.';
       }
+    } else {
+      telMessage.innerHTML = "Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.";
     }
   } catch (error) {
     console.error("Error fetching data:", error);
+    telMessage.innerHTML = "Baglanyşyk ýalňyşlygy. Täzeden synanyşyň.";
   }
 }
