@@ -63,7 +63,7 @@ async function getDataFromSheet(phoneNumber) {
           const productPriceTMT = Math.ceil(row[13]);
 
           if (row[17] == "habar edildi") {
-            status = `Sargydyňyz geldi, "${row[15]}" atly kişä habar berildi.`;
+            status = `Sargydyňyz geldi, "${row[15]}" atly kişä habar berildi. Habarlaşmak üçin: +99362069428`;
           } else if (row[17] == "gowşuryldy" || row[17] == "gowushdy") {
             status = `Sargydyňyz geldi, "${row[15]}" atly kişä gowşuryldy.`;
           } else if (row[1] == "iade") {
@@ -85,8 +85,8 @@ async function getDataFromSheet(phoneNumber) {
           } else if (row[1] === "" || row[1] === "ucak") {
             status =
               "Sargydyňyz kabul edildi. Barlamak üçin gelmegine garaşylýar.";
-          } else if (row[12] != 0) {
-            status = "Sargydyňyz geldi, habarlaşyp alyp bilersiňiz.";
+          } else if (row[17] == "geldi") {
+            status = "Sargydyňyz geldi, habarlaşyp alyp bilersiňiz. Habarlaşmak üçin: +99362069428";
           } else {
             function checker() {
               var pattern = /^[0-9\-.]{8}$/;

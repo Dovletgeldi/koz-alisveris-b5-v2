@@ -25,7 +25,7 @@ export const products = [
         photo: './images/harytlar/bilinmeyen-bir-kadinin-mektubu.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '19',
+        price: '21',
         quantity: '2',
         id: '3'
     },
@@ -35,7 +35,7 @@ export const products = [
         photo: './images/harytlar/bir-idam-mahkumunun-son-gunu.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '24',
+        price: '27',
         quantity: '2',
         id: '4'
     },
@@ -45,7 +45,7 @@ export const products = [
         photo: './images/harytlar/hayvan-ciftligi.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '20',
+        price: '22',
         quantity: '0',
         id: '5'
     },
@@ -55,7 +55,7 @@ export const products = [
         photo: './images/harytlar/insan-neyle-yasar.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '23',
+        price: '26',
         quantity: '0',
         id: '6'
     },
@@ -100,13 +100,73 @@ export const products = [
         id: '10'
     },
     {
-        name: "Beyaz Leke",
-        altName: 'Aslı Arslan',
-        photo: './images/harytlar/beyaz-leke.jpg',
+        name: "Genç Werther’in Acıları",
+        altName: 'Johann Wolfgang Von Goethe',
+        photo: './images/harytlar/genc-wertherin-acilari.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '185',
-        quantity: '1',
+        price: '29',
+        quantity: '5',
         id: '11'
+    },
+    {
+        name: "Martin Eden",
+        altName: 'Jack London',
+        photo: './images/harytlar/martin-eden.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '68',
+        quantity: '3',
+        id: '12'
+    },
+    {
+        name: "Yeraltından Notlar",
+        altName: 'Fyodor Mihayloviç Dostoyevski',
+        photo: './images/harytlar/yeraltindan-notlar.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '27',
+        quantity: '3',
+        id: '13'
+    },
+    {
+        name: "Senden Bir Tane Daha Yok",
+        altName: 'Miraç Çağrı Aktaş',
+        photo: './images/harytlar/senden-bir-tane-daha-yok.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '102',
+        quantity: '1',
+        id: '14'
+    },
+    {
+        name: "Gökçen 4: Masallar ve Sonları",
+        altName: 'Loresima',
+        photo: './images/harytlar/gokcen-4.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '156',
+        quantity: '1',
+        id: '15'
+    },
+    {
+        name: "Ütü Masası Bezi Gri (50*140 cm)",
+        altName: 'Silva',
+        photo: './images/harytlar/utu-masasi-bezi.webp',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '357',
+        quantity: '1',
+        id: '16'
+    },
+    {
+        name: "Kendime Düşünceler",
+        altName: 'Marcus Aurelius',
+        photo: './images/harytlar/kendime-dusunceler.jpg',
+        seller: 'KöZ',
+        city: 'Mary',
+        price: '28',
+        quantity: '1',
+        id: '17'
     }
 ];
