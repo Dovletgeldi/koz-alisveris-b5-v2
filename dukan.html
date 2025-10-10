@@ -19,6 +19,33 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <!-- Firebase SDKs (Compat version - easier to use) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+<script>
+  // Your Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCiWNT1ANy2eUfQFH4j8zM0k0fKMv5NJu4",
+    authDomain: "kozalisveris-23966.firebaseapp.com",
+    projectId: "kozalisveris-23966",
+    storageBucket: "kozalisveris-23966.firebasestorage.app",
+    messagingSenderId: "940239687913",
+    appId: "1:940239687913:web:8a9ca807b5270423862078"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  // Get references to Firebase services
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+  const storage = firebase.storage();
+  
+  console.log('Firebase connected successfully!');
+</script>
   </head>
 <body>
     <!-- START THE NAVBAR SECTION -->
@@ -52,7 +79,7 @@
         >
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="harytlar.html">Dükan</a>
+              <a class="nav-link" href="dukan.html">Dükan</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="order-track.html">Sargytlarym</a>

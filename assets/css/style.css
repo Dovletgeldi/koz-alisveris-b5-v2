@@ -12908,7 +12908,7 @@ main .container {
   font-weight: 600;
 }
 
-#backdrop {
+.backdrop {
   position: fixed;
   top: 0;
   left: 0;

@@ -290,7 +290,7 @@ function getOverlayContent() {
 
 document.addEventListener('click', (e) => {
     if (e.target.matches('#confirm-order')) {
-        backdrop.style.display = 'block';
+
 
         let outerOverlay = document.getElementById('outer-overlay');
         if (!outerOverlay) {
