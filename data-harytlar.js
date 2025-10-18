@@ -6,7 +6,7 @@ export const products = [
         seller: 'KöZ',
         city: 'Aşgabat',
         price: '19',
-        quantity: '5',
+        quantity: '4',
         id: '1'
     },
     {
@@ -158,5 +158,85 @@ export const products = [
         price: '357',
         quantity: '1',
         id: '16'
+    },
+        {
+        name: "Hacı Murat",
+        altName: 'Tolstoy',
+        photo: './images/harytlar/haci-murat.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '33',
+        quantity: '1',
+        id: '17'
+    },
+    {
+        name: "David Copperfield",
+        altName: 'Charles Dickens',
+        photo: './images/harytlar/david-copperfield.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '23',
+        quantity: '1',
+        id: '18'
+    },
+        {
+        name: "Lahza",
+        altName: 'Serap Köşkdere',
+        photo: './images/harytlar/lahza.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '86',
+        quantity: '1',
+        id: '19'
+    },
+        {
+        name: "Dava",
+        altName: 'Franz Kafka',
+        photo: './images/harytlar/dava.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '34',
+        quantity: '1',
+        id: '20'
+    },
+        {
+        name: "Gömülü Şamdan",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/gomulu-samdan.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '39',
+        quantity: '1',
+        id: '21'
+    },
+        {
+        name: "Zorunluluk",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/zorunluluk.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '21',
+        quantity: '1',
+        id: '22'
+    },
+        {
+        name: "Amok Koşucusu",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/amok-kosucusu.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '23',
+        quantity: '1',
+        id: '23'
+    },
+    {
+        name: "Gömülü Şamdan",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/gomulu-samdan-2.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '26',
+        quantity: '1',
+        id: '24'
     },
 ];
