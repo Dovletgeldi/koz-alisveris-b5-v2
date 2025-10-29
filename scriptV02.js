@@ -3,6 +3,44 @@ const telInput = document.getElementById("tel-input");
 const telMessage = document.getElementById("tel-message");
 const telSubmit = document.getElementById("tel-submit");
 
+
+//////////////////////////////////////////////////////////////
+/////////////////   CHANGABLE      ///////////////////////////
+export const postRate= "0.67"
+export const halfRate = "0.64"
+export const preRate = "0.61"
+
+export const expressShippingRate = "100"
+
+export const contactPhone = "+993 62 069428"
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+
+document.querySelectorAll('.post-tl-rate').forEach(el => {
+  el.textContent = postRate;
+});
+
+document.querySelectorAll('.half-tl-rate').forEach(el => {
+  el.textContent = halfRate;
+});
+
+document.querySelectorAll('.pre-tl-rate').forEach(el => {
+  el.textContent = preRate;
+});
+
+document.querySelectorAll('.express-shipping').forEach(el => {
+  el.textContent = expressShippingRate;
+});
+
+document.querySelectorAll('.contact-person-phone').forEach(el => {
+  el.textContent = contactPhone;
+});
+
+
+// console.log(postTlRate)
+
 // IMPORTANT: Replace this URL with your actual Apps Script Web App URL
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-cCVG7e35vb3vHPVr1EpnmFxnH4drixzBu5D9LwVquqJH9AXIdjOzZFOw4AU7JP-kfA/exec';
 
@@ -15,14 +53,21 @@ function resetForm() {
   }
 }
 
-// When telSubmit is clicked
-telSubmit.addEventListener("click", function () {
-  resetForm();
+if(telSubmit) {
+      // When telSubmit is clicked
+  telSubmit.addEventListener("click", function () {
+    resetForm();
 
-  telMessage.innerHTML = "Aranıyor...";
-  const phoneNumber = telInput.value;
-  getDataFromSheet(phoneNumber);
-});
+    telMessage.innerHTML = "Gözlenýär...";
+    const phoneNumber = telInput.value;
+    getDataFromSheet(phoneNumber);
+  });
+}
+
+
+
+
+
 
 // Fetch data from Google Sheets via Apps Script
 async function getDataFromSheet(phoneNumber) {

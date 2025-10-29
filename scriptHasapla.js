@@ -1,12 +1,14 @@
+import { postRate, preRate, halfRate, expressShippingRate } from "./scriptV02.js";
+
 const converterBtn = document.getElementById('converter-btn');
 const tlInputeValue = document.getElementById('tl-price')
 const paymentOption = document.getElementById('payment-option')
 const convertedPriceP = document.getElementById('converted-price-p')
 
 const conversionRates = {
-    after: 0.7,
-    "half-pre": 0.67,
-    pre: 0.64 
+    after: Number(postRate),
+    "half-pre": Number(halfRate),
+    pre: Number(preRate) 
 }
 
 function clearHiglight() {

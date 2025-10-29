@@ -1,4 +1,33 @@
-import { products } from "./data-harytlar.js";
+import { collection, addDoc, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+let products = []
+
+async function loadProductsFromFirebase() {
+    const productsArea = document.getElementById('products-area')
+    productsArea.innerHTML = '<p style="text-align: center; padding: 40px;">Ýüklenýär...</p>'
+
+    try {
+        const db = window.firestoreDB
+        const querySnapshot = await getDocs(collection(db, 'products'))
+    
+        products = []
+        querySnapshot.forEach((doc) => {
+            products.push({
+                ...doc.data(),
+                id: doc.id
+            })
+        })
+
+        console.log(`✅ Loaded ${products.length} products from Firebase`)
+        renderProducts()
+    } catch (error) {
+        console.error('❌ Error loading products:', error)
+        productsArea.innerHTML = '<p style="text-align: center; padding: 40px; color: red;">Gynansakda ýüklenmedi. Täzeden synanyşyň.</p>';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadProductsFromFirebase)
+
 
 const productsArea = document.getElementById('products-area')
 const cartBtn = document.getElementById('cart-btn')
@@ -96,6 +125,7 @@ function addToCart(item) {
     if (found) {
         const existingItem = myCart.find(cartItem => 
             cartItem.id.toString() === found.id.toString()
+
         );
         
         if (!existingItem) {
@@ -105,9 +135,11 @@ function addToCart(item) {
             localStorage.setItem('myCart', JSON.stringify(myCart))
             cartQty.textContent = myCart.length
             console.log('Item added to cart:', cartItem)
+            cartBtn.click()
         } else {
             alert('Haryt sebediňizde öňdenem bar.')
             document.body.classList.remove('no-scroll')
+            cartBtn.click()
         }
     }
 }
@@ -191,18 +223,114 @@ function quantityControl(buttonClicked, action) {
     refreshOverlay();
 }
 
+let deliveryPrice = 0
+
 function getOverlayContent() {
-    // Calculate total using individual item quantities
+    const cities = {
+    Aşgabat: [
+        { city: 'Aşgabat şäheri', price: 20 },
+        { city: 'Gämi', price: 40 },
+        { city: 'Änew', price: 40 },
+        { city: 'Garadamak', price: 40 },
+        { city: 'Çoganly', price: 30 },
+        { city: 'Bekrewe', price: 40 },
+        { city: 'Abadan', price: 50 },
+        { city: 'Arkadag', price: 50 },
+        { city: 'Şäherim bellenmedik', price: 50 },
+
+    ],
+
+    Balkan: [
+      { city: 'Türkmenbaşy', price: 50 },
+      { city: 'Mikraýon', price: 50 },
+      { city: 'Janga', price: 60 },
+      { city: 'Ufra', price: 60 },
+      { city: 'Awaza', price: 100 },
+      { city: 'Gyýanly', price: 70 },
+      { city: 'Guwlymaýak', price: 70 },
+      { city: 'Belek', price: 60 },
+      { city: 'Jebel', price: 70 },
+      { city: 'Nebitdag', price: 70 },
+      { city: 'Gyzylarbat', price: 70 },
+      { city: 'Bizmergen', price: 80 },
+      { city: 'Çeleken / Hazar', price: 80 },
+      { city: 'Bekdaş / Garabogaz', price: 80 },
+      { city: 'Gumdag', price: 80 },
+      { city: 'Gazanjyk / Bereket', price: 90 },
+      { city: 'Serdar', price: 90 },
+      { city: 'Esenguly', price: 90 },
+      { city: 'Etrek', price: 100 },
+      { city: 'Şäherim bellenmedik', price: 100 }
+    ],
+
+    Lebap: [
+      { city: 'Türkmenabat', price: 50 },
+      { city: 'Serdarabat', price: 70 },
+      { city: 'Dänev', price: 70 },
+      { city: 'Sakar', price: 70 },
+      { city: 'Seýdi', price: 70 },
+      { city: 'Garabekewül', price: 80 },
+      { city: 'Farap', price: 80 },
+      { city: 'Darganata', price: 80 },
+      { city: 'Halaç', price: 80 },
+      { city: 'Kerki', price: 80 },
+      { city: 'Hojambaz', price: 90 },
+      { city: 'Amyderýa', price: 90 },
+      { city: 'Köýtendag', price: 100 },
+      { city: 'Gazojak', price: 100 },
+      { city: 'Magdanly', price: 100 },
+      { city: 'Döwletli', price: 100 },
+      { city: 'Şäherim bellenmedik', price: 100 }
+    ],
+
+    Mary: [
+      { city: 'Mary şäheri', price: 20 },
+      { city: 'Ýolöten', price: 70 },
+      { city: 'Murgap', price: 70 },
+      { city: 'Türkmengala', price: 70 },
+      { city: 'Baýramaly', price: 50 },
+      { city: 'Wekilbazar', price: 50 },
+      { city: 'Garagum', price: 80 },
+      { city: 'Sakarçäge', price: 50 },
+      { city: 'Oguzhan', price: 80 },
+      { city: 'Şatlyk', price: 60 },
+      { city: 'Tagtabazar', price: 100 },
+      { city: 'Guşgy', price: 100 },
+      { city: 'Şäherim bellenmedik', price: 100 }
+    ],
+
+    Daşoguz: [
+      { city: 'Daşoguz şäheri', price: 50 },
+      { city: 'Akdepe', price: 70 },
+      { city: 'Gurbansoltan', price: 70 },
+      { city: 'Gubadag', price: 70 },
+      { city: 'S. A. Nyýazow', price: 70 },
+      { city: 'Şabat', price: 70 },
+      { city: 'Türkmenbaşy etr. / Oktýabr', price: 80 },
+      { city: 'Boldumsaz', price: 80 },
+      { city: 'Görogly', price: 70 },
+      { city: 'Köneürgenç', price: 80 },
+      { city: 'Ruhybelent', price: 100 },
+      { city: 'Täze oba', price: 60 },
+      { city: 'Gülistan', price: 60 },
+      { city: 'Şäherim bellenmedik', price: 100 }
+    ],
+
+    Ahal: [
+        { city: 'Şäherim bellenmedik', price: 100 }
+    ]
+  };
+
+      // Calculate total using individual item quantities
     const itemsTotal = myCart.reduce((sum, item) => {
         const quantity = item.cartQuantity || 1;
         return sum + (parseInt(item.price) * quantity);
     }, 0);
 
-    const delivery = myCart.length > 0 ? 20 : 0;
-    const grandTotal = itemsTotal + delivery;
+    let grandTotal = 0
 
-    return `
-        <div class="sticky-wrapper">
+  const html = `
+    <div class="sticky-wrapper">
             <div class="header-area">
                 <div class="container">
                     <div class="header">
@@ -265,14 +393,6 @@ function getOverlayContent() {
                                 <span>Harytlar:</span>
                                 <span id="added-items">${itemsTotal} TMT</span>
                             </div>
-                            <div class="cost">
-                                <span>Eltip bermek(AG şäher içi):</span>
-                                <span>${delivery} TMT</span>
-                            </div>
-                            <div class="cost">
-                                <span><strong>Jemi:</strong></span>
-                                <span><strong>${grandTotal} TMT</strong></span>
-                            </div>
                         </div>
                     </div>
                 ` : ''}
@@ -280,53 +400,342 @@ function getOverlayContent() {
             
             ${myCart.length > 0 ? `
                 <div class="complete-order">
-                    <div id="backdrop"></div>
-                    <button id="confirm-order">Sargyt et</button>
+                    <button id="show-order-form">Dowam et</button>
                 </div>
-            ` : ''}
+
+
+                <!-- CUSTOMER FORM   HIDDEN BY DEFAULT -->
+                <div class="customer-form-container container" id="customer-form" style="display: none"">
+                    <h3>Sargyt Maglumatlary</h3>
+
+                    <form id="order-form">
+                        <!-- Name field -->
+                        <div class="form-group">
+                            <label for="customer-name">Adyňyz we Familiýaňyz *</label>
+                            <input
+                                type="text"
+                                id="customer-name"
+                                placeholder="Meselem: Selbi Ataýewa"
+                                required
+                            >
+                        </div>
+
+                        <!-- Phone Field with Flag -->
+                        <div class="form-group">
+                            <label for="customer-phone">Telefon belgisi *</label>
+                            <div class="phone-input-wrapper">
+                                <span class="phone-prefix">🇹🇲 +993</span>
+                                <input
+                                    type=""
+                                    id="customer-phone"
+                                    placeholder=" Meselem: 63 684707"
+                                    maxlength="8"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Province Dropdown -->
+                        <div class="form-group">
+                            <label for="customer-province">Welaýatyňyz *</label>
+                            <select id="customer-province" required>
+                                <option value="" disabled selected>Welaýat saýlaň</option>
+                                <option value="Aşgabat">Aşgabat</option>
+                                <option value="Mary">Mary</option>
+                                <option value="Daşoguz">Daşoguz</option>
+                                <option value="Balkan">Balkan</option>
+                                <option value="Lebap">Lebap</option>
+                                <option value="Ahal">Ahal</option>
+                            </select>
+                        </div>
+
+                        <!-- City Dropdown -->
+                        <div class="form-group">
+                            <label for="customer-city">Şäher ýa-da etrap saýlaň *</label>
+                            <select id="customer-city" required>
+                                <option value="" disabled selected>Ilki welaýat saýlaň</option>
+                            </select>
+                        </div>
+
+                        <!-- Address Field -->
+                        <div class="form-group">
+                            <label>Doly salgyňyz *</label>
+                            <textarea
+                                id="customer-address"
+                                rows="3"
+                                placeholder="Köçe, bina, öý belgisi..."
+                                required
+                            ></textarea>
+                        </div>
+
+                        <!-- Payment Option -->
+                        <div class="form-group">
+                            <label>Töleg görnüşi saýlaň *</label>
+                            <select required>
+                                <option value="" disabled selected>Töleg görnüşi</option>
+                                <option value="">Sargydy alaňyzda nagt töleg</option>
+                            </select>
+                        </div>
+
+                        ${myCart.length > 0 ? `
+                            <div class="order-total-area">
+                                <div class="order-total-last">
+                                    
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <button type="submit" class="submit-order-btn">Sargydy Tassykla</button>
+                        <button type="button" class="cancel-order-btn" id="cancel-form">Goýbolsun Et</button>
+                    </form>
+                </div>
+
+            `
+            : ''}
         </div>
     `
+
+
+
+
+    setTimeout(() => {
+    const provinceSelect = document.getElementById('customer-province');
+    const citySelect = document.getElementById('customer-city');
+
+    if (!provinceSelect || !citySelect) return;
+
+    provinceSelect.addEventListener('change', function () {
+    const selectedProvince = this.value;
+
+    // Get and sort alphabetically
+    let options = (cities[selectedProvince] || []).slice().sort((a, b) =>
+        a.city.localeCompare(b.city, 'tk', { sensitivity: 'base' })
+    );
+
+    // Move "Şäherim bellenmedik" to the end
+    const unknownIndex = options.findIndex(o => o.city === 'Şäherim bellenmedik');
+    if (unknownIndex !== -1) {
+        const [unknown] = options.splice(unknownIndex, 1);
+        options.push(unknown);
+    }
+
+    // Clear and populate dropdown
+    citySelect.innerHTML = `<option value="" disabled selected>Şäher saýlaň</option>`;
+
+    options.forEach(({ city, price }) => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = `${city} (${price} TMT)`;
+        option.dataset.price = price;
+        citySelect.appendChild(option);
+    });
+    });
+
+
+    citySelect.addEventListener('change', function () {
+      deliveryPrice = this.options[this.selectedIndex].dataset.price;
+
+      grandTotal = Number(itemsTotal) + Number(deliveryPrice)
+
+      document.querySelector('.order-total-last').innerHTML = `
+        <div class="cost">
+            <span>Harytlar:</span>
+            <span id="added-items">${itemsTotal} TMT</span>
+        </div>
+        <div class="cost">
+            <span>Eltip bermek:</span>
+            <span>${deliveryPrice} TMT</span>
+        </div>
+        <div class="cost">
+            <span><strong>Jemi:</strong></span>
+            <span><strong>${grandTotal} TMT</strong></span>
+        </div>
+      `
+      document.querySelector('.order-total').innerHTML = ''
+    });
+  }, 0);
+    
+
+    return html
 }
 
 document.addEventListener('click', (e) => {
-    if (e.target.matches('#confirm-order')) {
+    if(e.target.matches('#show-order-form')) {
+        const form = document.getElementById('customer-form')
+        const button = document.getElementById('show-order-form')
 
+        if(form && button) {
+            form.style.display = "block"
+            button.style.display = "none"
 
-        let outerOverlay = document.getElementById('outer-overlay');
-        if (!outerOverlay) {
-            outerOverlay = document.createElement('div');
-            outerOverlay.id = 'outer-overlay';
-            currentOverlay.appendChild(outerOverlay);
-
-            outerOverlay.innerHTML = `
-                <p>Web sahypamyzyň häzirki wagtda kämilleşdirilýändigi sebäpli, sargyt etmek üçin sebediňiziň suratyny IMO ýa-da LINK arkaly ugratmagyňyzy haýyş edýäris. Aşakdaky logolaryň üstüne basyp biziň hasaplarymyzy tapyp bilersiňiz. Şeýle hem telefon belgimizden goşup bilersiňiz: <br> +90 541 942 0722</p>
-
-                <div class="a-links">
-                    <a href="https://linkm.me/users/kozalisveris" class="contact">
-                        <img src="images/social media/link-white.png" alt="link-image">
-                    </a>
-
-                    <a href="https://s.imoim.net/xSZ5dO" class="contact">
-                        <img src="images/social media/imo-white.png" alt="imo-image">
-                    </a>
-                </div>
-
-                <button id="close-overlay">Çyk</button>
-            `;
+            form.scrollIntoView({behavior: 'smooth', block: 'center'})
         }
     }
 
-    if (e.target.matches('#close-overlay')) {
-        const outerOverlay = document.getElementById('outer-overlay');
-        if (outerOverlay) outerOverlay.remove();
-        backdrop.style.display = 'none';
+    if (e.target.matches('#cancel-form')) {
+        const form = document.getElementById('customer-form');
+        const button = document.getElementById('show-order-form');
+
+        if (form && button) {
+            form.style.display = 'none'
+            button.style.display = 'block'
+
+            document.getElementById('order-form').reset()
+        }
     }
 
-    if (e.target.matches('#backdrop')) {
-        const outerOverlay = document.getElementById('outer-overlay');
-        if (outerOverlay) outerOverlay.remove();
-        backdrop.style.display = 'none';
+
+    // PHONE NUMBER AUTO FORMAT
+    if (e.target.matches('#customer-phone')){
+        let value = e.target.value.replace(/\D/g, '')
+
+        if(value.length > 2){
+            value = value.slice(0, 2) + ' ' + value.slice(2);    
+        }
+        e.target.value = value
     }
 });
 
-renderProducts()
+document.addEventListener('submit', async(e)=>{
+    if(e.target.matches('#order-form')) {
+        e.preventDefault()
+
+        const submitBtn = document.querySelector('.submit-order-btn')
+        const originalText = submitBtn.textContent
+
+        submitBtn.disabled = true
+        submitBtn.textContent = 'Iberilýär...'
+
+        try{
+            const customerName = document.getElementById('customer-name').value.trim()
+            const customerPhone = document.getElementById('customer-phone').value.trim()
+            const customerProvince = document.getElementById('customer-province').value
+            const customerCity = document.getElementById('customer-city').value
+            const customerAddress= document.getElementById('customer-address').value.trim()
+
+            if(!myCart || myCart.length === 0) {
+                alert('Sebediňiz boş!')
+                submitBtn.disabled = false
+                submitBtn.textContent = originalText
+                return;
+            }
+
+            const itemsTotal = myCart.reduce((sum, item) => {
+                const quantity = item.cartQuantity || 1
+                return sum + (parseInt(item.price)*quantity)
+            }, 0)
+
+            const deliveryFee = Number(deliveryPrice) || 0
+            const grandTotal = Number(itemsTotal) + Number(deliveryFee)
+
+            const orderItems = myCart.map(item => ({
+                id: item.id,
+                name: item.name,
+                altName: item.altName,
+                photo: item.photo,
+                city: item.city,
+                price: item.price,
+                cartQuantity: item.cartQuantity || 1,  
+                stockQuantity: item.quantity,          
+                subtotal: parseInt(item.price) * (item.cartQuantity || 1)
+            }))
+
+            const orderNumber = await generateOrderNumber()
+
+            // ============================================
+            // NEW: DECREASE STOCK IMMEDIATELY
+            // ============================================
+            const db = window.firestoreDB
+            
+            for (const item of myCart) {
+                const productRef = doc(db, 'products', item.id)
+                const productSnap = await getDoc(productRef)
+                
+                if (productSnap.exists()) {
+                    const currentStock = productSnap.data().quantity
+                    const orderedQty = item.cartQuantity || 1
+                    const newStock = currentStock - orderedQty
+                    
+                    // Update stock immediately
+                    await updateDoc(productRef, {
+                        quantity: Math.max(0, newStock)
+                    })
+                    
+                    console.log(`📦 Stock updated: ${item.name} (${currentStock} → ${newStock})`)
+                }
+            }
+            // ============================================
+
+            const orderData = {
+                customerName: customerName,
+                customerPhone: "+993 " + customerPhone,
+                customerProvince: customerProvince,
+                customerCity: customerCity,
+                customerAddress: customerAddress,
+
+                items: orderItems,
+
+                itemsTotal: Number(itemsTotal),   
+                deliveryFee: Number(deliveryFee),   
+                grandTotal: Number(grandTotal), 
+
+                orderNumber: orderNumber,
+                status: "pending",
+                createdAt: new Date().toISOString()
+            }
+
+            await saveOrderToFirebase(orderData)
+
+            alert(`Sargyt kabul edildi! Sargyt belgisi: ${orderNumber}`)
+
+            myCart = []
+            localStorage.setItem('myCart', JSON.stringify(myCart))
+            cartQty.textContent = myCart.length
+
+            if(currentOverlay) {
+                currentOverlay.remove()
+                currentOverlay = null
+                document.body.classList.remove('no-scroll')
+            }
+        }
+        catch(error){
+                console.error('Order submission error:', error)
+                alert('Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.')
+            } finally {
+                submitBtn.disabled = false
+                submitBtn.textContent = originalText
+            }
+    }
+})
+
+async function generateOrderNumber() {
+    try{
+        const db = window.firestoreDB
+        const ordersRef = collection(db, 'orders')
+        const snapshot = await getDocs(ordersRef)
+
+        const orderCount = snapshot.size + 1
+
+        const paddedNumber = orderCount.toString().padStart(3, '0')
+
+        return `KOZ-${paddedNumber}`
+    } catch(error) {
+        console.error("Error generating order number:", error)
+        return `KOZ-${Date.now()}`
+    }
+}
+
+async function saveOrderToFirebase(orderData) {
+    try {
+        const db = window.firestoreDB
+        const ordersRef = collection(db, 'orders')
+
+        const docRef = await addDoc(ordersRef, orderData)
+
+        console.log('✅ Order saved with ID:', docRef.id)
+        return docRef.id
+    } catch (error) {
+        console.error('❌ Error saving order:', error);
+        throw error;
+    }
+}

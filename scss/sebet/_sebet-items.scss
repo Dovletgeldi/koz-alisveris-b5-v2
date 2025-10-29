@@ -76,6 +76,7 @@
 
         .fa-trash {
             font-size: 1.5rem;
+            cursor: pointer;
         }
 
         .cart-quantity {
@@ -92,6 +93,10 @@
                     opacity: 0.5;
                     pointer-events: none;
                 }
+
+                .decrease-item, .increase-item {
+                    cursor: pointer;
+                }
             }
         }
 
@@ -102,7 +107,6 @@
 }
 
 .order-total-area {
-
     margin-top: 1.5rem;
 
     .cost {
@@ -204,3 +208,139 @@
     .a-links {
         display: flex;
     }
+
+
+
+// Customer Form Styling
+.customer-form-container {
+    background: white;
+    margin-top: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h3 {
+        color: $primary;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: $primary;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+
+            &:focus {
+                outline: none;
+                border-color: $secondary;
+            }
+
+            &::placeholder {
+                color: #999;
+            }
+        }
+
+        input {
+            width: 100%;
+        }
+
+        select {
+            cursor: pointer;
+            background-color: white;
+        }
+
+        textarea {
+            resize: none;
+            min-height: 80px;
+            width: 100%;
+            font-family: inherit;
+        }
+    }
+
+    // Phone input with flag
+    .phone-input-wrapper {
+        display: flex;
+        align-items: center;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: border-color 0.3s;
+
+        &:focus-within {
+            border-color: $secondary;
+        }
+
+        .phone-prefix {
+            background-color: #f5f5f5;
+            padding: 0.75rem;
+            font-weight: 600;
+            border-right: 2px solid #e0e0e0;
+            white-space: nowrap;
+        }
+
+        input {
+            border: none !important;
+            flex: 1;
+            
+            &:focus {
+                border: none !important;
+            }
+        }
+    }
+
+    // Form buttons
+    .submit-order-btn, .cancel-order-btn {
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 0.5rem;
+    }
+
+    .submit-order-btn {
+        background-color: $secondary;
+        color: white;
+
+        &:hover {
+            background-color: darken($secondary, 10%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+    }
+
+    .cancel-order-btn {
+        background-color: transparent;
+        color: $primary;
+        border: 2px solid $primary;
+
+        &:hover {
+            background-color: $primary;
+            color: white;
+        }
+    }
+}

@@ -12057,9 +12057,6 @@ form {
 form #tl-price {
   margin-bottom: 2rem;
 }
-form div {
-  display: inline-block;
-}
 form input, form select {
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
   width: 12rem;
@@ -12348,7 +12345,7 @@ form button {
   text-decoration: none;
   font-weight: 400;
 }
-.footer .container .row .box .contact-us ul li span {
+.footer .container .row .box .contact-us ul li span.bold-font {
   font-weight: 600;
 }
 .footer .container .row .box .contact-us .social-media {
@@ -12864,6 +12861,7 @@ main .container {
 }
 .product-box .product-details .quantity-details .fa-trash {
   font-size: 1.5rem;
+  cursor: pointer;
 }
 .product-box .product-details .quantity-details .cart-quantity {
   display: flex;
@@ -12878,6 +12876,9 @@ main .container {
 .product-box .product-details .quantity-details .cart-quantity .disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+.product-box .product-details .quantity-details .cart-quantity .decrease-item, .product-box .product-details .quantity-details .cart-quantity .increase-item {
+  cursor: pointer;
 }
 
 .order-total-area {
@@ -12963,6 +12964,117 @@ main .container {
 
 .a-links {
   display: flex;
+}
+
+.customer-form-container {
+  background: white;
+  margin-top: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.customer-form-container h3 {
+  color: #19283b;
+  margin-bottom: 1.5rem;
+}
+.customer-form-container .form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.customer-form-container .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #19283b;
+  font-size: 0.9rem;
+}
+.customer-form-container .form-group input, .customer-form-container .form-group select, .customer-form-container .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+.customer-form-container .form-group input:focus, .customer-form-container .form-group select:focus, .customer-form-container .form-group textarea:focus {
+  outline: none;
+  border-color: #f27a1a;
+}
+.customer-form-container .form-group input::placeholder, .customer-form-container .form-group select::placeholder, .customer-form-container .form-group textarea::placeholder {
+  color: #999;
+}
+.customer-form-container .form-group input {
+  width: 100%;
+}
+.customer-form-container .form-group select {
+  cursor: pointer;
+  background-color: white;
+}
+.customer-form-container .form-group textarea {
+  resize: none;
+  min-height: 80px;
+  width: 100%;
+  font-family: inherit;
+}
+.customer-form-container .phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.customer-form-container .phone-input-wrapper:focus-within {
+  border-color: #f27a1a;
+}
+.customer-form-container .phone-input-wrapper .phone-prefix {
+  background-color: #f5f5f5;
+  padding: 0.75rem;
+  font-weight: 600;
+  border-right: 2px solid #e0e0e0;
+  white-space: nowrap;
+}
+.customer-form-container .phone-input-wrapper input {
+  border: none !important;
+  flex: 1;
+}
+.customer-form-container .phone-input-wrapper input:focus {
+  border: none !important;
+}
+.customer-form-container .submit-order-btn, .customer-form-container .cancel-order-btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 0.5rem;
+}
+.customer-form-container .submit-order-btn {
+  background-color: #f27a1a;
+  color: white;
+}
+.customer-form-container .submit-order-btn:hover {
+  background-color: #cd620c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.customer-form-container .submit-order-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+.customer-form-container .cancel-order-btn {
+  background-color: transparent;
+  color: #19283b;
+  border: 2px solid #19283b;
+}
+.customer-form-container .cancel-order-btn:hover {
+  background-color: #19283b;
+  color: white;
 }
 
 /*# sourceMappingURL=style.css.map */

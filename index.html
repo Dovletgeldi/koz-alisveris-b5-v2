@@ -12,6 +12,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>KöZ | Kişiye özel Zarafet</title>
+    <link rel="icon" href="./images/favicon-ready.ico">
     <link rel="stylesheet" href="assets/css/style.css?v=2.2" />
     <link rel="stylesheet" href="assets/css/fontawesome.css" />
     <link
@@ -88,7 +89,7 @@
             </li>
           </ul>
           <button onclick="location.href='https://s.imoim.net/xSZ5dO'"  type="button" class="rounded-pill btn-rounded">
-            +993 62069428
+            +90 541 942 0722
             <span
               ><img src="images/social media/imo-white.png" alt="imo image"
             /></span>
@@ -136,7 +137,7 @@
           <div class="col-md-6 intros">
             <h1 class="display-2 ms-5">
               <span class="display-2--intro"
-                >1 tl = <span id="post-tl-rate"></span> tmt <br />
+                >1 tl = <span id="post-tl-rate" class="post-tl-rate"></span> tmt <br />
                 1 kg = MUGT</span
               >
               <span class="display-2--description">
@@ -180,9 +181,9 @@
                 </select>
               
               <p id="converted-price-p" class="mt-4">
-                1 TL  =  <span id="post-tl-rate"></span> TMT  (100% soňundan) <br>
-                1 TL  =  <span id="half-tl-rate"></span> TMT  (50% öňünden)<br>
-                1 TL  =  <span id="pre-tl-rate"></span> TMT  (100% öňünden)
+                1 TL  =  <span class="post-tl-rate"></span> TMT  (100% soňundan) <br>
+                1 TL  =  <span class="half-tl-rate"></span> TMT  (50% öňünden)<br>
+                1 TL  =  <span class="pre-tl-rate"></span> TMT  (100% öňünden)
               </p>
               <button id="converter-btn" class="rounded-pill btn-rounded border-primary">Hasapla</button>
             </form>
@@ -288,7 +289,9 @@
                 Tizlendirilen kargoda siziň sargytlaryňyz uçar bilen geler.
                 Ýurdymyza Türkiýadan hepdede 2 gezek gatnaw bardyr.
                 Sargytlaryňyz size tizden tiz gowuşar. Tizlendirilen kargoda
-                takmynan sargytlaryňyz 4-9 gün içinde eliňizde bolar.
+                takmynan sargytlaryňyz 4-9 gün içinde eliňizde bolar we kilogramy
+                <span class="highlight"><span class="express-shipping"></span> manatdan</span>
+                hasaplanar.
               </p>
             </div>
           </div>
@@ -663,7 +666,7 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
-                    Sargytlaryňyzyň agramy kilogramyna görä däl-de gramyna görä hasaplanýandyr. Näçe gram çyksa kilogramy adaty kargoda tölegsiz ýagdaýda, tizlendirilen kargoda bolsa 100 manatdan boljak ýagdaýda hasaplanýar. Meselem, eger siziň sargydyňyz 400 gram çykan bolsa tizlendirilen kargoda <strong class="highlight">100*0.4=40 manat</strong> bolar.  
+                    Sargytlaryňyzyň agramy kilogramyna görä däl-de gramyna görä hasaplanýandyr. Näçe gram çyksa kilogramy adaty kargoda tölegsiz ýagdaýda, tizlendirilen kargoda bolsa <span class="express-shipping"></span> manatdan boljak ýagdaýda hasaplanýar. Meselem, eger siziň sargydyňyz 400 gram çykan bolsa tizlendirilen kargoda <strong class="highlight"><span class="express-shipping"></span>*0.4=40 manat</strong> bolar.  
                   </div>
                 </div>
               </div>
@@ -676,7 +679,7 @@
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
-                    Adaty we tizlendirilen kargo arasynda diňe <strong class="highlight">harydyň agramy üçin alynýan tölegde</strong> üýtgeşme bolýar. Harydyň öz bahasynda üýtgeşme bolmaýar. Adaty kargo ortaça 20-30 günde gelýär we kilogramyny tölegsiz hödürleýäris; tizlendirilen kargo bolsa ortaça 4-9 günde gelýär we kilogramy 100 manatdan hasaplanýar.
+                    Adaty we tizlendirilen kargo arasynda diňe <strong class="highlight">harydyň agramy üçin alynýan tölegde</strong> üýtgeşme bolýar. Harydyň öz bahasynda üýtgeşme bolmaýar. Adaty kargo ortaça 20-30 günde gelýär we kilogramyny tölegsiz hödürleýäris; tizlendirilen kargo bolsa ortaça 4-9 günde gelýär we kilogramy <span class="express-shipping"></span> manatdan hasaplanýar.
                   </div>
                 </div>
               </div>
@@ -740,10 +743,10 @@
             <div class="contact-us">
               <h5>Habarlaşmak üçin</h5>
               <ul>
-                <li><span>Aşgabat şäheri:</span> +993 62069428</li>
-                <li><span>Mary şäheri:</span> +993 62069428</li>
-                <li><span>Mail:</span>  kozalisveris@gmail.com</li>
-                <li><span>Instagram:</span>  @koz.tm</li>
+                <li><span class="bold-font">Aşgabat şäheri:</span> <span class="contact-person-phone"></span></li>
+                <li><span class="bold-font">Mary şäheri:</span> <span class="contact-person-phone"></span></li>
+                <li><span class="bold-font">Mail:</span>  kozalisveris@gmail.com</li>
+                <li><span class="bold-font">Instagram:</span>  @koz.tm</li>
               </ul>
 
               <div class="social-media">
@@ -777,6 +780,7 @@
 
 
     <script src="assets/js/bootstrap.bundle.js"></script>
-    <script src="scriptHasapla.js?v=2.2"></script>
+    <script src="scriptHasapla.js" type="module"></script>
+    <script src="scriptV02.js" type="module"></script>
   </body>
 </html>

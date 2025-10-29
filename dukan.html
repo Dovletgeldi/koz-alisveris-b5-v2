@@ -12,7 +12,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Dükan</title>
+    <title>KöZ | Dükan</title>
+    <link rel="icon" href="./images/favicon-ready.ico">
     <link rel="stylesheet" href="assets/css/style.css?v=2.2" />
     <link rel="stylesheet" href="assets/css/fontawesome.css" />
     <link
@@ -72,7 +73,7 @@
             type="button"
             class="rounded-pill btn-rounded"
           >
-            +993 62069428
+            <span class="+90 541 942 0722"></span>
             <span
               ><img src="images/social media/imo-white.png" alt="imo image"
             /></span>
@@ -139,10 +140,10 @@
             <div class="contact-us">
               <h5>Habarlaşmak üçin</h5>
               <ul>
-                <li><span>Aşgabat şäheri:</span> +993 62069428</li>
-                <li><span>Mary şäheri:</span> +993 62069428</li>
-                <li><span>Mail:</span> kozalisveris@gmail.com</li>
-                <li><span>Instagram:</span> @koz.tm</li>
+                <li><span class="bold-font">Aşgabat şäheri:</span> <span class="contact-person-phone"></span></li>
+                <li><span class="bold-font">Mary şäheri:</span> <span class="contact-person-phone"></span></li>
+                <li><span class="bold-font">Mail:</span>  kozalisveris@gmail.com</li>
+                <li><span class="bold-font">Instagram:</span>  @koz.tm</li>
               </ul>
 
               <div class="social-media">
@@ -186,11 +187,12 @@
       };
 
       const app = initializeApp(firebaseConfig)
-      const db = app(app)
+      const db = getFirestore(app)
 
       window.firestoreDB = db
     </script>
     <script src="harytlar.js?v=2.2" type="module"></script>
+    <script src="scriptV02.js" type="module"></script>
     <script src="assets/js/bootstrap.bundle.js"></script>
 </body>
 </html>
