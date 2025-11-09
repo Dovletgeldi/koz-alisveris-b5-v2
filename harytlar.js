@@ -1,6 +1,8 @@
 import { collection, addDoc, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 let products = []
+const searchBtn = document.getElementById('search-btn')
+const searchBarInput = document.getElementById('search-bar')
 
 async function loadProductsFromFirebase() {
     const productsArea = document.getElementById('products-area')
@@ -17,9 +19,8 @@ async function loadProductsFromFirebase() {
                 id: doc.id
             })
         })
-
         console.log(`✅ Loaded ${products.length} products from Firebase`)
-        renderProducts()
+        renderProducts(shuffle(products))
     } catch (error) {
         console.error('❌ Error loading products:', error)
         productsArea.innerHTML = '<p style="text-align: center; padding: 40px; color: red;">Gynansakda ýüklenmedi. Täzeden synanyşyň.</p>';
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', loadProductsFromFirebase)
 const productsArea = document.getElementById('products-area')
 const cartBtn = document.getElementById('cart-btn')
 const cartQty = document.getElementById('cart-qty')
+let viewMoreBtn
 
 let currentOverlay = null;
 
@@ -58,8 +60,26 @@ const convertCityToEnglishName = {
     "Lebap": "lebap"
 }
 
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  while (currentIndex != 0) {
+
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
+
+let visibleCount = 11
+
 function renderProducts(productList = products) {
-    productsArea.innerHTML = productList.map(function(product){
+
+    productList = productList.slice(0, visibleCount)
+
+    const itemsToShow = productList.map(function(product){
         if(product.quantity > 0) {
             return `
                 <div class="product-box">
@@ -85,7 +105,51 @@ function renderProducts(productList = products) {
             `
         }
     }).join('')
+
+    productsArea.innerHTML = `
+        ${itemsToShow}
+        <button id="view-more">Has köp gör</button>
+    `
+    viewMoreBtn = document.getElementById('view-more')
+    viewMoreBtn.style.display = "none"
+    if (itemsToShow.length > visibleCount) {
+        viewMoreFunction();
+    }
 }
+
+
+function viewMoreFunction() {
+    if(products.length>visibleCount) {
+        viewMoreBtn.style.display = 'block'
+        viewMoreBtn.addEventListener('click', () => {
+            visibleCount += 9
+            console.log(visibleCount)
+            renderProducts()
+        })
+    }
+}
+
+const normalize = (s) =>
+  s?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+function performSearch(value) {
+  const val = normalize(value);
+  return products.filter((item) => {
+    const nameMatch = normalize(item.name)?.includes(val);
+    const altMatch = normalize(item.altName)?.includes(val);
+    return nameMatch || altMatch;
+  });
+}
+
+
+
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    console.log(typeof(searchBarInput.value))
+    
+    renderProducts(performSearch(searchBarInput.value))
+})
+
 
 function filterCheck(city){
     document.querySelectorAll('.filter-btn').forEach(function(btn){btn.classList.remove('active')})
