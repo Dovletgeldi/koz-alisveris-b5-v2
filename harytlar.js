@@ -76,46 +76,57 @@ function shuffle(array) {
 let visibleCount = 11
 
 function renderProducts(productList = products) {
+    // Keep the full list for logic
+    const totalProducts = productList.filter(p => p.quantity > 0);
+    const visibleProducts = totalProducts.slice(0, visibleCount);
 
-    productList = productList.slice(0, visibleCount)
+    const itemsHTML = visibleProducts.map(product => `
+        <div class="product-box">
+            <div class="product-photo">
+                <img src="${product.photo}" alt="Kitabyň suraty">
+            </div>
+            <div class="product-details">
+                <h2 class="product-name">${product.name}</h2>
+                <p class="product-alt-name">${product.altName}</p>
 
-    const itemsToShow = productList.map(function(product){
-        if(product.quantity > 0) {
-            return `
-                <div class="product-box">
-                    <div class="product-photo">
-                        <img src="${product.photo}" 
-                            alt="Kitabyň suraty">
-                    </div>
-                    <div class="product-details">
-                        <h2 class="product-name">${product.name}</h2>
-                        <p class="product-alt-name">${product.altName}</p>
-
-                        <div class="product-meta">
-                            <span class="product-seller">Satyjy: ${product.seller}</span>
-                            <span class="product-city" data-city="${convertCityToEnglishName[product.city]}">Şäheri: ${product.city}</span>
-                        </div>
-
-                        <p class="product-price">${product.price} TMT</p>
-                        <p class="available-quantity">Mukdary: ${product.quantity} sany galdy</p>
-
-                        <button class="add-cart-btn" data-item="${product.id}">Sebede Goş</button>
-                    </div>
+                <div class="product-meta">
+                    <span class="product-seller">Satyjy: ${product.seller}</span>
+                    <span class="product-city" data-city="${convertCityToEnglishName[product.city]}">Şäheri: ${product.city}</span>
                 </div>
-            `
-        }
-    }).join('')
+
+                <p class="product-price">${product.price} TMT</p>
+                <p class="available-quantity">Mukdary: ${product.quantity} sany galdy</p>
+
+                <button class="add-cart-btn" data-item="${product.id}">Sebede Goş</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Show either products or "no results" message
+    if (totalProducts.length === 0) {
+        productsArea.innerHTML = `<p style="text-align: center; padding: 40px; color: red;">
+            Gynansakda haryt tapylmady. Başgarak söz bilen gözledip görüň.
+        </p>`;
+        return;
+    }
 
     productsArea.innerHTML = `
-        ${itemsToShow}
-        <button id="view-more">Has köp gör</button>
-    `
-    viewMoreBtn = document.getElementById('view-more')
-    viewMoreBtn.style.display = "none"
-    if (itemsToShow.length > visibleCount) {
-        viewMoreFunction();
+        ${itemsHTML}
+        <button id="view-more" style="display: none;">Has köp gör</button>
+    `;
+
+    const viewMoreBtn = document.getElementById('view-more');
+
+    // ✅ Show button only if there are more items to show
+    if (totalProducts.length > visibleCount) {
+        viewMoreBtn.style.display = 'block';
+        viewMoreBtn.onclick = () => {
+            visibleCount += 9;
+            renderProducts(totalProducts); // keep same filtered list
+        };
     }
 }
+
 
 
 function viewMoreFunction() {
@@ -130,17 +141,19 @@ function viewMoreFunction() {
 }
 
 const normalize = (s) =>
-  s?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  String(s ?? "")
+    .normalize("NFC")                 
+    .trim()                           
+    .toLocaleLowerCase("tr");
 
 function performSearch(value) {
   const val = normalize(value);
   return products.filter((item) => {
-    const nameMatch = normalize(item.name)?.includes(val);
-    const altMatch = normalize(item.altName)?.includes(val);
-    return nameMatch || altMatch;
+    const nameNorm = normalize(item?.name);
+    const altNorm  = normalize(item?.altName);
+    return nameNorm.includes(val) || altNorm.includes(val);
   });
 }
-
 
 
 searchBtn.addEventListener('click', (e) => {
