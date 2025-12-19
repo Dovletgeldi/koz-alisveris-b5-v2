@@ -16,7 +16,7 @@ jobs:
     - name: SFTP Deploy
       uses: wlixcc/SFTP-Deploy-Action@v1.2.4
       with:
-        server: ftp.kozalisveris.com
+        server: kozalisveris.com
         port: 22
         username: kozalisv
         password: ${{ secrets.FTP_PASSWORD }}
