@@ -140,20 +140,26 @@ function viewMoreFunction() {
     }
 }
 
-const normalize = (s) =>
-  String(s ?? "")
-    .normalize("NFC")                 
-    .trim()                           
-    .toLocaleLowerCase("tr");
+const DIACRITICS_MAP = {
+  "ü": "u", "Ü": "u",
+  "ö": "o", "Ö": "o",
+  "ğ": "g", "Ğ": "g",
+  "ç": "c", "Ç": "c",
+  "ş": "s", "Ş": "s",
+  "ı": "i", "İ": "i"
+};
 
-function performSearch(value) {
-  const val = normalize(value);
-  return products.filter((item) => {
-    const nameNorm = normalize(item?.name);
-    const altNorm  = normalize(item?.altName);
-    return nameNorm.includes(val) || altNorm.includes(val);
-  });
+function removeDiacritics(str) {
+  return str.replace(/[üÜöÖğĞçÇşŞıİ]/g, (char) => DIACRITICS_MAP[char] || char);
 }
+
+const normalize = (s) =>
+  removeDiacritics(
+    String(s ?? "")
+      .normalize("NFC")
+      .trim()
+      .toLocaleLowerCase("tr")
+  );
 
 
 searchBtn.addEventListener('click', (e) => {
@@ -163,6 +169,61 @@ searchBtn.addEventListener('click', (e) => {
     renderProducts(performSearch(searchBarInput.value))
 })
 
+function levenshtein(a, b) {
+  const matrix = Array.from({ length: a.length + 1 }, () => []);
+
+  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,       // deletion
+        matrix[i][j - 1] + 1,       // insertion
+        matrix[i - 1][j - 1] + cost // substitution
+      );
+    }
+  }
+
+  return matrix[a.length][b.length];
+}
+
+function fuzzyMatch(a, b) {
+  const dist = levenshtein(a, b);
+  return dist <= 2; // allow up to 2 mistakes
+}
+
+
+function performSearch(value) {
+  const val = normalize(value);
+
+  const results = products
+    .map((item) => {
+      const nameNorm = normalize(item?.name);
+      const altNorm  = normalize(item?.altName);
+
+      let score = -1;
+      const fields = [nameNorm, altNorm];
+
+      for (const field of fields) {
+        if (!field) continue;
+
+        if (field === val) score = Math.max(score, 100);            // exact
+        else if (field.startsWith(val)) score = Math.max(score, 80); // word starts
+        else if (field.includes(val)) score = Math.max(score, 60);   // contains
+        else if (fuzzyMatch(field, val)) score = Math.max(score, 40); // fuzzy
+      }
+
+      return { item, score };
+    })
+    .filter((x) => x.score > 0)                   // remove non-matches
+    .sort((a, b) => b.score - a.score)           // sort by best match
+    .map((x) => x.item);                         // return only product list
+
+  return results;
+}
 
 function filterCheck(city){
     document.querySelectorAll('.filter-btn').forEach(function(btn){btn.classList.remove('active')})

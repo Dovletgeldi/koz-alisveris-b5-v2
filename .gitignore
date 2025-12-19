@@ -1,7 +1,18 @@
-.sass-cache
+# Dependencies
 node_modules/
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/
-dist/
-import-products.js
+
+# OS Generated
+.DS_Store
+
+# IDE/Editor
+.vs/
+
+# Project Specific Cache
+google-sheets-cache/
+
+# Logs and Debugging
+*.log
+firebase-debug.log
+
+# Security (Secrets)
+.env

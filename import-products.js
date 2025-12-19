@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, doc, setDoc } from 'firebase/firestore'
+import { getFirestore, collection, doc, setDoc, getDoc } from 'firebase/firestore'
 import { products } from './data-harytlar.js'
 
 const firebaseConfig = {
@@ -16,26 +16,33 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
 async function uploadProducts() {
-    console.log("Starting to upload products...");
-    
-    
+    console.log("Starting product update...");
+
     for (const product of products) {
         try {
+            const productRef = doc(db, 'products', product.id);
+            const productSnap = await getDoc(productRef);
+
+            if (productSnap.exists()) {
+                console.log(`⏭️ SKIPPED (already exists): ${product.name}`);
+                continue; // Skip uploading
+            }
+
             const productData = {
                 ...product,
                 quantity: parseInt(product.quantity) || 0,
                 price: product.price
             };
 
-            await setDoc(doc(db, 'products', product.id), productData);
+            await setDoc(productRef, productData);
+            console.log(`✅ UPLOADED: ${product.name}`);
 
-            console.log(`✅ Uploaded: ${product.name}`);
         } catch (error) {
-            console.error(`❌ Error uploading ${product.name}`);
+            console.error(`❌ ERROR uploading ${product.name}`, error);
         }
     }
 
-    console.log("ALL PRODUCTS UPLOADED!")
+    console.log("FINISHED CHECKING & UPLOADING NEW PRODUCTS!");
 }
 
-uploadProducts()
+uploadProducts();

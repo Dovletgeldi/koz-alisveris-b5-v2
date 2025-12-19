@@ -75,8 +75,8 @@ export const products = [
         photo: './images/harytlar/kendime-dusunceler.jpg',
         seller: 'KöZ',
         city: 'Aşgabat',
-        price: '28',
-        quantity: '1',
+        price: '30',
+        quantity: '5',
         id: '8'
     },
     {
@@ -238,5 +238,305 @@ export const products = [
         price: '26',
         quantity: '1',
         id: '24'
+    },
+    {
+        name: "Yakıcı Sır",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/25.webp',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '25',
+        quantity: '1',
+        id: '25'
+    },
+    {
+        name: "Vanya Dayı",
+        altName: 'Anton Çehov',
+        photo: './images/harytlar/26.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '33',
+        quantity: '1',
+        id: '26'
+    },
+    {
+        name: "Hayatım, Bir Taşra İnsanının Hikâyesi",
+        altName: 'Anton Çehov',
+        photo: './images/harytlar/27.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '23',
+        quantity: '1',
+        id: '27'
+    },
+    {
+        name: "Feniçka",
+        altName: 'Lou Andreas Salome',
+        photo: './images/harytlar/28.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '18',
+        quantity: '1',
+        id: '28'
+    },
+    {
+        name: "Yakıcı Sır",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/29.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '28',
+        quantity: '1',
+        id: '29'
+    },
+    {
+        name: "Mecburiyet",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/30.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '24',
+        quantity: '1',
+        id: '30'
+    },
+    {
+        name: "Ateş Yakmak",
+        altName: 'Jack London',
+        photo: './images/harytlar/31.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '28',
+        quantity: '1',
+        id: '31'
+    },
+    {
+        name: "Gurur ve Önyargı",
+        altName: 'Jane Austen',
+        photo: './images/harytlar/32.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '55',
+        quantity: '3',
+        id: '32'
+    },
+    {
+        name: "Kendiniz Olma Alışkanlığını Kırmak",
+        altName: 'Joe Dispenza',
+        photo: './images/harytlar/33.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '193',
+        quantity: '1',
+        id: '33'
+    },
+    {
+        name: "Küçük Prens",
+        altName: 'Antoine De Saint Exupery',
+        photo: './images/harytlar/34.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '32',
+        quantity: '1',
+        id: '34'
+    },
+    {
+        name: "Beyaz Leke (Ciltli)",
+        altName: 'Aslı Arslan',
+        photo: './images/harytlar/35.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '208',
+        quantity: '1',
+        id: '35'
+    },
+    {
+        name: "Ötanazi Okulu 2 - Poster ve Ayraç Hediyeli (Ciltli)",
+        altName: '',
+        photo: './images/harytlar/36.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '168',
+        quantity: '1',
+        id: '36'
+    },
+    {
+        name: "İzler Kalır 1",
+        altName: 'Sude B',
+        photo: './images/harytlar/37.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '137',
+        quantity: '1',
+        id: '37'
+    },
+    {
+        name: "Bir Kadının Yaşamından Yirmi Dört Saat",
+        altName: 'Stefan Zweig',
+        photo: './images/harytlar/38.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '21',
+        quantity: '3',
+        id: '38'
+    },
+    {
+        name: "Bilinçaltının Gücü",
+        altName: 'Joseph Murphy',
+        photo: './images/harytlar/39.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '102',
+        quantity: '1',
+        id: '39'
+    },
+    {
+        name: "Mutlu Yaşam Üzerine",
+        altName: 'Seneca',
+        photo: './images/harytlar/40.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '28',
+        quantity: '3',
+        id: '40'
+    },
+    {
+        name: "Beyaz Geceler",
+        altName: 'Dostoyevski',
+        photo: './images/harytlar/41.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '40',
+        quantity: '2',
+        id: '41'
+    },
+    {
+        name: "100 Dilde Kalpli Seni Seviyorum Kolyesi",
+        altName: 'Genel Markalar',
+        photo: './images/harytlar/42.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '100',
+        quantity: '1',
+        id: '42'
+    },
+    {
+        name: "Bana Seni Seviyorum Deme Hissettir",
+        altName: 'Miraç Çağrı Aktaş',
+        photo: './images/harytlar/43.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '99',
+        quantity: '1',
+        id: '43'
+    },
+    {
+        name: "Bana Seni Seviyorum Deme Sev",
+        altName: 'Miraç Çağrı Aktaş',
+        photo: './images/harytlar/44.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '98',
+        quantity: '1',
+        id: '44'
+    },
+    {
+        name: "Beni Geride Bırak (Ciltli)",
+        altName: 'K. M. Moronova',
+        photo: './images/harytlar/45.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '140',
+        quantity: '1',
+        id: '45'
+    },
+    {
+        name: "Saka ve Sanrı 1 (Ciltli)",
+        altName: 'Maral Atmaca',
+        photo: './images/harytlar/46.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '154',
+        quantity: '1',
+        id: '46'
+    },
+    {
+        name: "Saka ve Sanrı 2 (Ciltli)",
+        altName: 'Maral Atmaca',
+        photo: './images/harytlar/47.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '162',
+        quantity: '1',
+        id: '47'
+    },
+    {
+        name: "Saka ve Sanrı 3 (Ciltli)",
+        altName: 'Maral Atmaca',
+        photo: './images/harytlar/48.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '180',
+        quantity: '1',
+        id: '48'
+    },
+    {
+        name: "Pusula 3 - Konsorsiyum (Ciltli)",
+        altName: 'Kader Arvas',
+        photo: './images/harytlar/49.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '164',
+        quantity: '1',
+        id: '49'
+    },
+    {
+        name: "Oyuncak Mahşeri (Ciltli)",
+        altName: 'Emre Gül',
+        photo: './images/harytlar/50.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '195',
+        quantity: '1',
+        id: '50'
+    },
+    {
+        name: "İçimizdeki Şeytan",
+        altName: 'Sabahattin Ali',
+        photo: './images/harytlar/51.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '30',
+        quantity: '3',
+        id: '51'
+    },
+    {
+        name: "Kuyucaklı Yusuf",
+        altName: 'Sabahattin Ali',
+        photo: './images/harytlar/52.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '31',
+        quantity: '3',
+        id: '52'
+    },
+    {
+        name: "1984",
+        altName: 'George Orwell',
+        photo: './images/harytlar/53.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '66',
+        quantity: '6',
+        id: '53'
+    },
+    {
+        name: "Suç ve Ceza",
+        altName: 'Fyodor Mihayloviç Dostoyevski',
+        photo: './images/harytlar/54.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '109',
+        quantity: '3',
+        id: '54'
     },
 ];

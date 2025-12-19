@@ -1,18 +1,18 @@
-const {onDocumentCreated} = require('firebase-functions/v2/firestore');
-const {setGlobalOptions} = require('firebase-functions/v2');
-const {onRequest} = require('firebase-functions/v2/https'); 
+const { onDocumentCreated } = require('firebase-functions/v2/firestore');
+const { setGlobalOptions } = require('firebase-functions/v2');
+const { onRequest } = require('firebase-functions/v2/https');
 const admin = require('firebase-admin');
 const nodemailer = require('nodemailer');
 
-setGlobalOptions({region: 'europe-central2'});
+setGlobalOptions({ region: 'europe-central2' });
 
 // Initialize Firebase Admin
 admin.initializeApp();
 
 // Email configuration
 const EMAIL_CONFIG = {
-    user: 'kozalisveris@gmail.com',
-    pass: 'vnqf jgwu ocrf lyzy',  // Replace with your 16-char App Password
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,  // Using environment variables
     recipient: 'kozalisveris@gmail.com'
 };
 
@@ -30,12 +30,12 @@ exports.sendOrderEmail = onDocumentCreated('orders/{orderId}', async (event) => 
     try {
         const orderData = event.data.data();
         const orderId = event.params.orderId;
-        
+
         console.log('New order detected:', orderData.orderNumber);
-        
+
         // Build email HTML
         const emailHTML = buildOrderEmail(orderData, orderId);
-        
+
         // Email options
         const mailOptions = {
             from: `KöZ Alışveriş <${EMAIL_CONFIG.user}>`,
@@ -43,12 +43,12 @@ exports.sendOrderEmail = onDocumentCreated('orders/{orderId}', async (event) => 
             subject: `🛍️ Täze Sargyt: ${orderData.orderNumber}`,
             html: emailHTML
         };
-        
+
         // Send email
         await transporter.sendMail(mailOptions);
-        
+
         console.log('✅ Email sent successfully for:', orderData.orderNumber);
-        
+
     } catch (error) {
         console.error('❌ Error sending email:', error);
     }
@@ -63,21 +63,21 @@ exports.confirmOrder = onRequest({
 }, async (req, res) => {
     try {
         const orderId = req.query.orderId;
-        
+
         if (!orderId) {
             return res.status(400).send('Order ID gerekli');
         }
-        
+
         const db = admin.firestore();
         const orderRef = db.collection('orders').doc(orderId);
         const orderDoc = await orderRef.get();
-        
+
         if (!orderDoc.exists) {
             return res.status(404).send('Sargyt tapylmady');
         }
-        
+
         const orderData = orderDoc.data();
-        
+
         // Check if already confirmed
         if (orderData.status === 'confirmed') {
             return res.send(`
@@ -115,7 +115,7 @@ exports.confirmOrder = onRequest({
                 </html>
             `);
         }
-        
+
         // Check if rejected
         if (orderData.status === 'rejected') {
             return res.send(`
@@ -148,19 +148,19 @@ exports.confirmOrder = onRequest({
                 </html>
             `);
         }
-        
+
         // ============================================
         // REMOVED: Stock decrease (already done when order placed)
         // Just update order status
         // ============================================
-        
+
         await orderRef.update({
             status: 'confirmed',
             confirmedAt: new Date().toISOString()
         });
-        
+
         console.log(`✅ Order ${orderData.orderNumber} confirmed!`);
-        
+
         // Send success response
         res.send(`
             <html>
@@ -224,7 +224,7 @@ exports.confirmOrder = onRequest({
             </body>
             </html>
         `);
-        
+
     } catch (error) {
         console.error('❌ Error confirming order:', error);
         res.status(500).send(`
@@ -245,21 +245,21 @@ exports.rejectOrder = onRequest({
 }, async (req, res) => {
     try {
         const orderId = req.query.orderId;
-        
+
         if (!orderId) {
             return res.status(400).send('Order ID gerekli');
         }
-        
+
         const db = admin.firestore();
         const orderRef = db.collection('orders').doc(orderId);
         const orderDoc = await orderRef.get();
-        
+
         if (!orderDoc.exists) {
             return res.status(404).send('Sargyt tapylmady');
         }
-        
+
         const orderData = orderDoc.data();
-        
+
         // Check if already rejected
         if (orderData.status === 'rejected') {
             return res.send(`
@@ -291,7 +291,7 @@ exports.rejectOrder = onRequest({
                 </html>
             `);
         }
-        
+
         // Check if confirmed
         if (orderData.status === 'confirmed') {
             return res.send(`
@@ -324,7 +324,7 @@ exports.rejectOrder = onRequest({
                 </html>
             `);
         }
-        
+
         // ============================================
         // NEW: INCREASE STOCK BACK (Return items to inventory)
         // ============================================
@@ -332,7 +332,7 @@ exports.rejectOrder = onRequest({
         for (const item of orderData.items) {
             const productRef = db.collection('products').doc(item.id);
             const productDoc = await productRef.get();
-            
+
             if (productDoc.exists) {
                 const currentStock = productDoc.data().quantity;
                 const orderedQuantity = item.cartQuantity || 1;
@@ -353,15 +353,15 @@ exports.rejectOrder = onRequest({
             }
         }
         // ============================================
-        
+
         // Update order status to rejected
         await orderRef.update({
             status: 'rejected',
             rejectedAt: new Date().toISOString()
         });
-        
+
         console.log(`❌ Order ${orderData.orderNumber} rejected!`);
-        
+
         // Send success response
         res.send(`
             <html>
@@ -446,7 +446,7 @@ exports.rejectOrder = onRequest({
             </body>
             </html>
         `);
-        
+
     } catch (error) {
         console.error('❌ Error rejecting order:', error);
         res.status(500).send(`
@@ -464,14 +464,14 @@ exports.rejectOrder = onRequest({
 // Function to build email HTML
 function buildOrderEmail(order, orderId) {
     const WEBSITE_URL = 'https://kozalisveris.com';
-    
+
     const itemsHTML = order.items.map(item => {
         // Convert relative paths to absolute URLs
         let imageUrl = item.photo;
         if (item.photo && !item.photo.startsWith('http')) {
             imageUrl = `${WEBSITE_URL}/${item.photo.replace('./', '')}`;
         }
-        
+
         return `
         <div style="border-bottom: 1px solid #eee; padding: 15px 0;">
             <h3 style="margin: 5px 0; color: #333;">📦 ${item.name}</h3>
@@ -481,7 +481,7 @@ function buildOrderEmail(order, orderId) {
             ${item.photo ? `<img src="${imageUrl}" alt="${item.name}" style="max-width: 150px; margin-top: 10px; border-radius: 8px; border: 1px solid #ddd;" onerror="this.style.display='none'" />` : ''}
         </div>
     `}).join('');
-    
+
     return `
         <!DOCTYPE html>
         <html>
@@ -564,13 +564,13 @@ function buildOrderEmail(order, orderId) {
                     
                     <div class="timestamp">
                         <p>Sargyt wagty: ${new Date(order.createdAt).toLocaleString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            timeZone: 'Asia/Ashgabat'
-                        })}</p>
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Asia/Ashgabat'
+    })}</p>
                     </div>
                 </div>
             </div>
