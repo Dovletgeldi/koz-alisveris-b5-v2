@@ -1,4 +1,4 @@
-name: Deploy to Turhost via FTP
+name: Deploy to Turhost via SFTP
 
 on:
   push:
@@ -13,10 +13,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     
-    - name: FTP Deploy
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+    - name: SFTP Deploy
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
       with:
         server: ftp.kozalisveris.com
+        port: 22
         username: kozalisv
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /home/kozalisv/public_html/
+        local_path: ./*
+        remote_path: /home/kozalisv/public_html
+        sftp_only: true
