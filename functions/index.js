@@ -580,3 +580,58 @@ function buildOrderEmail(order, orderId) {
 }
 
 
+
+
+// ============================================
+// FUNCTION: Check Order (Secure Proxy with Service Account)
+// ============================================
+const { google } = require('googleapis');
+
+exports.checkOrder = onRequest({
+    region: 'europe-central2',
+    cors: true
+}, async (req, res) => {
+    try {
+        const phoneNumber = req.query.phone;
+        
+        if (!phoneNumber) {
+            return res.status(400).json({ error: 'Phone number is required' });
+        }
+
+        // Authenticate with Service Account (Default Firebase credential)
+        const auth = new google.auth.GoogleAuth({
+            scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+        });
+        
+        const client = await auth.getClient();
+        const sheets = google.sheets({ version: 'v4', auth: client });
+
+        // IDs from env
+        const sheetIds = [process.env.SHEET_ID_1, process.env.SHEET_ID_2];
+        
+        // Parallel fetch using Sheets API
+        const promises = sheetIds.map(id => 
+            sheets.spreadsheets.values.get({
+                spreadsheetId: id,
+                range: 'Genel!A:R',
+            })
+        );
+        
+        const responses = await Promise.all(promises);
+
+        // Combine data
+        const allValues = responses.flatMap(response => response.data.values || []);
+        
+        const phoneNumberColumnIndex = 16; // Column 16 is Phone Number
+
+        // Filter by phone number
+        const foundData = allValues.filter(row => row[phoneNumberColumnIndex] === phoneNumber);
+
+        // Return strictly the filtered data
+        res.json(foundData);
+
+    } catch (error) {
+        console.error('❌ Error in checkOrder:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});

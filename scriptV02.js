@@ -61,32 +61,16 @@ if (telSubmit) {
   });
 }
 
-// Fetch data from Google Sheets
+// Fetch data from Cloud Function (Secure Proxy)
 async function getDataFromSheet(phoneNumber) {
-  const sheetUrl1 =
-    "https://sheets.googleapis.com/v4/spreadsheets/1oj6CSda05eOaSpYyOGl2WrwH-1-3TGQoQJwTO5FLmzU/values/Genel!A:R?key=AIzaSyCVdAOP5Sq6_2TsvgViEvHLC_hrrQJYCTo";
-  const sheetUrl2 =
-    "https://sheets.googleapis.com/v4/spreadsheets/1c0pAa8lyQWlLwIRcWwxxxcHMjnLJrn_MRcYEhV5U2U8/values/Genel!A:R?key=AIzaSyCVdAOP5Sq6_2TsvgViEvHLC_hrrQJYCTo";
+  // This calls our backend "Doorman" so we don't expose Keys here
+  const apiUrl = `https://europe-central2-kozalisveris-23966.cloudfunctions.net/checkOrder?phone=${phoneNumber}`;
+
   try {
-    const response1 = await fetch(sheetUrl1);
-    const response2 = await fetch(sheetUrl2);
+    const response = await fetch(apiUrl);
 
-    if (response1.ok && response2.ok) {
-      const data1 = await response1.json();
-      const data2 = await response2.json();
-
-      // Combine the data from both Google Sheets
-      const combinedData = {
-        values: [...data1.values, ...data2.values],
-      };
-
-      const values = combinedData.values;
-      const phoneNumberColumnIndex = 16;
-
-      // Find data for the entered phone number
-      const foundData = values.filter(
-        (row) => row[phoneNumberColumnIndex] === phoneNumber
-      );
+    if (response.ok) {
+      const foundData = await response.json();
 
       if (foundData.length > 0) {
         telMessage.innerHTML = `Hormatly müşderimiz ${foundData[0][15]}, sargytlaryňyz şu şekildedir:`;
