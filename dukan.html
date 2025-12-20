@@ -15,12 +15,42 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>KöZ | Dükan</title>
   <link rel="icon" href="./images/favicon-ready.ico">
-  <!-- Tailwind CSS v4 -->
-  <link rel="stylesheet" href="assets/css/tailwind.css?v=1.0" />
+  <!-- Your custom CSS (keeps your brand styles) -->
   <link rel="stylesheet" href="assets/css/style.css?v=2.4" />
+  <!-- Tailwind CSS (for layout utilities) -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=2.0" />
   <link rel="stylesheet" href="assets/css/fontawesome.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet" />
+  <!-- Override Tailwind's .collapse for navbar -->
+  <style>
+    /* Fix navbar collapse - override Tailwind's visibility: collapse */
+    .navbar-collapse {
+      visibility: visible !important;
+    }
+
+    /* Hide on mobile by default */
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        display: none;
+      }
+
+      .navbar-collapse.show {
+        display: block;
+      }
+    }
+
+    /* Show on desktop */
+    @media (min-width: 992px) {
+      .navbar-collapse {
+        display: flex !important;
+      }
+
+      .navbar-toggler {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -28,8 +58,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark menu bg-primary shadow">
     <div class="container">
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" id="navbar-toggler" aria-controls="navbarNav" aria-expanded="false"
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -145,11 +175,23 @@
         <div class="cprght">
           <img src="images/logo.png" alt="logo image" />
           <div class="dcr2"></div>
-          <p>© 2022-2025 Ähli Hukuklary Goralan</p>
+          <p>© 2022-2025 Ähli Hukuklary Goralan</p>
         </div>
       </div>
     </div>
   </footer>
+
+  <!-- Mobile menu toggle script (replaces Bootstrap JS) -->
+  <script>
+    const navbarToggler = document.getElementById('navbar-toggler');
+    const navbarCollapse = document.getElementById('navbarNav');
+
+    if (navbarToggler && navbarCollapse) {
+      navbarToggler.addEventListener('click', () => {
+        navbarCollapse.classList.toggle('show');
+      });
+    }
+  </script>
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
@@ -171,8 +213,7 @@
     window.firestoreDB = db
   </script>
   <script src="harytlar.js?v=2.4" type="module"></script>
-  <script src="scriptV02.js?v=3.0" type="module"></script>
-  <script src="assets/js/bootstrap.bundle.js"></script>
+  <script src="scriptV02.js?v=3.1" type="module"></script>
 </body>
 
 </html>

@@ -1,1 +1,4 @@
-@import "tailwindcss";
+/* Disable Preflight (CSS reset) to avoid conflicts with Bootstrap */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
