@@ -19,11 +19,27 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: /public_html/
         exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          package.json
-          package-lock.json
-          google-sheets-cache/**
-          data-harytlar.js
-          README.md
+            # Git & GitHub
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            # IDE & System Files
+            **/.vs/**
+            **/.DS_Store
+            .ftp-deploy-sync-state.json
+            # NPM / Node
+            **/node_modules/**
+            package.json
+            package-lock.json
+            # Firebase Config (not needed on hosting)
+            firebase.json
+            .firebaserc
+            # Backend Functions (deployed separately)
+            functions/**
+            # Source Files (not needed on hosting)
+            scss/**
+            # Utility Scripts (not for public)
+            import-products.js
+            data-harytlar.js
+            # Documentation
+            README.md
