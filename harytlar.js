@@ -678,36 +678,46 @@ function getOverlayContent() {
 
 
         citySelect.addEventListener('change', function () {
-            const NormalDeliveryPrice = this.options[this.selectedIndex].dataset.price;
-            deliveryPrice = this.options[this.selectedIndex].dataset.price;
+            const normalDeliveryPrice = Number(this.options[this.selectedIndex].dataset.price) || 0;
             let discount = 0;
 
             if (itemsTotal > 249) {
-                discount = 20;
-                deliveryPrice = deliveryPrice - discount;
+                // Discount is max 20, but not more than normal delivery price
+                discount = Math.min(normalDeliveryPrice, 20);
             }
 
-            grandTotal = Number(itemsTotal) + Number(deliveryPrice)
+            deliveryPrice = normalDeliveryPrice - discount;
+            grandTotal = Number(itemsTotal) + Number(deliveryPrice);
+
+            let deliveryHTML = `
+                <span class="text-black font-bold">${deliveryPrice} TMT</span>
+            `;
+
+            if (discount > 0) {
+                deliveryHTML = `
+                    <span class="text-gray-400 line-through text-sm">${normalDeliveryPrice} TMT</span>
+                    <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">-${discount} TMT</span>
+                    <span class="text-green-600 font-bold">${deliveryPrice} TMT</span>
+                `;
+            }
 
             document.querySelector('.order-total-last').innerHTML = `
-        <div class="cost">
-            <span>Harytlar:</span>
-            <span id="added-items">${itemsTotal} TMT</span>
-        </div>
-        <div class="cost">
-            <span>Eltip bermek:</span>
-            <span class="flex items-center gap-2">
-                <span class="text-gray-400 line-through text-sm">${NormalDeliveryPrice} TMT</span>
-                <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">-${discount} TMT</span>
-                <span class="text-green-600 font-bold">${deliveryPrice} TMT</span>
-            </span>
-        </div>
-        <div class="cost">
-            <span><strong>Jemi:</strong></span>
-            <span><strong>${grandTotal} TMT</strong></span>
-        </div>
-      `
-            document.querySelector('.order-total').innerHTML = ''
+                <div class="cost">
+                    <span>Harytlar:</span>
+                    <span id="added-items">${itemsTotal} TMT</span>
+                </div>
+                <div class="cost">
+                    <span>Eltip bermek:</span>
+                    <span class="flex items-center gap-2">
+                        ${deliveryHTML}
+                    </span>
+                </div>
+                <div class="cost">
+                    <span><strong>Jemi:</strong></span>
+                    <span><strong>${grandTotal} TMT</strong></span>
+                </div>
+            `;
+            document.querySelector('.order-total').innerHTML = '';
         });
     }, 0);
 
@@ -781,8 +791,17 @@ document.addEventListener('submit', async (e) => {
                 return sum + (parseInt(item.price) * quantity)
             }, 0)
 
-            const deliveryFee = Number(deliveryPrice) || 0
-            const grandTotal = Number(itemsTotal) + Number(deliveryFee)
+            const citySel = document.getElementById('customer-city')
+            const cityOption = citySel ? citySel.options[citySel.selectedIndex] : null
+            const baseDeliveryFee = cityOption ? (Number(cityOption.dataset.price) || 0) : 0
+
+            let deliveryDiscount = 0
+            if (itemsTotal > 249) {
+                deliveryDiscount = Math.min(baseDeliveryFee, 20)
+            }
+
+            const finalDeliveryFee = baseDeliveryFee - deliveryDiscount
+            const grandTotal = Number(itemsTotal) + finalDeliveryFee
 
             const orderItems = myCart.map(item => ({
                 id: item.id,
@@ -832,9 +851,9 @@ document.addEventListener('submit', async (e) => {
                 items: orderItems,
 
                 itemsTotal: Number(itemsTotal),
-                deliveryFee: Number(deliveryPrice),
-                originalDeliveryFee: itemsTotal > 249 ? Number(deliveryPrice) + 20 : Number(deliveryPrice),
-                deliveryDiscount: itemsTotal > 249 ? 20 : 0,
+                deliveryFee: finalDeliveryFee,
+                originalDeliveryFee: baseDeliveryFee,
+                deliveryDiscount: deliveryDiscount,
                 grandTotal: Number(grandTotal),
 
                 orderNumber: orderNumber,
@@ -855,8 +874,7 @@ document.addEventListener('submit', async (e) => {
                 currentOverlay = null
                 document.body.classList.remove('no-scroll')
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Order submission error:', error)
             alert('Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.')
         } finally {
