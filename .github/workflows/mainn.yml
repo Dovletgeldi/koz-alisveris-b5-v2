@@ -17,7 +17,7 @@ jobs:
         server: kozalisveris.com
         username: kozalisv
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /home/kozalisv/public_html/
+        server-dir: /public_html/
         exclude: |
           # Git & GitHub
           **/.git*
