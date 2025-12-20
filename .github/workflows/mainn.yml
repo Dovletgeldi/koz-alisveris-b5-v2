@@ -18,6 +18,7 @@ jobs:
         username: kozalisv
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: /home/kozalisv/public_html/
+        dangerous-clean-slate: true
         exclude: |
           **/.git*
           **/.git*/**
