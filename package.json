@@ -4,7 +4,9 @@
   "description": "KöZ alışveriş resmi web sitesi",
   "main": "index.js",
   "scripts": {
-    "compile:sass": "sass --watch scss:assets/css"
+    "compile:sass": "sass --watch scss:assets/css",
+    "tw:build": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/css/tailwind.css",
+    "tw:watch": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/css/tailwind.css --watch"
   },
   "author": "Dovletgeldi Myradov",
   "license": "ISC",
@@ -14,10 +16,12 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
+    "@tailwindcss/cli": "^4.1.18",
     "autoprefixer": "^10.4.17",
     "bootstrap": "^5.3.6",
     "firebase": "^12.4.0",
-    "postcss-cli": "^11.0.0"
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^4.1.18"
   },
   "repository": {
     "type": "git",

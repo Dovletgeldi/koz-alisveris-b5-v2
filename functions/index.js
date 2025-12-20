@@ -593,7 +593,7 @@ exports.checkOrder = onRequest({
 }, async (req, res) => {
     try {
         const phoneNumber = req.query.phone;
-        
+
         if (!phoneNumber) {
             return res.status(400).json({ error: 'Phone number is required' });
         }
@@ -602,26 +602,23 @@ exports.checkOrder = onRequest({
         const auth = new google.auth.GoogleAuth({
             scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
         });
-        
+
         const client = await auth.getClient();
+        console.log('🤖 Auth Client Email:', client.email); // DEBUG LOG
         const sheets = google.sheets({ version: 'v4', auth: client });
 
-        // IDs from env
-        const sheetIds = [process.env.SHEET_ID_1, process.env.SHEET_ID_2];
-        
-        // Parallel fetch using Sheets API
-        const promises = sheetIds.map(id => 
-            sheets.spreadsheets.values.get({
-                spreadsheetId: id,
-                range: 'Genel!A:R',
-            })
-        );
-        
-        const responses = await Promise.all(promises);
+        // ID from env (User confirmed only using the first one)
+        const sheetId = process.env.SHEET_ID_1;
 
-        // Combine data
-        const allValues = responses.flatMap(response => response.data.values || []);
-        
+        // Fetch using Sheets API
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId: sheetId,
+            range: 'Genel!A:R',
+        });
+
+        // Get data
+        const allValues = response.data.values || [];
+
         const phoneNumberColumnIndex = 16; // Column 16 is Phone Number
 
         // Filter by phone number
@@ -632,6 +629,18 @@ exports.checkOrder = onRequest({
 
     } catch (error) {
         console.error('❌ Error in checkOrder:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+        // DEBUG: Return the email we TRIED to use, if available
+        let authEmail = 'unknown';
+        try {
+            const auth = new google.auth.GoogleAuth({ scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'] });
+            const client = await auth.getClient();
+            authEmail = client.email;
+        } catch (e) { authEmail = 'failed_to_get_client'; }
+
+        res.status(500).json({
+            error: 'Internal server error',
+            details: error.message,
+            debug_auth_email: authEmail
+        });
     }
 });
