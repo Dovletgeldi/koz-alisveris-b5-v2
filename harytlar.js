@@ -1,28 +1,50 @@
-import { collection, addDoc, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, addDoc, getDocs, doc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 let products = []
 const searchBtn = document.getElementById('search-btn')
 const searchBarInput = document.getElementById('search-bar')
 
+let isInitialLoad = true;
 async function loadProductsFromFirebase() {
     const productsArea = document.getElementById('products-area')
-    productsArea.innerHTML = '<p style="text-align: center; padding: 40px;">Ýüklenýär...</p>'
+    if (isInitialLoad) {
+        productsArea.innerHTML = '<p style="text-align: center; padding: 40px;">Ýüklenýär...</p>'
+    }
 
     try {
         const db = window.firestoreDB
-        const querySnapshot = await getDocs(collection(db, 'products'))
+        onSnapshot(collection(db, 'products'), (snapshot) => {
+            const freshProducts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
-        products = []
-        querySnapshot.forEach((doc) => {
-            products.push({
-                ...doc.data(),
-                id: doc.id
-            })
-        })
-        console.log(`✅ Loaded ${products.length} products from Firebase`)
-        renderProducts(shuffle(products))
+            if (isInitialLoad) {
+                products = shuffle(freshProducts);
+                isInitialLoad = false;
+            } else {
+                // Update the existing products array items so we don't lose the initial shuffle order
+                freshProducts.forEach(freshP => {
+                    const existingP = products.find(p => p.id === freshP.id);
+                    if (existingP) {
+                        Object.assign(existingP, freshP);
+                    } else {
+                        products.push(freshP);
+                    }
+                });
+
+                // Remove products that no longer exist
+                products = products.filter(p => freshProducts.find(fp => fp.id === p.id));
+            }
+
+            console.log(`✅ Loaded/Updated ${products.length} products from Firebase`)
+            renderProducts(products); // Use the current state of products (shuffled)
+            refreshOverlay(); // Update cart if open
+        }, (error) => {
+            console.error('❌ Error loading products:', error)
+            if (isInitialLoad) {
+                productsArea.innerHTML = '<p style="text-align: center; padding: 40px; color: red;">Gynansakda ýüklenmedi. Täzeden synanyşyň.</p>';
+            }
+        });
     } catch (error) {
-        console.error('❌ Error loading products:', error)
+        console.error('❌ Error starting snapshot listener:', error)
         productsArea.innerHTML = '<p style="text-align: center; padding: 40px; color: red;">Gynansakda ýüklenmedi. Täzeden synanyşyň.</p>';
     }
 }
@@ -71,6 +93,7 @@ function shuffle(array) {
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex], array[currentIndex]];
     }
+    return array;
 }
 
 let visibleCount = 11
@@ -494,7 +517,10 @@ function getOverlayContent() {
                     ${myCart.length === 0 ?
             '<p style="text-align: center; padding: 40px; color: #666;">Sebediňiz boş</p>' :
             myCart.map(function (product) {
-                const quantity = product.cartQuantity || 1;
+                const liveProduct = products.find(p => p.id === product.id) || product;
+                const currentStock = liveProduct.quantity;
+                const quantityInCart = product.cartQuantity || 1;
+
                 return `
                                 <div class="product-box">
                                     <div class="product-photo">
@@ -511,15 +537,15 @@ function getOverlayContent() {
                                         </div>
 
                                         <p class="product-price">${product.price} TMT</p>
-                                        <p class="available-quantity" data-quantity="${product.quantity}">
-                                            Mukdary: ${product.quantity} sany galdy
+                                        <p class="available-quantity" data-quantity="${currentStock}">
+                                            Mukdary: ${currentStock} sany galdy
                                         </p>
 
                                         <div class="quantity-details">
                                             <i class="fa-solid fa-trash remove-item" data-item="${product.id}"></i>
                                             <div class="cart-quantity">
-                                                <i class="fa-solid fa-minus decrease-item ${quantity === 1 ? 'disabled' : ''}" data-item="${product.id}"></i>
-                                                <span class="quantity" data-item="${product.id}">${quantity}</span>
+                                                <i class="fa-solid fa-minus decrease-item ${quantityInCart === 1 ? 'disabled' : ''}" data-item="${product.id}"></i>
+                                                <span class="quantity" data-item="${product.id}">${quantityInCart}</span>
                                                 <i class="fa-solid fa-plus increase-item" data-item="${product.id}"></i>
                                             </div>
                                         </div>
@@ -690,7 +716,7 @@ function getOverlayContent() {
             grandTotal = Number(itemsTotal) + Number(deliveryPrice);
 
             let deliveryHTML = `
-                <span class="text-black font-bold">${deliveryPrice} TMT</span>
+                <span class="text-black">${deliveryPrice} TMT</span>
             `;
 
             if (discount > 0) {
@@ -725,16 +751,53 @@ function getOverlayContent() {
     return html
 }
 
-document.addEventListener('click', (e) => {
+async function validateStock() {
+    const db = window.firestoreDB
+
+    for (const item of myCart) {
+        const productRef = doc(db, 'products', item.id)
+        const productSnap = await getDoc(productRef)
+
+        if (productSnap.exists()) {
+            const currentStock = productSnap.data().quantity
+            const orderedQty = item.cartQuantity || 1
+
+            if (currentStock < orderedQty) {
+                alert(`Gynansakda, "${item.name}" harytdan ýeterlik sanda ýok. \n\nElimizde bar: ${currentStock} sany. \nSiz sargadyňyz: ${orderedQty} sany. \n\nBu harydy sebediňizden çykarmagyňyzy haýyş edýäris.`)
+                return false
+            }
+        } else {
+            alert(`Gynansakda, "${item.name}" haryt elimizde galmady.`)
+            return false
+        }
+    }
+    return true
+}
+
+document.addEventListener('click', async (e) => {
     if (e.target.matches('#show-order-form')) {
         const form = document.getElementById('customer-form')
         const button = document.getElementById('show-order-form')
 
         if (form && button) {
-            form.style.display = "block"
-            button.style.display = "none"
+            const originalText = button.textContent
+            button.disabled = true
+            button.textContent = 'Garaşyň...'
 
-            form.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            try {
+                const isValid = await validateStock()
+                if (!isValid) return
+
+                form.style.display = "block"
+                button.style.display = "none"
+                form.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            } catch (error) {
+                console.error('Stock validation error:', error)
+                alert('Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.')
+            } finally {
+                button.disabled = false
+                button.textContent = originalText
+            }
         }
     }
 
@@ -818,22 +881,28 @@ document.addEventListener('submit', async (e) => {
             const orderNumber = await generateOrderNumber()
 
             // ============================================
-            // NEW: DECREASE STOCK IMMEDIATELY
+            // NEW: PRE-CHECK STOCK AND DECREASE
             // ============================================
+            // 1. First, validate ALL items have enough stock
+            const isValid = await validateStock()
+            if (!isValid) {
+                throw new Error('Validation failed') // Already alerted in validateStock
+            }
+
             const db = window.firestoreDB
 
+            // 2. If all valid, decrease stock
             for (const item of myCart) {
                 const productRef = doc(db, 'products', item.id)
-                const productSnap = await getDoc(productRef)
+                const productSnap = await getDoc(productRef) // Refetching to be extra safe, though slightly redundant
 
                 if (productSnap.exists()) {
                     const currentStock = productSnap.data().quantity
                     const orderedQty = item.cartQuantity || 1
-                    const newStock = currentStock - orderedQty
+                    const newStock = Math.max(0, currentStock - orderedQty)
 
-                    // Update stock immediately
                     await updateDoc(productRef, {
-                        quantity: Math.max(0, newStock)
+                        quantity: newStock
                     })
 
                     console.log(`📦 Stock updated: ${item.name} (${currentStock} → ${newStock})`)
@@ -876,7 +945,9 @@ document.addEventListener('submit', async (e) => {
             }
         } catch (error) {
             console.error('Order submission error:', error)
-            alert('Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.')
+            if (error.message !== 'Validation failed') {
+                alert('Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.')
+            }
         } finally {
             submitBtn.disabled = false
             submitBtn.textContent = originalText

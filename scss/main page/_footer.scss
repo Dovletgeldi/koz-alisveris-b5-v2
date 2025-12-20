@@ -12,6 +12,7 @@
   bottom: 1.875rem;
   z-index: 9999;
   background-color: $secondary;
+  border: none;
 
   img {
     width: 2.5rem;
@@ -20,8 +21,26 @@
   }
 }
 
-// STYLE THE BACK TO TOP
+// STYLE THE IMO BUTTON
 .stay {
+  position: fixed;
+  width: 3rem;
+  height: 3rem;
+  right: 1.875rem;
+  bottom: 5.5rem;
+  z-index: 9999;
+  background-color: $secondary;
+  border: none;
+
+  img {
+    width: 2.5rem;
+    height: 2.5rem;
+    @include absoluteCenter;
+  }
+}
+
+// STYLE THE CONVERTER BUTTON
+.hasaplayjy-btn {
   position: fixed;
   width: 3rem;
   height: 3rem;
@@ -29,16 +48,25 @@
   bottom: 1.875rem;
   z-index: 9999;
   background-color: $secondary;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 
-  img {
-    width: 2.5rem;
-    height: 2.5rem;
-    @include absoluteCenter;
+  i {
+    font-size: 1.5rem;
+    color: $white;
+  }
+
+  &:hover {
+    background-color: $primary;
   }
 }
 
 .footer {
   background-color: $primary;
+
   .container {
     .row {
       color: $white;
@@ -87,8 +115,7 @@
             font-size: 12px;
             color: #6c757d;
 
-            @media media-breakpoint-up {
-            }
+            @media media-breakpoint-up {}
           }
 
           @include media-breakpoint-up(sm) {
@@ -149,6 +176,7 @@
               }
             }
           }
+
           .social-media {
             display: flex;
             justify-content: space-between;
@@ -166,8 +194,7 @@
             font-size: 30px;
           }
 
-          @include media-breakpoint-up(sm) {
-          }
+          @include media-breakpoint-up(sm) {}
         }
 
         @include media-breakpoint-up(sm) {

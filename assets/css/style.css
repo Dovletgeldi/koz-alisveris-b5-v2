@@ -11914,6 +11914,37 @@ textarea.form-control-lg {
   color: #fff;
 }
 
+.btn-modern-dukan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff !important;
+  background: linear-gradient(135deg, #19283b 0%, #2a3d54 100%);
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(25, 40, 59, 0.3);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-modern-dukan i {
+  transition: transform 0.3s ease;
+}
+.btn-modern-dukan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(25, 40, 59, 0.4);
+  background: linear-gradient(135deg, #2a3d54 0%, #19283b 100%);
+}
+.btn-modern-dukan:hover i {
+  transform: translateX(5px);
+}
+.btn-modern-dukan:active {
+  transform: translateY(0);
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -12049,6 +12080,27 @@ select:invalid {
   }
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#converterModal .input-group {
+  transition: all 0.3s ease;
+}
+#converterModal .input-group:focus-within {
+  box-shadow: 0 0 0 0.25rem rgba(242, 122, 26, 0.25) !important;
+  border-color: #f27a1a !important;
+}
+#converterModal #clear-tl-input:hover {
+  color: #f27a1a !important;
+}
+
 form {
   position: relative;
   margin-top: 3rem;
@@ -12057,7 +12109,8 @@ form {
 form #tl-price {
   margin-bottom: 2rem;
 }
-form input, form select {
+form input,
+form select {
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
   width: 12rem;
   appearance: none;
@@ -12067,7 +12120,10 @@ form input, form select {
   border-color: #f27a1a;
   box-shadow: none;
 }
-form input:hover, form input:focus, form input:active, form select:hover, form select:focus, form select:active {
+form input:hover, form input:focus, form input:active,
+form select:hover,
+form select:focus,
+form select:active {
   border-width: 2px;
   border-color: #f27a1a;
 }
@@ -12077,11 +12133,6 @@ form input:focus,
 form select:focus {
   border-width: 2px;
   border-color: #f27a1a;
-}
-form input::-webkit-outer-spin-button,
-form input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 form button {
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem !important;
@@ -12219,6 +12270,7 @@ form button {
   bottom: 1.875rem;
   z-index: 9999;
   background-color: #f27a1a;
+  border: none;
 }
 .back-to-top img {
   width: 2.5rem;
@@ -12233,10 +12285,11 @@ form button {
   position: fixed;
   width: 3rem;
   height: 3rem;
-  left: 1.875rem;
-  bottom: 1.875rem;
+  right: 1.875rem;
+  bottom: 5.5rem;
   z-index: 9999;
   background-color: #f27a1a;
+  border: none;
 }
 .stay img {
   width: 2.5rem;
@@ -12245,6 +12298,28 @@ form button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.hasaplayjy-btn {
+  position: fixed;
+  width: 3rem;
+  height: 3rem;
+  left: 1.875rem;
+  bottom: 1.875rem;
+  z-index: 9999;
+  background-color: #f27a1a;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.hasaplayjy-btn i {
+  font-size: 1.5rem;
+  color: #fff;
+}
+.hasaplayjy-btn:hover {
+  background-color: #19283b;
 }
 
 .footer {

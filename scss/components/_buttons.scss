@@ -54,3 +54,38 @@
     color: $white;
   }
 }
+
+.btn-modern-dukan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: $white !important;
+  background: linear-gradient(135deg, #19283b 0%, #2a3d54 100%);
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(25, 40, 59, 0.3);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+
+  i {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(25, 40, 59, 0.4);
+    background: linear-gradient(135deg, #2a3d54 0%, #19283b 100%);
+
+    i {
+      transform: translateX(5px);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}

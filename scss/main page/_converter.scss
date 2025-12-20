@@ -1,5 +1,33 @@
 @use "../custom" as *;
 
+// Remove spin buttons globally
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#converterModal {
+    .input-group {
+        transition: all 0.3s ease;
+
+        &:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba($secondary, 0.25) !important;
+            border-color: $secondary !important;
+        }
+    }
+
+    #clear-tl-input {
+        &:hover {
+            color: $secondary !important;
+        }
+    }
+}
+
 form {
     position: relative;
     margin-top: 3rem;
@@ -9,7 +37,8 @@ form {
         margin-bottom: 2rem;
     }
 
-    input, select {
+    input,
+    select {
         padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
         width: 12rem;
         appearance: none;
@@ -19,7 +48,9 @@ form {
         border-color: $secondary;
         box-shadow: none;
 
-        &:hover, &:focus, &:active {
+        &:hover,
+        &:focus,
+        &:active {
             border-width: 2px;
             border-color: $secondary;
         }
@@ -28,22 +59,12 @@ form {
     input:active,
     select:active,
     input:focus,
-    select:focus{
+    select:focus {
         border-width: 2px;
         border-color: $secondary;
     }
 
-
-    input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-
     button {
         padding: 0.9375rem 1.25rem 0.9375rem 1.25rem !important;
     }
-
-    
 }

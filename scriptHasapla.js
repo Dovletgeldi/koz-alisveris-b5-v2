@@ -1,65 +1,45 @@
-import { postRate, preRate, halfRate, expressShippingRate } from "./scriptV02.js";
+import { postRate, preRate, halfRate, expressShippingRate } from "./scriptV03.js";
 
-const converterBtn = document.getElementById('converter-btn');
-const tlInputeValue = document.getElementById('tl-price')
-const paymentOption = document.getElementById('payment-option')
-const convertedPriceP = document.getElementById('converted-price-p')
+const tlInput = document.getElementById('tl-price');
+const clearBtn = document.getElementById('clear-tl-input');
+const resAfter = document.getElementById('res-after');
+const resHalf = document.getElementById('res-half');
+const resPre = document.getElementById('res-pre');
 
 const conversionRates = {
     after: Number(postRate),
-    "half-pre": Number(halfRate),
-    pre: Number(preRate) 
+    half: Number(halfRate),
+    pre: Number(preRate)
+};
+
+function calculateAll() {
+    const amount = parseFloat(tlInput.value);
+
+    if (isNaN(amount) || amount <= 0) {
+        resAfter.textContent = '-';
+        resHalf.textContent = '-';
+        resPre.textContent = '-';
+        return;
+    }
+
+    resAfter.textContent = `${Math.ceil(amount * conversionRates.after)} TMT`;
+    resHalf.textContent = `${Math.ceil(amount * conversionRates.half)} TMT`;
+    resPre.textContent = `${Math.ceil(amount * conversionRates.pre)} TMT`;
 }
 
-function clearHiglight() {
-    tlInputeValue.style.border = ''
-    paymentOption.style.border = ''
+if (tlInput) {
+    tlInput.addEventListener('input', () => {
+        if (tlInput.value.length > 6) {
+            tlInput.value = tlInput.value.slice(0, 6);
+        }
+        calculateAll();
+    });
 }
 
-function highlightError(element) {
-    element.style.border = '2px solid red'
+if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+        tlInput.value = '';
+        calculateAll();
+        tlInput.focus();
+    });
 }
-
-converterBtn.addEventListener('click', function (e){
-    e.preventDefault()
-
-    let hasError = false
-    clearHiglight()
-
-    if(paymentOption.value === '') {
-        highlightError(paymentOption)
-        hasError = true
-    }
-
-    const amount = parseFloat(tlInputeValue.value)
-
-    if (isNaN(amount) || amount <= 0 || tlInputeValue.value.trim() === '')  {
-        highlightError(tlInputeValue)
-        hasError = true
-        
-    } 
-
-    if (hasError) {
-        alert("Ähli zerur ýerleri dolduryň ýa-da saýlaň.")
-        return
-    }
-
-    const convertedAmount = Math.ceil(amount * conversionRates[paymentOption.value]) 
-
-
-
-    convertedPriceP.textContent = `Harydyňyzyň bahasy ${convertedAmount} TMT bolar. KG mugt bolar.`
-
-})
-
-tlInputeValue.addEventListener('input', function() {
-    if(this.value.trim() !== '') {
-        this.style.border = ''
-    }
-})
-
-paymentOption.addEventListener('change', function(){
-    if(this.value !== ''){
-        this.style.border = ''
-    }
-})
