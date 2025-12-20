@@ -1,10 +1,8 @@
 name: Deploy to Turhost via FTP
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,3 +18,12 @@ jobs:
         username: kozalisv
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: /home/kozalisv/public_html/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          package.json
+          package-lock.json
+          google-sheets-cache/**
+          data-harytlar.js
+          README.md
