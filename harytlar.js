@@ -11,7 +11,7 @@ async function loadProductsFromFirebase() {
     try {
         const db = window.firestoreDB
         const querySnapshot = await getDocs(collection(db, 'products'))
-    
+
         products = []
         querySnapshot.forEach((doc) => {
             products.push({
@@ -37,18 +37,18 @@ let viewMoreBtn
 
 let currentOverlay = null;
 
-document.addEventListener('click', function(e) {
-    if(e.target.matches('.filter-btn')){
-        filterCheck(e.target.dataset.city) 
-    } if(e.target.matches('.add-cart-btn')){
+document.addEventListener('click', function (e) {
+    if (e.target.matches('.filter-btn')) {
+        filterCheck(e.target.dataset.city)
+    } if (e.target.matches('.add-cart-btn')) {
         addToCart(e.target.dataset.item)
-    } if(e.target.matches('.remove-item')){
+    } if (e.target.matches('.remove-item')) {
         removeItemFromCart(e.target.dataset.item)
-    } if (e.target.matches('.increase-item')){
+    } if (e.target.matches('.increase-item')) {
         quantityControl(e.target, 'increase')
-    } if (e.target.matches('.decrease-item')){
+    } if (e.target.matches('.decrease-item')) {
         quantityControl(e.target, 'decrease')
-    } 
+    }
 })
 
 const convertCityToEnglishName = {
@@ -61,16 +61,16 @@ const convertCityToEnglishName = {
 }
 
 function shuffle(array) {
-  let currentIndex = array.length;
+    let currentIndex = array.length;
 
-  while (currentIndex != 0) {
+    while (currentIndex != 0) {
 
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
 
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
 }
 
 let visibleCount = 11
@@ -130,7 +130,7 @@ function renderProducts(productList = products) {
 
 
 function viewMoreFunction() {
-    if(products.length>visibleCount) {
+    if (products.length > visibleCount) {
         viewMoreBtn.style.display = 'block'
         viewMoreBtn.addEventListener('click', () => {
             visibleCount += 9
@@ -141,95 +141,95 @@ function viewMoreFunction() {
 }
 
 const DIACRITICS_MAP = {
-  "ü": "u", "Ü": "u",
-  "ö": "o", "Ö": "o",
-  "ğ": "g", "Ğ": "g",
-  "ç": "c", "Ç": "c",
-  "ş": "s", "Ş": "s",
-  "ı": "i", "İ": "i"
+    "ü": "u", "Ü": "u",
+    "ö": "o", "Ö": "o",
+    "ğ": "g", "Ğ": "g",
+    "ç": "c", "Ç": "c",
+    "ş": "s", "Ş": "s",
+    "ı": "i", "İ": "i"
 };
 
 function removeDiacritics(str) {
-  return str.replace(/[üÜöÖğĞçÇşŞıİ]/g, (char) => DIACRITICS_MAP[char] || char);
+    return str.replace(/[üÜöÖğĞçÇşŞıİ]/g, (char) => DIACRITICS_MAP[char] || char);
 }
 
 const normalize = (s) =>
-  removeDiacritics(
-    String(s ?? "")
-      .normalize("NFC")
-      .trim()
-      .toLocaleLowerCase("tr")
-  );
+    removeDiacritics(
+        String(s ?? "")
+            .normalize("NFC")
+            .trim()
+            .toLocaleLowerCase("tr")
+    );
 
 
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault()
-    console.log(typeof(searchBarInput.value))
-    
+    console.log(typeof (searchBarInput.value))
+
     renderProducts(performSearch(searchBarInput.value))
 })
 
 function levenshtein(a, b) {
-  const matrix = Array.from({ length: a.length + 1 }, () => []);
+    const matrix = Array.from({ length: a.length + 1 }, () => []);
 
-  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
-  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+    for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+    for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
 
-  for (let i = 1; i <= a.length; i++) {
-    for (let j = 1; j <= b.length; j++) {
-      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+    for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
 
-      matrix[i][j] = Math.min(
-        matrix[i - 1][j] + 1,       // deletion
-        matrix[i][j - 1] + 1,       // insertion
-        matrix[i - 1][j - 1] + cost // substitution
-      );
+            matrix[i][j] = Math.min(
+                matrix[i - 1][j] + 1,       // deletion
+                matrix[i][j - 1] + 1,       // insertion
+                matrix[i - 1][j - 1] + cost // substitution
+            );
+        }
     }
-  }
 
-  return matrix[a.length][b.length];
+    return matrix[a.length][b.length];
 }
 
 function fuzzyMatch(a, b) {
-  const dist = levenshtein(a, b);
-  return dist <= 2; // allow up to 2 mistakes
+    const dist = levenshtein(a, b);
+    return dist <= 2; // allow up to 2 mistakes
 }
 
 
 function performSearch(value) {
-  const val = normalize(value);
+    const val = normalize(value);
 
-  const results = products
-    .map((item) => {
-      const nameNorm = normalize(item?.name);
-      const altNorm  = normalize(item?.altName);
+    const results = products
+        .map((item) => {
+            const nameNorm = normalize(item?.name);
+            const altNorm = normalize(item?.altName);
 
-      let score = -1;
-      const fields = [nameNorm, altNorm];
+            let score = -1;
+            const fields = [nameNorm, altNorm];
 
-      for (const field of fields) {
-        if (!field) continue;
+            for (const field of fields) {
+                if (!field) continue;
 
-        if (field === val) score = Math.max(score, 100);            // exact
-        else if (field.startsWith(val)) score = Math.max(score, 80); // word starts
-        else if (field.includes(val)) score = Math.max(score, 60);   // contains
-        else if (fuzzyMatch(field, val)) score = Math.max(score, 40); // fuzzy
-      }
+                if (field === val) score = Math.max(score, 100);            // exact
+                else if (field.startsWith(val)) score = Math.max(score, 80); // word starts
+                else if (field.includes(val)) score = Math.max(score, 60);   // contains
+                else if (fuzzyMatch(field, val)) score = Math.max(score, 40); // fuzzy
+            }
 
-      return { item, score };
-    })
-    .filter((x) => x.score > 0)                   // remove non-matches
-    .sort((a, b) => b.score - a.score)           // sort by best match
-    .map((x) => x.item);                         // return only product list
+            return { item, score };
+        })
+        .filter((x) => x.score > 0)                   // remove non-matches
+        .sort((a, b) => b.score - a.score)           // sort by best match
+        .map((x) => x.item);                         // return only product list
 
-  return results;
+    return results;
 }
 
-function filterCheck(city){
-    document.querySelectorAll('.filter-btn').forEach(function(btn){btn.classList.remove('active')})
+function filterCheck(city) {
+    document.querySelectorAll('.filter-btn').forEach(function (btn) { btn.classList.remove('active') })
     document.querySelector(`[data-city="${city}"`).classList.add('active')
 
-    if(city == "hemmesi") {
+    if (city == "hemmesi") {
         renderProducts()
     } else {
         if (filterByCity(city).length === 0) {
@@ -246,7 +246,7 @@ function filterCheck(city){
 }
 
 function filterByCity(city) {
-    return products.filter(function(product){
+    return products.filter(function (product) {
         return convertCityToEnglishName[product.city] === city
     })
 }
@@ -256,16 +256,16 @@ let myCart = JSON.parse(localStorage.getItem('myCart')) || []
 cartQty.textContent = myCart.length
 
 function addToCart(item) {
-    const found = products.find(function(product){
+    const found = products.find(function (product) {
         return product.id.toString() === item.toString();
     });
-    
+
     if (found) {
-        const existingItem = myCart.find(cartItem => 
+        const existingItem = myCart.find(cartItem =>
             cartItem.id.toString() === found.id.toString()
 
         );
-        
+
         if (!existingItem) {
             // Add quantity property when adding to cart
             const cartItem = { ...found, cartQuantity: 1 };
@@ -285,7 +285,7 @@ function addToCart(item) {
 function refreshOverlay() {
     if (currentOverlay) {
         currentOverlay.innerHTML = getOverlayContent()
-        
+
         document.getElementById('close-cart-btn').addEventListener('click', () => {
             currentOverlay.remove()
             currentOverlay = null
@@ -294,12 +294,12 @@ function refreshOverlay() {
     }
 }
 
-cartBtn.addEventListener('click', function(){
+cartBtn.addEventListener('click', function () {
     const overlay = document.createElement('div')
     overlay.id = "cart-overlay"
     currentOverlay = overlay
     document.body.classList.add('no-scroll')
-    
+
     overlay.innerHTML = getOverlayContent()
     document.body.appendChild(overlay)
 
@@ -311,10 +311,10 @@ cartBtn.addEventListener('click', function(){
 })
 
 function removeItemFromCart(id) {
-    myCart = myCart.filter(function(product){
+    myCart = myCart.filter(function (product) {
         return product.id.toString() !== id.toString()
     })
-    
+
     localStorage.setItem('myCart', JSON.stringify(myCart))
     cartQty.textContent = myCart.length
     refreshOverlay()
@@ -342,13 +342,13 @@ function quantityControl(buttonClicked, action) {
 
     // Update the cart item quantity
     cartItem.cartQuantity = currentQty;
-    
+
     // Update localStorage
     localStorage.setItem('myCart', JSON.stringify(myCart));
-    
+
     // Update the display
     quantityEl.textContent = currentQty;
-    
+
     // Update decrease button state
     const decreaseBtn = productBox.querySelector('.decrease-item');
     if (currentQty === 1) {
@@ -356,7 +356,7 @@ function quantityControl(buttonClicked, action) {
     } else {
         decreaseBtn.classList.remove('disabled');
     }
-    
+
     // Refresh the overlay to update totals
     refreshOverlay();
 }
@@ -365,101 +365,104 @@ let deliveryPrice = 0
 
 function getOverlayContent() {
     const cities = {
-    Aşgabat: [
-        { city: 'Aşgabat şäheri', price: 20 },
-        { city: 'Gämi', price: 40 },
-        { city: 'Änew', price: 40 },
-        { city: 'Garadamak', price: 40 },
-        { city: 'Çoganly', price: 30 },
-        { city: 'Bekrewe', price: 40 },
-        { city: 'Abadan', price: 50 },
-        { city: 'Arkadag', price: 50 },
-        { city: 'Şäherim bellenmedik', price: 50 },
+        Aşgabat: [
+            { city: 'Gelip aljak (9 mkr)', price: 0 },
+            { city: 'Aşgabat şäheri', price: 20 },
+            { city: 'Gämi', price: 40 },
+            { city: 'Änew', price: 40 },
+            { city: 'Garadamak', price: 40 },
+            { city: 'Çoganly', price: 30 },
+            { city: 'Bekrewe', price: 40 },
+            { city: 'Abadan', price: 50 },
+            { city: 'Arkadag', price: 50 },
+            { city: 'Şäherim bellenmedik', price: 50 },
 
-    ],
+        ],
 
-    Balkan: [
-      { city: 'Türkmenbaşy', price: 50 },
-      { city: 'Mikraýon', price: 50 },
-      { city: 'Janga', price: 60 },
-      { city: 'Ufra', price: 60 },
-      { city: 'Awaza', price: 100 },
-      { city: 'Gyýanly', price: 70 },
-      { city: 'Guwlymaýak', price: 70 },
-      { city: 'Belek', price: 60 },
-      { city: 'Jebel', price: 70 },
-      { city: 'Nebitdag', price: 70 },
-      { city: 'Gyzylarbat', price: 70 },
-      { city: 'Bizmergen', price: 80 },
-      { city: 'Çeleken / Hazar', price: 80 },
-      { city: 'Bekdaş / Garabogaz', price: 80 },
-      { city: 'Gumdag', price: 80 },
-      { city: 'Gazanjyk / Bereket', price: 90 },
-      { city: 'Serdar', price: 90 },
-      { city: 'Esenguly', price: 90 },
-      { city: 'Etrek', price: 100 },
-      { city: 'Şäherim bellenmedik', price: 100 }
-    ],
+        Balkan: [
+            { city: 'Türkmenbaşy', price: 50 },
+            { city: 'Mikraýon', price: 50 },
+            { city: 'Janga', price: 60 },
+            { city: 'Ufra', price: 60 },
+            { city: 'Awaza', price: 100 },
+            { city: 'Gyýanly', price: 70 },
+            { city: 'Guwlymaýak', price: 70 },
+            { city: 'Belek', price: 60 },
+            { city: 'Jebel', price: 70 },
+            { city: 'Nebitdag', price: 70 },
+            { city: 'Gyzylarbat', price: 70 },
+            { city: 'Bizmergen', price: 80 },
+            { city: 'Çeleken / Hazar', price: 80 },
+            { city: 'Bekdaş / Garabogaz', price: 80 },
+            { city: 'Gumdag', price: 80 },
+            { city: 'Gazanjyk / Bereket', price: 90 },
+            { city: 'Serdar', price: 90 },
+            { city: 'Esenguly', price: 90 },
+            { city: 'Etrek', price: 100 },
+            { city: 'Şäherim bellenmedik', price: 100 }
+        ],
 
-    Lebap: [
-      { city: 'Türkmenabat', price: 50 },
-      { city: 'Serdarabat', price: 70 },
-      { city: 'Dänev', price: 70 },
-      { city: 'Sakar', price: 70 },
-      { city: 'Seýdi', price: 70 },
-      { city: 'Garabekewül', price: 80 },
-      { city: 'Farap', price: 80 },
-      { city: 'Darganata', price: 80 },
-      { city: 'Halaç', price: 80 },
-      { city: 'Kerki', price: 80 },
-      { city: 'Hojambaz', price: 90 },
-      { city: 'Amyderýa', price: 90 },
-      { city: 'Köýtendag', price: 100 },
-      { city: 'Gazojak', price: 100 },
-      { city: 'Magdanly', price: 100 },
-      { city: 'Döwletli', price: 100 },
-      { city: 'Şäherim bellenmedik', price: 100 }
-    ],
+        Lebap: [
+            { city: 'Türkmenabat', price: 50 },
+            { city: 'Serdarabat', price: 70 },
+            { city: 'Dänev', price: 70 },
+            { city: 'Sakar', price: 70 },
+            { city: 'Seýdi', price: 70 },
+            { city: 'Garabekewül', price: 80 },
+            { city: 'Farap', price: 80 },
+            { city: 'Darganata', price: 80 },
+            { city: 'Halaç', price: 80 },
+            { city: 'Kerki', price: 80 },
+            { city: 'Hojambaz', price: 90 },
+            { city: 'Amyderýa', price: 90 },
+            { city: 'Köýtendag', price: 100 },
+            { city: 'Gazojak', price: 100 },
+            { city: 'Magdanly', price: 100 },
+            { city: 'Döwletli', price: 100 },
+            { city: 'Şäherim bellenmedik', price: 100 }
+        ],
 
-    Mary: [
-      { city: 'Mary şäheri', price: 20 },
-      { city: 'Ýolöten', price: 70 },
-      { city: 'Murgap', price: 70 },
-      { city: 'Türkmengala', price: 70 },
-      { city: 'Baýramaly', price: 50 },
-      { city: 'Wekilbazar', price: 50 },
-      { city: 'Garagum', price: 80 },
-      { city: 'Sakarçäge', price: 50 },
-      { city: 'Oguzhan', price: 80 },
-      { city: 'Şatlyk', price: 60 },
-      { city: 'Tagtabazar', price: 100 },
-      { city: 'Guşgy', price: 100 },
-      { city: 'Şäherim bellenmedik', price: 100 }
-    ],
+        Mary: [
+            { city: 'Gelip aljak (Murgap magazin)', price: 10 },
+            { city: 'Mary şäheri', price: 20 },
+            { city: 'Ýolöten', price: 70 },
+            { city: 'Murgap', price: 70 },
+            { city: 'Türkmengala', price: 70 },
+            { city: 'Baýramaly', price: 50 },
+            { city: 'Wekilbazar', price: 50 },
+            { city: 'Garagum', price: 80 },
+            { city: 'Sakarçäge', price: 50 },
+            { city: 'Oguzhan', price: 80 },
+            { city: 'Şatlyk', price: 60 },
+            { city: 'Tagtabazar', price: 100 },
+            { city: 'Guşgy', price: 100 },
+            { city: 'Şäherim bellenmedik', price: 100 }
+        ],
 
-    Daşoguz: [
-      { city: 'Daşoguz şäheri', price: 50 },
-      { city: 'Akdepe', price: 70 },
-      { city: 'Gurbansoltan', price: 70 },
-      { city: 'Gubadag', price: 70 },
-      { city: 'S. A. Nyýazow', price: 70 },
-      { city: 'Şabat', price: 70 },
-      { city: 'Türkmenbaşy etr. / Oktýabr', price: 80 },
-      { city: 'Boldumsaz', price: 80 },
-      { city: 'Görogly', price: 70 },
-      { city: 'Köneürgenç', price: 80 },
-      { city: 'Ruhybelent', price: 100 },
-      { city: 'Täze oba', price: 60 },
-      { city: 'Gülistan', price: 60 },
-      { city: 'Şäherim bellenmedik', price: 100 }
-    ],
+        Daşoguz: [
+            { city: 'Daşoguz şäheri', price: 50 },
+            { city: 'Akdepe', price: 70 },
+            { city: 'Gurbansoltan', price: 70 },
+            { city: 'Gubadag', price: 70 },
+            { city: 'S. A. Nyýazow', price: 70 },
+            { city: 'Şabat', price: 70 },
+            { city: 'Türkmenbaşy etr. / Oktýabr', price: 80 },
+            { city: 'Boldumsaz', price: 80 },
+            { city: 'Görogly', price: 70 },
+            { city: 'Köneürgenç', price: 80 },
+            { city: 'Ruhybelent', price: 100 },
+            { city: 'Täze oba', price: 60 },
+            { city: 'Gülistan', price: 60 },
+            { city: 'Şäherim bellenmedik', price: 100 }
+        ],
 
-    Ahal: [
-        { city: 'Şäherim bellenmedik', price: 100 }
-    ]
-  };
+        Ahal: [
+            { city: 'Tejen', price: 80 },
+            { city: 'Şäherim bellenmedik', price: 100 }
+        ]
+    };
 
-      // Calculate total using individual item quantities
+    // Calculate total using individual item quantities
     const itemsTotal = myCart.reduce((sum, item) => {
         const quantity = item.cartQuantity || 1;
         return sum + (parseInt(item.price) * quantity);
@@ -467,9 +470,12 @@ function getOverlayContent() {
 
     let grandTotal = 0
 
-  const html = `
+    const html = `
     <div class="sticky-wrapper">
             <div class="header-area">
+                <div class="text-center leading-tight text-sm py-2 bg-black text-white">
+                    <span class="block">250 TMT üsti eltip bermek MUGT ýa-da 20 TMT arzanlaşyk</span>
+                </div>
                 <div class="container">
                     <div class="header">
                         <div class="left-icon" id="close-cart-btn">
@@ -485,11 +491,11 @@ function getOverlayContent() {
 
             <div class="container">
                 <div id="products-container">
-                    ${myCart.length === 0 ? 
-                        '<p style="text-align: center; padding: 40px; color: #666;">Sebediňiz boş</p>' :
-                        myCart.map(function (product) {
-                            const quantity = product.cartQuantity || 1;
-                            return `
+                    ${myCart.length === 0 ?
+            '<p style="text-align: center; padding: 40px; color: #666;">Sebediňiz boş</p>' :
+            myCart.map(function (product) {
+                const quantity = product.cartQuantity || 1;
+                return `
                                 <div class="product-box">
                                     <div class="product-photo">
                                         <img src="${product.photo}" 
@@ -520,8 +526,8 @@ function getOverlayContent() {
                                     </div>
                                 </div>
                             `
-                        }).join('')
-                    }
+            }).join('')
+        }
                 </div>
 
                 ${myCart.length > 0 ? `
@@ -637,76 +643,88 @@ function getOverlayContent() {
 
 
     setTimeout(() => {
-    const provinceSelect = document.getElementById('customer-province');
-    const citySelect = document.getElementById('customer-city');
+        const provinceSelect = document.getElementById('customer-province');
+        const citySelect = document.getElementById('customer-city');
 
-    if (!provinceSelect || !citySelect) return;
+        if (!provinceSelect || !citySelect) return;
 
-    provinceSelect.addEventListener('change', function () {
-    const selectedProvince = this.value;
+        provinceSelect.addEventListener('change', function () {
+            const selectedProvince = this.value;
 
-    // Get and sort alphabetically
-    let options = (cities[selectedProvince] || []).slice().sort((a, b) =>
-        a.city.localeCompare(b.city, 'tk', { sensitivity: 'base' })
-    );
+            // Custom sorting logic
+            let rawOptions = (cities[selectedProvince] || []).slice();
 
-    // Move "Şäherim bellenmedik" to the end
-    const unknownIndex = options.findIndex(o => o.city === 'Şäherim bellenmedik');
-    if (unknownIndex !== -1) {
-        const [unknown] = options.splice(unknownIndex, 1);
-        options.push(unknown);
-    }
+            // First, sort all alphabetically
+            rawOptions.sort((a, b) => a.city.localeCompare(b.city, 'tk', { sensitivity: 'base' }));
 
-    // Clear and populate dropdown
-    citySelect.innerHTML = `<option value="" disabled selected>Şäher saýlaň</option>`;
+            // Then organize by priority groups
+            const pickups = rawOptions.filter(o => o.city.toLowerCase().includes('gelip aljak'));
+            const unknowns = rawOptions.filter(o => o.city === 'Şäherim bellenmedik');
+            const others = rawOptions.filter(o => !o.city.toLowerCase().includes('gelip aljak') && o.city !== 'Şäherim bellenmedik');
 
-    options.forEach(({ city, price }) => {
-        const option = document.createElement('option');
-        option.value = city;
-        option.textContent = `${city} (${price} TMT)`;
-        option.dataset.price = price;
-        citySelect.appendChild(option);
-    });
-    });
+            let options = [...pickups, ...others, ...unknowns];
+
+            // Clear and populate dropdown
+            citySelect.innerHTML = `<option value="" disabled selected>Şäher saýlaň</option>`;
+
+            options.forEach(({ city, price }) => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = `${city} (${price} TMT)`;
+                option.dataset.price = price;
+                citySelect.appendChild(option);
+            });
+        });
 
 
-    citySelect.addEventListener('change', function () {
-      deliveryPrice = this.options[this.selectedIndex].dataset.price;
+        citySelect.addEventListener('change', function () {
+            const NormalDeliveryPrice = this.options[this.selectedIndex].dataset.price;
+            deliveryPrice = this.options[this.selectedIndex].dataset.price;
+            let discount = 0;
 
-      grandTotal = Number(itemsTotal) + Number(deliveryPrice)
+            if (itemsTotal > 249) {
+                discount = 20;
+                deliveryPrice = deliveryPrice - discount;
+            }
 
-      document.querySelector('.order-total-last').innerHTML = `
+            grandTotal = Number(itemsTotal) + Number(deliveryPrice)
+
+            document.querySelector('.order-total-last').innerHTML = `
         <div class="cost">
             <span>Harytlar:</span>
             <span id="added-items">${itemsTotal} TMT</span>
         </div>
         <div class="cost">
             <span>Eltip bermek:</span>
-            <span>${deliveryPrice} TMT</span>
+            <span class="flex items-center gap-2">
+                <span class="text-gray-400 line-through text-sm">${NormalDeliveryPrice} TMT</span>
+                <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">-${discount} TMT</span>
+                <span class="text-green-600 font-bold">${deliveryPrice} TMT</span>
+            </span>
         </div>
         <div class="cost">
             <span><strong>Jemi:</strong></span>
             <span><strong>${grandTotal} TMT</strong></span>
         </div>
       `
-      document.querySelector('.order-total').innerHTML = ''
-    });
-  }, 0);
-    
+            document.querySelector('.order-total').innerHTML = ''
+        });
+    }, 0);
+
 
     return html
 }
 
 document.addEventListener('click', (e) => {
-    if(e.target.matches('#show-order-form')) {
+    if (e.target.matches('#show-order-form')) {
         const form = document.getElementById('customer-form')
         const button = document.getElementById('show-order-form')
 
-        if(form && button) {
+        if (form && button) {
             form.style.display = "block"
             button.style.display = "none"
 
-            form.scrollIntoView({behavior: 'smooth', block: 'center'})
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' })
         }
     }
 
@@ -724,18 +742,18 @@ document.addEventListener('click', (e) => {
 
 
     // PHONE NUMBER AUTO FORMAT
-    if (e.target.matches('#customer-phone')){
+    if (e.target.matches('#customer-phone')) {
         let value = e.target.value.replace(/\D/g, '')
 
-        if(value.length > 2){
-            value = value.slice(0, 2) + ' ' + value.slice(2);    
+        if (value.length > 2) {
+            value = value.slice(0, 2) + ' ' + value.slice(2);
         }
         e.target.value = value
     }
 });
 
-document.addEventListener('submit', async(e)=>{
-    if(e.target.matches('#order-form')) {
+document.addEventListener('submit', async (e) => {
+    if (e.target.matches('#order-form')) {
         e.preventDefault()
 
         const submitBtn = document.querySelector('.submit-order-btn')
@@ -744,14 +762,14 @@ document.addEventListener('submit', async(e)=>{
         submitBtn.disabled = true
         submitBtn.textContent = 'Iberilýär...'
 
-        try{
+        try {
             const customerName = document.getElementById('customer-name').value.trim()
             const customerPhone = document.getElementById('customer-phone').value.trim()
             const customerProvince = document.getElementById('customer-province').value
             const customerCity = document.getElementById('customer-city').value
-            const customerAddress= document.getElementById('customer-address').value.trim()
+            const customerAddress = document.getElementById('customer-address').value.trim()
 
-            if(!myCart || myCart.length === 0) {
+            if (!myCart || myCart.length === 0) {
                 alert('Sebediňiz boş!')
                 submitBtn.disabled = false
                 submitBtn.textContent = originalText
@@ -760,7 +778,7 @@ document.addEventListener('submit', async(e)=>{
 
             const itemsTotal = myCart.reduce((sum, item) => {
                 const quantity = item.cartQuantity || 1
-                return sum + (parseInt(item.price)*quantity)
+                return sum + (parseInt(item.price) * quantity)
             }, 0)
 
             const deliveryFee = Number(deliveryPrice) || 0
@@ -773,8 +791,8 @@ document.addEventListener('submit', async(e)=>{
                 photo: item.photo,
                 city: item.city,
                 price: item.price,
-                cartQuantity: item.cartQuantity || 1,  
-                stockQuantity: item.quantity,          
+                cartQuantity: item.cartQuantity || 1,
+                stockQuantity: item.quantity,
                 subtotal: parseInt(item.price) * (item.cartQuantity || 1)
             }))
 
@@ -784,21 +802,21 @@ document.addEventListener('submit', async(e)=>{
             // NEW: DECREASE STOCK IMMEDIATELY
             // ============================================
             const db = window.firestoreDB
-            
+
             for (const item of myCart) {
                 const productRef = doc(db, 'products', item.id)
                 const productSnap = await getDoc(productRef)
-                
+
                 if (productSnap.exists()) {
                     const currentStock = productSnap.data().quantity
                     const orderedQty = item.cartQuantity || 1
                     const newStock = currentStock - orderedQty
-                    
+
                     // Update stock immediately
                     await updateDoc(productRef, {
                         quantity: Math.max(0, newStock)
                     })
-                    
+
                     console.log(`📦 Stock updated: ${item.name} (${currentStock} → ${newStock})`)
                 }
             }
@@ -813,9 +831,11 @@ document.addEventListener('submit', async(e)=>{
 
                 items: orderItems,
 
-                itemsTotal: Number(itemsTotal),   
-                deliveryFee: Number(deliveryFee),   
-                grandTotal: Number(grandTotal), 
+                itemsTotal: Number(itemsTotal),
+                deliveryFee: Number(deliveryPrice),
+                originalDeliveryFee: itemsTotal > 249 ? Number(deliveryPrice) + 20 : Number(deliveryPrice),
+                deliveryDiscount: itemsTotal > 249 ? 20 : 0,
+                grandTotal: Number(grandTotal),
 
                 orderNumber: orderNumber,
                 status: "pending",
@@ -830,24 +850,24 @@ document.addEventListener('submit', async(e)=>{
             localStorage.setItem('myCart', JSON.stringify(myCart))
             cartQty.textContent = myCart.length
 
-            if(currentOverlay) {
+            if (currentOverlay) {
                 currentOverlay.remove()
                 currentOverlay = null
                 document.body.classList.remove('no-scroll')
             }
         }
-        catch(error){
-                console.error('Order submission error:', error)
-                alert('Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.')
-            } finally {
-                submitBtn.disabled = false
-                submitBtn.textContent = originalText
-            }
+        catch (error) {
+            console.error('Order submission error:', error)
+            alert('Ýalňyşlyk ýüze çykdy. Täzeden synanyşyň.')
+        } finally {
+            submitBtn.disabled = false
+            submitBtn.textContent = originalText
+        }
     }
 })
 
 async function generateOrderNumber() {
-    try{
+    try {
         const db = window.firestoreDB
         const ordersRef = collection(db, 'orders')
         const snapshot = await getDocs(ordersRef)
@@ -857,7 +877,7 @@ async function generateOrderNumber() {
         const paddedNumber = orderCount.toString().padStart(3, '0')
 
         return `KOZ-${paddedNumber}`
-    } catch(error) {
+    } catch (error) {
         console.error("Error generating order number:", error)
         return `KOZ-${Date.now()}`
     }

@@ -515,7 +515,14 @@ function buildOrderEmail(order, orderId) {
                             <p style="margin: 5px 0;"><strong>📍 Eltip bermek ýeri:</strong></p>
                             <p style="margin: 5px 0; padding-left: 10px;">• Welaýat: <strong>${order.customerProvince || 'Bellenmedik'}</strong></p>
                             <p style="margin: 5px 0; padding-left: 10px;">• Şäher/Etrap: <strong>${order.customerCity}</strong></p>
-                            <p style="margin: 10px 0 5px 0;"><strong>💰 Eltip bermek bahasy:</strong> ${order.deliveryFee} TMT</p>
+                            <p style="margin: 10px 0 5px 0;"><strong>💰 Eltip bermek bahasy:</strong> 
+                                ${order.deliveryDiscount > 0
+            ? `<span style="text-decoration: line-through; color: #6c757d; font-size: 0.9em;">${order.originalDeliveryFee} TMT</span> 
+                                   <span style="color: #28a745; font-weight: bold; margin-left: 5px;">${order.deliveryFee} TMT</span> 
+                                   <span style="background: #d4edda; color: #155724; font-size: 0.8em; padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: bold;">-${order.deliveryDiscount} TMT</span>`
+            : `${order.deliveryFee} TMT`
+        }
+                            </p>
                         </div>
                         
                         <p><strong>Doly salgy:</strong> ${order.customerAddress}</p>
@@ -528,7 +535,13 @@ function buildOrderEmail(order, orderId) {
                     
                     <div style="text-align: right; padding: 20px; background: white; border-radius: 8px; margin-top: 15px; border: 2px solid #f27a1a;">
                         <p style="margin: 5px 0;">Harytlar jemi: <strong>${order.itemsTotal} TMT</strong></p>
-                        <p style="margin: 5px 0;">Eltip bermek: <strong>${order.deliveryFee} TMT</strong></p>
+                        <p style="margin: 5px 0;">Eltip bermek: 
+                            ${order.deliveryDiscount > 0
+            ? `<span style="text-decoration: line-through; color: #6c757d; font-size: 0.9em;">${order.originalDeliveryFee} TMT</span> 
+                                   <span style="color: #28a745; font-weight: bold; margin-left: 5px;">${order.deliveryFee} TMT</span>`
+            : `<strong>${order.deliveryFee} TMT</strong>`
+        }
+                        </p>
                         <hr style="border: 1px solid #ddd; margin: 10px 0;">
                         <p class="total">JEMI: ${order.grandTotal} TMT</p>
                     </div>
@@ -564,13 +577,13 @@ function buildOrderEmail(order, orderId) {
                     
                     <div class="timestamp">
                         <p>Sargyt wagty: ${new Date(order.createdAt).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZone: 'Asia/Ashgabat'
-    })}</p>
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Asia/Ashgabat'
+        })}</p>
                     </div>
                 </div>
             </div>
