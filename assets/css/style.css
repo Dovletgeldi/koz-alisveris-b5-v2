@@ -12100,6 +12100,23 @@ input[type=number] {
 #converterModal #clear-tl-input:hover {
   color: #f27a1a !important;
 }
+#converterModal .highlight-card {
+  background-color: #fff !important;
+  border: 2px solid #f27a1a !important;
+  position: relative;
+  overflow: visible;
+}
+#converterModal .highlight-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  box-shadow: 0 10px 25px rgba(242, 122, 26, 0.15);
+  pointer-events: none;
+}
 
 form {
   position: relative;

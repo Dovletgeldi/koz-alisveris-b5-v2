@@ -26,6 +26,25 @@ input[type=number] {
             color: $secondary !important;
         }
     }
+
+    .highlight-card {
+        background-color: #fff !important;
+        border: 2px solid $secondary !important;
+        position: relative;
+        overflow: visible;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            box-shadow: 0 10px 25px rgba($secondary, 0.15);
+            pointer-events: none;
+        }
+    }
 }
 
 form {

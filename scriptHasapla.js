@@ -22,15 +22,18 @@ function calculateAll() {
         return;
     }
 
-    resAfter.textContent = `${Math.ceil(amount * conversionRates.after)} TMT`;
-    resHalf.textContent = `${Math.ceil(amount * conversionRates.half)} TMT`;
-    resPre.textContent = `${Math.ceil(amount * conversionRates.pre)} TMT`;
+    // Use vertical stacking for better fit of large numbers
+    const suffix = '<span style="display: block; font-size: 0.75em; font-weight: 500; opacity: 0.8; margin-top: 2px;">TMT</span>';
+
+    resAfter.innerHTML = Math.ceil(amount * conversionRates.after) + suffix;
+    resHalf.innerHTML = Math.ceil(amount * conversionRates.half) + suffix;
+    resPre.innerHTML = Math.ceil(amount * conversionRates.pre) + suffix;
 }
 
 if (tlInput) {
     tlInput.addEventListener('input', () => {
-        if (tlInput.value.length > 6) {
-            tlInput.value = tlInput.value.slice(0, 6);
+        if (tlInput.value.length > 5) {
+            tlInput.value = tlInput.value.slice(0, 5);
         }
         calculateAll();
     });

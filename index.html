@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KöZ | Kişiye özel Zarafet</title>
   <link rel="icon" href="./images/favicon-ready.ico">
-  <link rel="stylesheet" href="assets/css/style.css?v=2.3" />
+  <link rel="stylesheet" href="assets/css/style.css?v=3.2" />
   <link rel="stylesheet" href="assets/css/fontawesome.css?v=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet" />
@@ -828,37 +828,45 @@
               <label for="tl-price">TL Mukdaryny Giriň</label>
             </div>
             <button class="btn bg-white border-0 px-3" type="button" id="clear-tl-input"
-              style="font-size: 1.2rem; color: #6c757d;">
+              style="font-size: 1.2rem; color: #6c757d; border-radius: 0;">
               <i class="fa-solid fa-circle-xmark"></i>
             </button>
           </div>
 
-          <div class="results-grid row g-3">
+          <div class="results-grid row gx-3 gy-3 mt-2">
             <div class="col-4">
-              <div class="p-2 rounded-4 bg-light border h-100 flex-column d-flex justify-content-center">
-                <small class="text-muted" style="font-size: 0.7rem;">100% Soňundan</small>
-                <div id="res-after" class="fw-bold text-dark mt-1" style="font-size: 1.1rem;">-</div>
-                <small class="text-muted" style="font-size: 0.6rem;">(1 TL: <span class="post-tl-rate"></span>)</small>
+              <div
+                class="py-4 px-2 rounded-4 bg-light border h-100 d-flex flex-column align-items-center justify-content-between text-center">
+                <small class="text-muted mb-1" style="font-size: 0.6rem; line-height: 1;">50% Öňünden</small>
+                <div id="res-half" class="fw-bold text-dark" style="font-size: 1rem; line-height: 1.1;">-</div>
+                <small class="text-muted mt-1" style="font-size: 0.5rem; opacity: 0.8;">(1 TL: <span
+                    class="half-tl-rate"></span>)</small>
               </div>
             </div>
             <div class="col-4">
-              <div class="p-2 rounded-4 bg-light border h-100 flex-column d-flex justify-content-center">
-                <small class="text-muted" style="font-size: 0.7rem;">50% Öňünden</small>
-                <div id="res-half" class="fw-bold text-dark mt-1" style="font-size: 1.1rem;">-</div>
-                <small class="text-muted" style="font-size: 0.6rem;">(1 TL: <span class="half-tl-rate"></span>)</small>
+              <div
+                class="py-4 px-2 rounded-4 bg-white border-2 h-100 d-flex flex-column align-items-center justify-content-between text-center highlight-card"
+                style="border-color: #f27a1a !important; transform: scale(1.1); box-shadow: 0 10px 25px rgba(242, 122, 26, 0.15); z-index: 2;">
+                <small class="text-secondary fw-bold mb-1" style="font-size: 0.65rem; line-height: 1;">100%
+                  Soňundan</small>
+                <div id="res-after" class="fw-bold text-primary" style="font-size: 1.2rem; line-height: 1.1;">-</div>
+                <small class="text-muted mt-1" style="font-size: 0.55rem; opacity: 0.8;">(1 TL: <span
+                    class="post-tl-rate"></span>)</small>
               </div>
             </div>
             <div class="col-4">
-              <div class="p-2 rounded-4 bg-light border h-100 flex-column d-flex justify-content-center">
-                <small class="text-muted" style="font-size: 0.7rem;">100% Öňünden</small>
-                <div id="res-pre" class="fw-bold text-dark mt-1" style="font-size: 1.1rem;">-</div>
-                <small class="text-muted" style="font-size: 0.6rem;">(1 TL: <span class="pre-tl-rate"></span>)</small>
+              <div
+                class="py-4 px-2 rounded-4 bg-light border h-100 d-flex flex-column align-items-center justify-content-between text-center">
+                <small class="text-muted mb-1" style="font-size: 0.6rem; line-height: 1;">100% Öňünden</small>
+                <div id="res-pre" class="fw-bold text-dark" style="font-size: 1rem; line-height: 1.1;">-</div>
+                <small class="text-muted mt-1" style="font-size: 0.5rem; opacity: 0.8;">(1 TL: <span
+                    class="pre-tl-rate"></span>)</small>
               </div>
             </div>
           </div>
 
-          <div class="mt-4 pt-3 border-top">
-            <p class="small text-muted mb-0">Bizi saýlanyňyz üçin minnetdar!</p>
+          <div class="mt-5 pt-3 border-top">
+            <p class="small text-muted mb-0 py-2">Bizi saýlanyňyz üçin minnetdar!</p>
           </div>
         </div>
       </div>
@@ -867,7 +875,7 @@
 
 
   <script src="assets/js/bootstrap.bundle.js?v=5.3"></script>
-  <script src="scriptHasapla.js?v=1.1" type="module"></script>
+  <script src="scriptHasapla.js?v=2.0" type="module"></script>
   <script src="scriptV03.js?v=3.1" type="module"></script>
 </body>
 
