@@ -92,8 +92,9 @@ async function getDataFromSheet(phoneNumber) {
           }
 
           const productPriceTMT = Math.ceil(row[13]);
-
-          if (row[17] == "habar edildi") {
+          if (row[17] == "geldi") {
+            status = `Sargydyňyz geldi, habarlaşyp alyp bilersiňiz: <br> +993 62 069428`;
+          } else if (row[17] == "habar edildi") {
             status = `Sargydyňyz geldi, "${row[15]}" atly kişä habar berildi.`;
           } else if (row[17] == "gowşuryldy" || row[17] == "gowushdy") {
             status = `Sargydyňyz geldi, "${row[15]}" atly kişä gowşuryldy.`;
