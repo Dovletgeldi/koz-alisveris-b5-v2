@@ -435,6 +435,7 @@ function getOverlayContent() {
             { city: 'Farap', price: 80 },
             { city: 'Darganata', price: 80 },
             { city: 'Halaç', price: 80 },
+            { city: 'Saýat', price: 80 },
             { city: 'Kerki', price: 80 },
             { city: 'Hojambaz', price: 90 },
             { city: 'Amyderýa', price: 90 },

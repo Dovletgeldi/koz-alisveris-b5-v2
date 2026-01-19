@@ -159,7 +159,7 @@ export const products = [
         quantity: '1',
         id: '16'
     },
-        {
+    {
         name: "Hacı Murat",
         altName: 'Tolstoy',
         photo: './images/harytlar/haci-murat.jpg',
@@ -179,7 +179,7 @@ export const products = [
         quantity: '1',
         id: '18'
     },
-        {
+    {
         name: "Lahza",
         altName: 'Serap Köşkdere',
         photo: './images/harytlar/lahza.jpg',
@@ -189,7 +189,7 @@ export const products = [
         quantity: '1',
         id: '19'
     },
-        {
+    {
         name: "Dava",
         altName: 'Franz Kafka',
         photo: './images/harytlar/dava.jpg',
@@ -199,7 +199,7 @@ export const products = [
         quantity: '1',
         id: '20'
     },
-        {
+    {
         name: "Gömülü Şamdan",
         altName: 'Stefan Zweig',
         photo: './images/harytlar/gomulu-samdan.jpg',
@@ -209,7 +209,7 @@ export const products = [
         quantity: '1',
         id: '21'
     },
-        {
+    {
         name: "Zorunluluk",
         altName: 'Stefan Zweig',
         photo: './images/harytlar/zorunluluk.jpg',
@@ -219,7 +219,7 @@ export const products = [
         quantity: '1',
         id: '22'
     },
-        {
+    {
         name: "Amok Koşucusu",
         altName: 'Stefan Zweig',
         photo: './images/harytlar/amok-kosucusu.jpg',
@@ -538,5 +538,25 @@ export const products = [
         price: '109',
         quantity: '3',
         id: '54'
+    },
+    {
+        name: "Yeni Dünya",
+        altName: 'Sabahattin Ali',
+        photo: './images/harytlar/55.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '27',
+        quantity: '1',
+        id: '55'
+    },
+    {
+        name: "Arayış",
+        altName: 'Fethi Korkmaz',
+        photo: './images/harytlar/56.jpeg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '86',
+        quantity: '1',
+        id: '56'
     },
 ];
