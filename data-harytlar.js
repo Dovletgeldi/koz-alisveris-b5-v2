@@ -159,7 +159,7 @@ export const products = [
         quantity: '1',
         id: '16'
     },
-        {
+    {
         name: "Hacı Murat",
         altName: 'Tolstoy',
         photo: './images/harytlar/haci-murat.jpg',
@@ -179,7 +179,7 @@ export const products = [
         quantity: '1',
         id: '18'
     },
-        {
+    {
         name: "Lahza",
         altName: 'Serap Köşkdere',
         photo: './images/harytlar/lahza.jpg',
@@ -189,7 +189,7 @@ export const products = [
         quantity: '1',
         id: '19'
     },
-        {
+    {
         name: "Dava",
         altName: 'Franz Kafka',
         photo: './images/harytlar/dava.jpg',
@@ -199,7 +199,7 @@ export const products = [
         quantity: '1',
         id: '20'
     },
-        {
+    {
         name: "Gömülü Şamdan",
         altName: 'Stefan Zweig',
         photo: './images/harytlar/gomulu-samdan.jpg',
@@ -209,7 +209,7 @@ export const products = [
         quantity: '1',
         id: '21'
     },
-        {
+    {
         name: "Zorunluluk",
         altName: 'Stefan Zweig',
         photo: './images/harytlar/zorunluluk.jpg',
@@ -219,7 +219,7 @@ export const products = [
         quantity: '1',
         id: '22'
     },
-        {
+    {
         name: "Amok Koşucusu",
         altName: 'Stefan Zweig',
         photo: './images/harytlar/amok-kosucusu.jpg',
@@ -539,4 +539,86 @@ export const products = [
         quantity: '3',
         id: '54'
     },
+    {
+        name: "Yeni Dünya",
+        altName: 'Sabahattin Ali',
+        photo: './images/harytlar/55.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '00',
+        quantity: '3',
+        id: '55'
+    },
+    {
+        name: "Arayış",
+        altName: '--',
+        photo: './images/harytlar/56.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '00',
+        quantity: '3',
+        id: '56'
+    },
+    {
+        name: "The Little Prince (Iňlişçe)",
+        altName: 'Antoine de Saint-Exupéry',
+        photo: './images/harytlar/57.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '41',
+        quantity: '1',
+        id: '57'
+    },
+    {
+        name: "Yaşamak",
+        altName: 'Yu Hua',
+        photo: './images/harytlar/58.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '100',
+        quantity: '3',
+        id: '58'
+    },
+    {
+        name: "İkna Sanatı",
+        altName: 'Guiguzi',
+        photo: './images/harytlar/59.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '42',
+        quantity: '3',
+        id: '59'
+    },
+    {
+        name: "Atomik Alışkanlıklar",
+        altName: 'James Clear',
+        photo: './images/harytlar/60.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '148',
+        quantity: '3',
+        id: '60'
+    },
+    {
+        name: "Savaş Sanatı",
+        altName: 'Sun Tzu',
+        photo: './images/harytlar/61.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '31',
+        quantity: '3',
+        id: '61'
+    },
+    {
+        name: "İrade Eğitimi",
+        altName: 'Jules Payot',
+        photo: './images/harytlar/62.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '50',
+        quantity: '3',
+        id: '62'
+    },
+
+
 ];
