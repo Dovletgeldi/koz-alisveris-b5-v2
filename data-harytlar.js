@@ -619,6 +619,75 @@ export const products = [
         quantity: '3',
         id: '62'
     },
-
+    {
+        name: "Oyuncak Mezarlığı (Ciltli)",
+        altName: 'Emre Gül',
+        photo: './images/harytlar/63.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '158',
+        quantity: '1',
+        id: '63'
+    },
+    {
+        name: "Yanlış Numara (Ciltli)",
+        altName: 'C. R. Jane',
+        photo: './images/harytlar/64.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '187',
+        quantity: '1',
+        id: '64'
+    },
+    {
+        name: "Seni Affetmiyorum",
+        altName: 'Zeus Kabadayı',
+        photo: './images/harytlar/65.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '167',
+        quantity: '1',
+        id: '65'
+    },
+    {
+        name: "Elveda",
+        altName: 'Furkan Arslantaş',
+        photo: './images/harytlar/66.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '105',
+        quantity: '1',
+        id: '66'
+    },
+    {
+        name: "Beni Yarım Bıraktın (Kapak Değişebilir)",
+        altName: 'Zeus Kabadayı',
+        photo: './images/harytlar/67.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '111',
+        quantity: '1',
+        id: '67'
+    },
+    {
+        name: "Henüz Her Şey Bitmedi",
+        altName: 'Zeus Kabadayı',
+        photo: './images/harytlar/68.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '98',
+        quantity: '1',
+        id: '68'
+    },
+    {
+        name: "Bana Seni Seviyorum Deme Evlen",
+        altName: 'Miraç Çağrı Aktaş',
+        photo: './images/harytlar/69.jpg',
+        seller: 'KöZ',
+        city: 'Aşgabat',
+        price: '89',
+        quantity: '1',
+        id: '69'
+    }
 
 ];
