@@ -41,8 +41,11 @@ document.querySelectorAll('.contact-person-phone').forEach(el => {
 
 // console.log(postTlRate)
 
+console.log("Script V03.1 loaded at:", new Date().toLocaleTimeString());
+
 // Reset the form
 function resetForm() {
+  console.log("Form reset requested");
   telMessage.innerHTML = "";
   const tableElement = document.querySelector(".order-table");
   if (tableElement) {
@@ -52,133 +55,151 @@ function resetForm() {
 
 // When telSubmit is clicked
 if (telSubmit) {
-  telSubmit.addEventListener("click", function () {
+  telSubmit.addEventListener("click", function (event) {
+    event.preventDefault(); 
+    event.stopPropagation();
+    console.log("Search button clicked!");
+    
+    if (!telInput || !telMessage) {
+      console.error("telInput or telMessage not found in DOM");
+      return;
+    }
+
     resetForm();
 
     telMessage.innerHTML = "Gözlenýär...";
     const phoneNumber = telInput.value;
+    console.log("Querying for phoneNumber:", phoneNumber);
     getDataFromSheet(phoneNumber);
   });
 }
 
-// Fetch data from Cloud Function (Secure Proxy)
+// Fetch data from Firestore
 async function getDataFromSheet(phoneNumber) {
-  // This calls our backend "Doorman" so we don't expose Keys here
-  const apiUrl = `https://europe-central2-kozalisveris-23966.cloudfunctions.net/checkOrder?phone=${phoneNumber}`;
-
   try {
-    const response = await fetch(apiUrl);
+    // Reference to Firestore (initialized in order-track.html)
+    const db = firebase.firestore();
+    
+    // Query tracking_orders where phone matches
+    const qSnapshot = await db.collection('tracking_orders')
+      .where('phone', '==', phoneNumber.trim())
+      .get();
 
-    if (response.ok) {
-      const foundData = await response.json();
+    if (!qSnapshot.empty) {
+      const foundData = qSnapshot.docs.map(doc => doc.data());
+      
+      // Build everything in a string first to avoid partial DOM updates
+      let htmlContent = `<div class="customer-welcome">Hormatly müşderimiz ${foundData[0].customerName}, sargytlaryňyz şu şekildedir:</div>`;
 
-      if (foundData.length > 0) {
-        telMessage.innerHTML = `Hormatly müşderimiz ${foundData[0][15]}, sargytlaryňyz şu şekildedir:`;
+      foundData.forEach((order) => {
+        let status;
+        const productName = order.productName;
+        const productNumber = order.productQuantity;
+        const productPrice = Math.ceil(order.priceTL);
+        const productWeight = Math.ceil(order.weightPrice);
+        const totalProductPrice = Math.ceil(order.totalPrice);
+        let productLink;
 
-        foundData.forEach((row) => {
-          let status;
-          const productDate = row[3];
-          const productName = row[7];
-          const productNumber = row[5];
-          const productPrice = Math.ceil(row[11]);
-          const productWeight = Math.ceil(row[12]);
-          const totalProductPrice = Math.ceil(row[14]);
-          let productLink;
+        if (!order.productLink || order.productLink === "") {
+          productLink = "images/hazirki wagtda surat mumkin dal.png";
+        } else {
+          productLink = order.productLink;
+        }
 
-          if (!row[8] || row[8] === "") {
-            productLink = "images/hazirki wagtda surat mumkin dal.png";
-          } else {
-            productLink = row[8];
+        const productPriceTMT = Math.ceil(order.priceTMT);
+        
+        // Status determination logic
+        const row1 = order.status;
+        const row17 = order.detailStatus;
+
+        if (row17 == "geldi") {
+          status = `Sargydyňyz geldi, habarlaşyp alyp bilersiňiz: <br> +993 62 069428`;
+        } else if (row17 == "habar edildi") {
+          status = `Sargydyňyz geldi, "${order.customerName}" atly kişä habar berildi.`;
+        } else if (row17 == "gowşuryldy" || row17 == "gowushdy") {
+          status = `Sargydyňyz geldi, "${order.customerName}" atly kişä gowşuryldy.`;
+        } else if (row1 == "iade") {
+          status =
+            "Gynansakda sargydyňyz gowy ýagdaýda gelmedigi üçin yzyna tabşyryldy.";
+        } else if (row1 == "iptal") {
+          status = "Sargydyňyz goý bolsun edildi.";
+        } else if (
+          row1 === "ucak1" ||
+          row1 === "ucak2" ||
+          row1 === "ucak3" ||
+          row1 === "ucak4"
+        ) {
+          status =
+            "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
+        } else if (row1 == 1 || row1 == 2 || row1 == 3 || row1 == 4) {
+          status =
+            "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
+        } else if (row1 === "" || row1 === "ucak") {
+          status =
+            "Sargydyňyz kabul edildi. Barlamak üçin gelmegine garaşylýar.";
+        } else if (Number(order.weightPrice) != 0) {
+          status = "Sargydyňyz geldi, habarlaşyp alyp bilersiňiz.";
+        } else {
+          function checker() {
+            var pattern = /^[0-9\-.]{8}$/;
+            let a = row1;
+            return pattern.test(a);
           }
-
-          const productPriceTMT = Math.ceil(row[13]);
-          if (row[17] == "geldi") {
-            status = `Sargydyňyz geldi, habarlaşyp alyp bilersiňiz: <br> +993 62 069428`;
-          } else if (row[17] == "habar edildi") {
-            status = `Sargydyňyz geldi, "${row[15]}" atly kişä habar berildi.`;
-          } else if (row[17] == "gowşuryldy" || row[17] == "gowushdy") {
-            status = `Sargydyňyz geldi, "${row[15]}" atly kişä gowşuryldy.`;
-          } else if (row[1] == "iade") {
-            status =
-              "Gynansakda sargydyňyz gowy ýagdaýda gelmedigi üçin yzyna tabşyryldy.";
-          } else if (row[1] == "iptal") {
-            status = "Sargydyňyz goý bolsun edildi.";
-          } else if (
-            row[1] === "ucak1" ||
-            row[1] === "ucak2" ||
-            row[1] === "ucak3" ||
-            row[1] === "ucak4"
-          ) {
-            status =
-              "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
-          } else if (row[1] == 1 || row[1] == 2 || row[1] == 3 || row[1] == 4) {
-            status =
-              "Sargydyňyz Istanbuldan Aşgabada dogry ýola çykdy. Takmynan geljek wagty iň gysga wagtda şu ýerde ýazar.";
-          } else if (row[1] === "" || row[1] === "ucak") {
-            status =
-              "Sargydyňyz kabul edildi. Barlamak üçin gelmegine garaşylýar.";
-          } else if (row[12] != 0) {
-            status = "Sargydyňyz geldi, habarlaşyp alyp bilersiňiz.";
+          if (checker() === true) {
+            status = `Sargydyňyz ýolda. Takmynan ${row1} aralygynda geler.`;
           } else {
-            function checker() {
-              var pattern = /^[0-9\-.]{8}$/;
-              let a = row[1];
-              return pattern.test(a);
-            }
-            if (checker() === true) {
-              status = `Sargydyňyz ýolda. Takmynan ${row[1]} aralygynda geler.`;
-            } else {
-              status = "Haryt barada biz bilen habarlaşmagyňyzy soraýarys.";
-            }
+            status = "Haryt barada biz bilen habarlaşmagyňyzy soraýarys.";
           }
+        }
 
-          // Corrected the use of backticks here
-          telMessage.innerHTML += `
-            <div class="product-container">
-              <div class="product">
-                <span class="product-quantity">X${productNumber}</span>
-                <a href="${productLink}" target="_blank">
-                  <img src="${productLink}" alt="Häzirki wagtda surat mümkin däl." class="product-image" />
-                </a>
-              </div>
-              <div class="product-details">
-                <div class="product-name">${productName}</div>
-                <div class="product-prices">
-                  <div>
-                    <h4>TL bahasy:</h4>
-                    <span>${productPrice} TL</span>
-                  </div>
-                  <span id="sign">=></span>
-                  <div>
-                    <h4>TMT bahasy:</h4>
-                    <span>${productPriceTMT} TMT</span>
-                  </div>
-                  <span id="sign">+</span>
-                  <div>
-                    <h4>KG bahasy:</h4>
-                    <span>${productWeight} TMT</span>
-                  </div>
-                  <span id="sign">=</span>
-                  <div>
-                    <h4>Jemi bahasy:</h4>
-                    <span>${totalProductPrice} TMT</span>
-                  </div>
-                </div>
-                <div class="product-status">${status}</div>
-              </div>
+        htmlContent += `
+          <div class="product-container">
+            <div class="product">
+              <span class="product-quantity">X${productNumber}</span>
+              <a href="${productLink}" target="_blank">
+                <img src="${productLink}" alt="Häzirki wagtda surat mümkin däl." class="product-image" />
+              </a>
             </div>
-            `;
-        });
+            <div class="product-details">
+              <div class="product-name">${productName}</div>
+              <div class="product-prices">
+                <div>
+                  <h4>TL bahasy:</h4>
+                  <span>${productPrice} TL</span>
+                </div>
+                <span id="sign">=></span>
+                <div>
+                  <h4>TMT bahasy:</h4>
+                  <span>${productPriceTMT} TMT</span>
+                </div>
+                <span id="sign">+</span>
+                <div>
+                  <h4>KG bahasy:</h4>
+                  <span>${productWeight} TMT</span>
+                </div>
+                <span id="sign">=</span>
+                <div>
+                  <h4>Jemi bahasy:</h4>
+                  <span>${totalProductPrice} TMT</span>
+                </div>
+              </div>
+              <div class="product-status">${status}</div>
+            </div>
+          </div>
+          `;
+      });
 
-        const informationContent =
-          "Bildiriş: Sargytlaryňyz sistemamyza sargyt edilen wagtyndan 24 sagat soň geçer.";
-        telMessage.innerHTML += informationContent;
-      } else {
-        telMessage.innerHTML =
-          'Gynansakda giren belgiňiz üçin sargyt tapylmady. Giren belgiňiziň başynda "8" ýa-da "+993" bolmaly däldir.<br><br>*Bildiriş: Sargytlaryňyz sistemamyza sargyt edilen wagtyndan 24 sagat soň geçer.';
-      }
+      htmlContent += `<div class="information-message">Bildiriş: Sargytlaryňyz sistemamyza sargyt edilen wagtyndan 24 sagat soň geçer.</div>`;
+      
+      // Set everything in ONE update
+      telMessage.innerHTML = htmlContent;
+
+    } else {
+      telMessage.innerHTML =
+        'Gynansakda giren belgiňiz üçin sargyt tapylmady. Giren belgiňiziň başynda "8" ýa-da "+993" bolmaly däldir.<br><br>*Bildiriş: Sargytlaryňyz sistemamyza sargyt edilen wagtyndan 24 sagat soň geçer.';
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching data from Firestore:", error);
+    telMessage.innerHTML = "Bir ýalňyşlyk ýüze çykdy. Sonrak synanyşyň.";
   }
 }

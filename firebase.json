@@ -11,5 +11,21 @@
         "*.local"
       ]
     }
-  ]
+  ],
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**",
+      "scripts/**",
+      "src/**",
+      "scss/**",
+      "package.json",
+      "package-lock.json",
+      "import-products.js",
+      "fetch_images.py"
+    ]
+  }
 }

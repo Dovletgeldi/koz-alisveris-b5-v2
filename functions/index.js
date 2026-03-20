@@ -1,8 +1,10 @@
+const { onSchedule } = require("firebase-functions/v2/scheduler");
+const { onRequest } = require('firebase-functions/v2/https');
 const { onDocumentCreated } = require('firebase-functions/v2/firestore');
 const { setGlobalOptions } = require('firebase-functions/v2');
-const { onRequest } = require('firebase-functions/v2/https');
 const admin = require('firebase-admin');
 const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 
 setGlobalOptions({ region: 'europe-central2' });
 
@@ -598,7 +600,7 @@ function buildOrderEmail(order, orderId) {
 // ============================================
 // FUNCTION: Check Order (Secure Proxy with Service Account)
 // ============================================
-const { google } = require('googleapis');
+// const { google } = require('googleapis'); // MOVED TO TOP
 
 exports.checkOrder = onRequest({
     region: 'europe-central2',
@@ -657,3 +659,106 @@ exports.checkOrder = onRequest({
         });
     }
 });
+
+// ============================================
+// FUNCTION: Scheduled Order Sync (Every 12 Hours)
+// ============================================
+exports.scheduledOrderSync = onSchedule({
+    schedule: "every 12 hours",
+    region: 'europe-central2',
+    memory: '256MiB',
+    timeoutSeconds: 300 // Allow up to 5 minutes
+}, async (event) => {
+    try {
+        const db = admin.firestore();
+        // Sheet ID from environment variables
+        const sheetId = process.env.SHEET_ID_1;
+
+        if (!sheetId) {
+            console.error('❌ SHEET_ID_1 environment variable is not set');
+            return;
+        }
+
+        // Authenticate with Service Account (Default Firebase credential)
+        const auth = new google.auth.GoogleAuth({
+            scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+        });
+        const client = await auth.getClient();
+        const sheets = google.sheets({ version: 'v4', auth: client });
+
+        console.log(`⏳ Starting scheduled sync for sheet: ${sheetId}`);
+
+        // Fetch using Sheets API
+        const response = await sheets.spreadsheets.values.get({
+            spreadsheetId: sheetId,
+            range: 'Genel!A:R', // Adjust range if needed
+        });
+
+        const rows = response.data.values || [];
+        if (rows.length <= 1) {
+            console.log('⚠️ No data found in Google Sheet (or only header).');
+            return;
+        }
+
+        console.log(`📊 Fetched ${rows.length - 1} rows from Google Sheet.`);
+
+        const trackingCollection = db.collection('tracking_orders');
+
+        // Delete existing tracking_orders in batches to clear the collection
+        // This ensures removed rows from Sheets are removed from Firestore
+        const existingSnapshot = await trackingCollection.get();
+        if (!existingSnapshot.empty) {
+            const deleteBatch = db.batch();
+            existingSnapshot.docs.forEach((doc) => deleteBatch.delete(doc.ref));
+            await deleteBatch.commit();
+            console.log(`🗑️ Cleared ${existingSnapshot.size} existing orders from tracking_orders.`);
+        }
+
+        // Process in batches of 500 (Firestore limit)
+        let batch = db.batch();
+        let counter = 0;
+
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const orderNumber = row[5] || `AUTO-${Date.now()}-${i}`;
+            
+            const orderData = {
+                status: row[0] || "",
+                productDate: row[1] || "",
+                productName: row[2] || "",
+                productQuantity: row[3] || 1,
+                productLink: row[4] || "",
+                orderNumber: orderNumber,
+                customerName: row[12] || "",
+                priceTL: parseFloat(row[13]) || 0,
+                priceTMT: parseFloat(row[14]) || 0,
+                weightPrice: parseFloat(row[15]) || 0,
+                phone: row[16]?.toString().trim() || "",
+                detailStatus: row[17] || "",
+                totalPrice: (parseFloat(row[14]) || 0) + (parseFloat(row[15]) || 0),
+                syncedAt: admin.firestore.FieldValue.serverTimestamp()
+            };
+
+            const docRef = trackingCollection.doc(orderNumber);
+            batch.set(docRef, orderData);
+            counter++;
+
+            // If we hit Firestore 500 limit, commit and start new batch
+            if (counter % 500 === 0) {
+                await batch.commit();
+                batch = db.batch();
+                console.log(`📦 Committed batch of 500 orders...`);
+            }
+        }
+
+        if (counter % 500 !== 0) {
+            await batch.commit();
+        }
+
+        console.log(`✅ Successfully synced ${counter} orders to Firestore.`);
+
+    } catch (error) {
+        console.error('❌ Error in scheduledOrderSync:', error);
+    }
+});
+

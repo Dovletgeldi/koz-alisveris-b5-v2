@@ -16,3 +16,12 @@ firebase-debug.log
 
 # Security (Secrets)
 .env
+*.json
+!firebase.json
+!package.json
+!package-lock.json
+!**/package.json
+!**/package-lock.json
+!**/.firebaserc
+service-account.json
+**/service-account.json
