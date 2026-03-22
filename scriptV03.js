@@ -80,9 +80,22 @@ async function getDataFromSheet(phoneNumber) {
     // Reference to Firestore (initialized in order-track.html)
     const db = firebase.firestore();
     
+    // Normalize phone number: remove all non-digit characters
+    let normalizedPhone = phoneNumber.replace(/\D/g, '');
+    
+    // Strip common prefixes if present (+993 or 8) 
+    // Turkmen numbers are 8 digits starting with '6'
+    if (normalizedPhone.startsWith('993') && normalizedPhone.length > 10) {
+      normalizedPhone = normalizedPhone.slice(3); // Remove 993 prefix
+    } else if (normalizedPhone.startsWith('8') && normalizedPhone.length === 9) {
+      normalizedPhone = normalizedPhone.slice(1); // Remove leading 8
+    }
+    
+    console.log("Final normalized phone for query:", normalizedPhone);
+
     // Query tracking_orders where phone matches
     const qSnapshot = await db.collection('tracking_orders')
-      .where('phone', '==', phoneNumber.trim())
+      .where('phone', '==', normalizedPhone)
       .get();
 
     if (!qSnapshot.empty) {

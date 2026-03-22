@@ -723,19 +723,23 @@ exports.scheduledOrderSync = onSchedule({
             const orderNumber = row[5] || `AUTO-${Date.now()}-${i}`;
             
             const orderData = {
-                status: row[0] || "",
-                productDate: row[1] || "",
-                productName: row[2] || "",
-                productQuantity: row[3] || 1,
-                productLink: row[4] || "",
-                orderNumber: orderNumber,
-                customerName: row[12] || "",
-                priceTL: parseFloat(row[13]) || 0,
-                priceTMT: parseFloat(row[14]) || 0,
-                weightPrice: parseFloat(row[15]) || 0,
-                phone: row[16]?.toString().trim() || "",
+                status: row[1] || "",
+                productDate: row[3] || "",
+                productQuantity: row[5] || "0",
+                productName: row[7] || "",
+                productLink: row[8] || "",
+                priceTL: row[11] || "0",
+                weightPrice: row[12] || "0",
+                priceTMT: row[13] || "0",
+                totalPrice: row[14] || "0",
+                customerName: row[15] || "",
+                phone: (function(p) {
+                    let cleaned = String(p || '').replace(/\D/g, '');
+                    if (cleaned.startsWith('993') && cleaned.length > 10) cleaned = cleaned.slice(3);
+                    else if (cleaned.startsWith('8') && cleaned.length === 9) cleaned = cleaned.slice(1);
+                    return cleaned;
+                })(row[16]),
                 detailStatus: row[17] || "",
-                totalPrice: (parseFloat(row[14]) || 0) + (parseFloat(row[15]) || 0),
                 syncedAt: admin.firestore.FieldValue.serverTimestamp()
             };
 

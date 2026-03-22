@@ -25,9 +25,21 @@ async function getDataFromFirestore(phoneNumber) {
     // Reference to Firestore db (initialized in HTML)
     const db = firebase.firestore();
     
+    // Normalize phone number: remove all non-digit characters
+    let normalizedPhone = phoneNumber.replace(/\D/g, '');
+    
+    // Strip common prefixes (+993 or 8) 
+    if (normalizedPhone.startsWith('993') && normalizedPhone.length > 10) {
+      normalizedPhone = normalizedPhone.slice(3);
+    } else if (normalizedPhone.startsWith('8') && normalizedPhone.length === 9) {
+      normalizedPhone = normalizedPhone.slice(1);
+    }
+    
+    console.log("Normalized phone for query:", normalizedPhone);
+
     // Query tracking_orders where phone matches
     const qSnapshot = await db.collection('tracking_orders')
-      .where('phone', '==', phoneNumber)
+      .where('phone', '==', normalizedPhone)
       .get();
 
     if (!qSnapshot.empty) {

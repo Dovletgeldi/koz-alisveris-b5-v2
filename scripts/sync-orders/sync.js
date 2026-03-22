@@ -57,7 +57,12 @@ async function syncSheetsToFirestore() {
                 priceTMT: row[13] || '0',
                 totalPrice: row[14] || '0',
                 customerName: row[15] || '',
-                phone: String(row[16] || '').trim(),
+                phone: (function(p) {
+                    let cleaned = String(p || '').replace(/\D/g, '');
+                    if (cleaned.startsWith('993') && cleaned.length > 10) cleaned = cleaned.slice(3);
+                    else if (cleaned.startsWith('8') && cleaned.length === 9) cleaned = cleaned.slice(1);
+                    return cleaned;
+                })(row[16]),
                 detailStatus: row[17] || '',
                 rowIndex: index + 2,
                 lastUpdated: admin.firestore.FieldValue.serverTimestamp()
