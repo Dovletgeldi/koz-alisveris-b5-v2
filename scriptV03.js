@@ -131,7 +131,10 @@ async function getDataFromSheet(phoneNumber) {
           status = `Sargydyňyz geldi, "${order.customerName}" atly kişä habar berildi.`;
         } else if (row17 == "gowşuryldy" || row17 == "gowushdy") {
           status = `Sargydyňyz geldi, "${order.customerName}" atly kişä gowşuryldy.`;
+        } else if (row17 == "yolda") {
+          status = "Sargydyňyz ýolda. Aşgabada gelmegine garaşylýar.";
         } else if (row1 == "iade") {
+
           status =
             "Gynansakda sargydyňyz gowy ýagdaýda gelmedigi üçin yzyna tabşyryldy.";
         } else if (row1 == "iptal") {
@@ -174,6 +177,7 @@ async function getDataFromSheet(phoneNumber) {
               </a>
             </div>
             <div class="product-details">
+              <div class="order-id-label">Sargyt belgisi: <strong>${order.id}</strong></div>
               <div class="product-name">${productName}</div>
               <div class="product-prices">
                 <div>
@@ -200,6 +204,7 @@ async function getDataFromSheet(phoneNumber) {
             </div>
           </div>
           `;
+
       });
 
       htmlContent += `<div class="information-message">Bildiriş: Sargytlaryňyz sistemamyza sargyt edilen wagtyndan 24 sagat soň geçer.</div>`;

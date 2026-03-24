@@ -660,109 +660,116 @@ exports.checkOrder = onRequest({
     }
 });
 
-// ============================================
-// FUNCTION: Scheduled Order Sync (Every 12 Hours)
-// ============================================
+
 exports.scheduledOrderSync = onSchedule({
     schedule: "every 12 hours",
     region: 'europe-central2',
     memory: '256MiB',
-    timeoutSeconds: 300 // Allow up to 5 minutes
+    timeoutSeconds: 300
 }, async (event) => {
+
     try {
         const db = admin.firestore();
-        // Sheet ID from environment variables
         const sheetId = process.env.SHEET_ID_1;
+        if (!sheetId) return;
 
-        if (!sheetId) {
-            console.error('❌ SHEET_ID_1 environment variable is not set');
-            return;
-        }
-
-        // Authenticate with Service Account (Default Firebase credential)
         const auth = new google.auth.GoogleAuth({
             scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
         });
         const client = await auth.getClient();
         const sheets = google.sheets({ version: 'v4', auth: client });
-
-        console.log(`⏳ Starting scheduled sync for sheet: ${sheetId}`);
-
-        // Fetch using Sheets API
-        const response = await sheets.spreadsheets.values.get({
+        
+        const response = await sheets.spreadsheets.values.batchGet({
             spreadsheetId: sheetId,
-            range: 'Genel!A:R', // Adjust range if needed
+            ranges: [
+                'Genel!A:A', // 0: Status
+                'Genel!C:C', // 1: ID (No)
+                'Genel!D:D', // 2: Date
+                'Genel!F:F', // 3: Qty
+                'Genel!H:H', // 4: Product Name
+                'Genel!I:I', // 5: productLink (Resmi)
+                'Genel!L:L', // 6: Price TL
+                'Genel!N:N', // 7: Price TMT
+                'Genel!M:M', // 8: Weight Price TMT
+                'Genel!O:O', // 9: Total TMT
+                'Genel!P:P', // 10: Customer Name
+                'Genel!Q:Q', // 11: Phone
+                'Genel!R:R'  // 12: Detail Status
+            ],
         });
 
-        const rows = response.data.values || [];
-        if (rows.length <= 1) {
-            console.log('⚠️ No data found in Google Sheet (or only header).');
-            return;
-        }
+        const v = response.data.valueRanges || [];
+        const getValue = (colIdx, rowIdx) => (v[colIdx] && v[colIdx].values && v[colIdx].values[rowIdx] && v[colIdx].values[rowIdx][0]) || '';
+        const maxRows = Math.max(...v.map(r => (r.values ? r.values.length : 0)));
 
-        console.log(`📊 Fetched ${rows.length - 1} rows from Google Sheet.`);
+        const phoneCleaner = (p) => {
+            let cleaned = String(p || '').replace(/\D/g, '');
+            if (cleaned.startsWith('993') && cleaned.length > 10) cleaned = cleaned.slice(3);
+            else if (cleaned.startsWith('8') && cleaned.length === 9) cleaned = cleaned.slice(1);
+            return cleaned;
+        };
 
-        const trackingCollection = db.collection('tracking_orders');
+        const orders = [];
+        for (let i = 2; i < maxRows; i++) {
+            const id = String(getValue(1, i)).trim();
+            const phone = phoneCleaner(getValue(11, i));
 
-        // Delete existing tracking_orders in batches to clear the collection
-        // This ensures removed rows from Sheets are removed from Firestore
-        const existingSnapshot = await trackingCollection.get();
-        if (!existingSnapshot.empty) {
-            const deleteBatch = db.batch();
-            existingSnapshot.docs.forEach((doc) => deleteBatch.delete(doc.ref));
-            await deleteBatch.commit();
-            console.log(`🗑️ Cleared ${existingSnapshot.size} existing orders from tracking_orders.`);
-        }
-
-        // Process in batches of 500 (Firestore limit)
-        let batch = db.batch();
-        let counter = 0;
-
-        for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            const orderNumber = row[5] || `AUTO-${Date.now()}-${i}`;
-            
-            const orderData = {
-                status: row[1] || "",
-                productDate: row[3] || "",
-                productQuantity: row[5] || "0",
-                productName: row[7] || "",
-                productLink: row[8] || "",
-                priceTL: row[11] || "0",
-                weightPrice: row[12] || "0",
-                priceTMT: row[13] || "0",
-                totalPrice: row[14] || "0",
-                customerName: row[15] || "",
-                phone: (function(p) {
-                    let cleaned = String(p || '').replace(/\D/g, '');
-                    if (cleaned.startsWith('993') && cleaned.length > 10) cleaned = cleaned.slice(3);
-                    else if (cleaned.startsWith('8') && cleaned.length === 9) cleaned = cleaned.slice(1);
-                    return cleaned;
-                })(row[16]),
-                detailStatus: row[17] || "",
-                syncedAt: admin.firestore.FieldValue.serverTimestamp()
-            };
-
-            const docRef = trackingCollection.doc(orderNumber);
-            batch.set(docRef, orderData);
-            counter++;
-
-            // If we hit Firestore 500 limit, commit and start new batch
-            if (counter % 500 === 0) {
-                await batch.commit();
-                batch = db.batch();
-                console.log(`📦 Committed batch of 500 orders...`);
+            if (id && phone && id !== 'No') {
+                orders.push({
+                    id: id,
+                    status: getValue(0, i),
+                    productDate: getValue(2, i),
+                    productQuantity: getValue(3, i) || "0",
+                    productName: getValue(4, i),
+                    productLink: getValue(5, i),
+                    priceTL: parseFloat(String(getValue(6, i)).replace(',', '.')) || 0,
+                    priceTMT: parseFloat(String(getValue(7, i)).replace(',', '.')) || 0,
+                    weightPrice: parseFloat(String(getValue(8, i)).replace(',', '.')) || 0,
+                    totalPrice: parseFloat(String(getValue(9, i)).replace(',', '.')) || 0,
+                    customerName: getValue(10, i),
+                    phone: phone,
+                    detailStatus: getValue(12, i),
+                    syncedAt: admin.firestore.FieldValue.serverTimestamp()
+                });
             }
         }
 
-        if (counter % 500 !== 0) {
-            await batch.commit();
+        const trackingCollection = db.collection('tracking_orders');
+        const existingSnapshot = await trackingCollection.get();
+        if (!existingSnapshot.empty) {
+            let deleteBatch = db.batch();
+            let dCounter = 0;
+            for (const doc of existingSnapshot.docs) {
+                deleteBatch.delete(doc.ref);
+                dCounter++;
+                if (dCounter % 400 === 0) {
+                    await deleteBatch.commit();
+                    deleteBatch = db.batch();
+                }
+            }
+            if (dCounter % 400 !== 0) await deleteBatch.commit();
         }
 
-        console.log(`✅ Successfully synced ${counter} orders to Firestore.`);
+        let batch = db.batch();
+        let counter = 0;
+        for (const order of orders) {
+            const docRef = trackingCollection.doc(order.id);
+            batch.set(docRef, order);
+            counter++;
+            if (counter % 400 === 0) {
+                await batch.commit();
+                batch = db.batch();
+            }
+        }
+        if (counter % 400 !== 0) await batch.commit();
+
+        console.log(`✨ Sync completed! Added ${counter} orders.`);
 
     } catch (error) {
         console.error('❌ Error in scheduledOrderSync:', error);
     }
 });
+
+
+
 
