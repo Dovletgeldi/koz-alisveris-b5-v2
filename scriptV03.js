@@ -150,6 +150,9 @@ async function getDataFromSheet(phoneNumber) {
         } else if (row1 === "" || row1 === "ucak") {
           status =
             "Sargydyňyz kabul edildi. Barlamak üçin gelmegine garaşylýar.";
+        } else if (row17 === "yolda") {
+          status = "Sargydyňyz ýolda. Aşgabada gelmegine garaşylýar.";
+
         } else if (Number(order.weightPrice) != 0) {
           status = "Sargydyňyz geldi, habarlaşyp alyp bilersiňiz.";
         } else {
