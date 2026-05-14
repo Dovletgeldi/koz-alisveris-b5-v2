@@ -13,32 +13,34 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Setup SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
     - name: Deploy via rsync
-      uses: burnett01/rsync-deployments@7.0.1
-      with:
-        switches: >-
-          -az --delete
-          --exclude='.git/'
-          --exclude='.github/'
-          --exclude='.vs/'
-          --exclude='.DS_Store'
-          --exclude='node_modules/'
-          --exclude='functions/'
-          --exclude='scripts/'
-          --exclude='scss/'
-          --exclude='src/'
-          --exclude='koz-react/'
-          --exclude='package.json'
-          --exclude='package-lock.json'
-          --exclude='firebase.json'
-          --exclude='.firebaserc'
-          --exclude='import-products.js'
-          --exclude='data-harytlar.js'
-          --exclude='fetch_images.py'
-          --exclude='CLAUDE.md'
-          --exclude='README.md'
-        path: ./
-        remote_path: /home/bilal/n8n-setup/site/
-        remote_host: ${{ secrets.VPS_HOST }}
-        remote_user: ${{ secrets.VPS_USER }}
-        remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        rsync -az --delete \
+          -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+          --exclude='.git/' \
+          --exclude='.github/' \
+          --exclude='.vs/' \
+          --exclude='.DS_Store' \
+          --exclude='node_modules/' \
+          --exclude='functions/' \
+          --exclude='scripts/' \
+          --exclude='scss/' \
+          --exclude='src/' \
+          --exclude='koz-react/' \
+          --exclude='package.json' \
+          --exclude='package-lock.json' \
+          --exclude='firebase.json' \
+          --exclude='.firebaserc' \
+          --exclude='import-products.js' \
+          --exclude='data-harytlar.js' \
+          --exclude='fetch_images.py' \
+          --exclude='CLAUDE.md' \
+          --exclude='README.md' \
+          ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/bilal/n8n-setup/site/
