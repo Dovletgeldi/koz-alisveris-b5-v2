@@ -1,47 +1,44 @@
-name: Deploy to Turhost via FTP
+name: Deploy to VPS
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    
-    - name: FTP Deploy
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+
+    - name: Deploy via rsync
+      uses: burnett01/rsync-deployments@7.0.1
       with:
-        server: kozalisveris.com
-        username: kozalisv
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /public_html/
-        exclude: |
-          # Git & GitHub
-          **/.git*
-          **/.git*/**
-          **/.github/**
-          # IDE & System Files
-          **/.vs/**
-          **/.DS_Store
-          .ftp-deploy-sync-state.json
-          # NPM / Node
-          **/node_modules/**
-          package.json
-          package-lock.json
-          # Firebase Config (not needed on hosting)
-          firebase.json
-          .firebaserc
-          # Backend Functions (deployed separately)
-          functions/**
-          # Source Files (not needed on hosting)
-          scss/**
-          src/**
-          google-sheets-cache/**
-          # Utility Scripts (not for public)
-          import-products.js
-          data-harytlar.js
-          # Documentation
-          README.md
+        switches: >-
+          -az --delete
+          --exclude='.git/'
+          --exclude='.github/'
+          --exclude='.vs/'
+          --exclude='.DS_Store'
+          --exclude='node_modules/'
+          --exclude='functions/'
+          --exclude='scripts/'
+          --exclude='scss/'
+          --exclude='src/'
+          --exclude='koz-react/'
+          --exclude='package.json'
+          --exclude='package-lock.json'
+          --exclude='firebase.json'
+          --exclude='.firebaserc'
+          --exclude='import-products.js'
+          --exclude='data-harytlar.js'
+          --exclude='fetch_images.py'
+          --exclude='CLAUDE.md'
+          --exclude='README.md'
+        path: ./
+        remote_path: /home/bilal/n8n-setup/site/
+        remote_host: ${{ secrets.VPS_HOST }}
+        remote_user: ${{ secrets.VPS_USER }}
+        remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
